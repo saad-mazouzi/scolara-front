@@ -1,0 +1,15 @@
+.control-button-delete{
+    background-color: #ffcc00;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    margin-left: 10px;
+}
+
+.control-button-delete:hover{
+    background-color :#d3ab0a;
+}
+

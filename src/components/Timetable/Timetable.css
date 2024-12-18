@@ -1,0 +1,191 @@
+.timetable-table-cell {
+    justify-content: center; 
+    text-align: center;
+    align-items: center; 
+    height: 10px; /* Ajustez cette valeur en fonction de la hauteur des lignes de la table */
+}
+
+
+
+.timetable-time-cell {
+    align-items: center; /* Centre verticalement le contenu dans la cellule */
+    justify-content: center; /* Centre horizontalement le contenu dans la cellule */
+    text-align: center;
+}
+
+.center-td-timetable{
+    text-align: center;
+}
+
+.pas-de-session{
+    color: #888686;
+}
+
+.icon-yellow {
+    color: #ffcc00;
+}
+
+.teacher-button-delete{
+    background-color: #ffcc00;
+    /* Couleur bleue */
+    color: white;
+    /* Couleur du texte */
+    border: none;
+    /* Pas de bordure */
+    border-radius: 5px;
+    /* Coins arrondis */
+    border: none;
+    /* Pas de bordure */
+    border-radius: 5px;
+    /* Coins arrondis */
+    padding: 10px 15px;
+    /* Espacement */
+    cursor: pointer;
+    /* Curseur de la souris */
+    font-size: 16px;   
+}
+
+.teacher-timetable-input-education-level{
+    width: 10%;
+    /* Largeur pleine pour tous les champs */
+    padding: 10px;
+    /* Espacement intérieur */
+    margin: 10px 0;
+    /* Espacement vertical entre les champs */
+    border: 1px solid #ccc;
+    /* Bordure grise */
+    border-radius: 5px;
+    /* Coins arrondis */
+    font-size: 16px;
+    /* Taille de la police */
+    transition: border-color 0.3s;
+    /* Transition de la couleur de la bordure */
+    margin-left: 10px;
+}
+
+.level-title-container {
+    display: flex;
+    justify-content: space-between; /* Positionner le bouton à droite */
+    align-items: center; /* Aligner verticalement */
+    margin-bottom: 10px;
+}
+
+.level-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.timetable-xlsx-download-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top:14px;
+}
+
+.timetable-xlsx-download-button:hover {
+    background-color: #45a049;
+}
+
+@media print {
+    body * {
+        visibility: hidden; /* Cache tout sauf la table */
+    }
+
+    #print-table {
+        visibility: visible; /* Affiche uniquement la table */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+}
+
+.timetable-action-buttons {
+    display: flex;
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    justify-content: space-between; /* Éloigne le titre des boutons */
+    margin-bottom: 10px; /* Ajoute un espace sous le conteneur */
+}
+
+.timetable-action-buttons h4 {
+    margin: 0; /* Supprime le margin par défaut */
+    flex-grow: 1; /* Pousse les boutons à droite */
+}
+
+.timetable-action-buttons button {
+    margin-left: 20px; /* Ajoute un espacement entre les boutons */
+}
+
+.delete-availability{
+    background-color: #ffcc00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+
+}
+
+.toggle-table-button {
+    background-color: #4e7dad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.add-timeslot-button{
+    background-color: #4e7dad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    align-items: center;    /* Aligne les boutons verticalement */
+    gap: 10px;              /* Espacement entre les boutons */
+}
+
+.timetable-print-button {
+    background-color: #ffcc00;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top:5px;
+}

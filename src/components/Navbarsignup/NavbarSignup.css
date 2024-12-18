@@ -1,0 +1,61 @@
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 30px; /* Augmente le padding pour un meilleur espacement */
+    background-color: #ffffff; /* Couleur de fond */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Ombre plus subtile et élégante */
+    border-radius: 8px; /* Coins légèrement arrondis pour plus de style */
+    position: relative;
+    top: 0;
+    z-index: 1000; /* La navbar reste au-dessus du contenu */
+}
+
+.navbar-logo img {
+    height: 60px;
+    width:100px;
+    margin: 0;
+    object-fit: contain; /* Assure que le logo garde ses proportions */
+}
+
+.navbar-text {
+    font-size: 18px; /* Légèrement plus grand pour une meilleure lisibilité */
+    font-weight: bold;
+    color: #4e7dad;
+    text-align: center;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 12px; /* Un peu plus d’espace entre les boutons */
+}
+
+.navbar-button-login,
+.navbar-button-signup {
+    padding: 12px 20px; /* Augmente légèrement le padding pour un meilleur confort */
+    border: none;
+    border-radius: 25px; /* Coins arrondis pour un look moderne */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease; /* Animation douce */
+    font-weight: bold;
+}
+
+.navbar-button-login {
+    background-color: #4e7dad;
+    color: #ffffff;
+}
+
+.navbar-button-signup {
+    background-color: #3b6ca0;
+    color: #ffffff;
+}
+
+.navbar-button-login:hover,
+.navbar-button-signup:hover {
+    background-color: #355a85; /* Couleur plus sombre au survol */
+    transform: scale(1.05); /* Agrandissement léger au survol */
+}
+
+

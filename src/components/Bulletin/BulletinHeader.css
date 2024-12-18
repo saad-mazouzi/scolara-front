@@ -1,0 +1,196 @@
+.bulletin-header {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: #fff;
+    margin: 20px 0;
+    position: relative;
+}
+
+.bulletin-header-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.bulletin-header-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bulletin-header-left,
+.bulletin-header-right {
+    width: 45%;
+}
+
+.bulletin-header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.bulletin-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.bulletin-student-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: -55px;
+    margin-left:340px;
+}
+
+.bulletin-student-info-1 {
+    margin-left: -150px;
+    margin-top: 30px;
+}
+
+.bulletin-student-info-2 {
+    margin-left: 300px;
+    margin-top: 30px;
+}
+
+.bulletin-logo {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+    margin-top: -60px;
+}
+
+.bulletin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    border: 1px solid black;
+}
+
+.bulletin-th, .bulletin-td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.bulletin-th {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgb(215, 215, 215); /* Ensure header cells have a border */
+}
+
+.bulletin-th-comments {
+    width: 45%; /* Ajustez ce pourcentage selon vos besoins */
+}
+
+.student-grades-table{
+    /* border-collapse: collapse; */
+    width: auto;
+    margin-bottom: 10px;
+    margin-top: 50px;
+    margin-left:450px;
+    font-size: 14px;
+    text-align: center;   
+}
+
+.signature-chef{
+    margin-right: 100px;
+    margin-bottom: 200px;
+    text-align: right;
+}
+
+.scolara{
+    color: white;
+    margin-top: 10px;
+}
+
+.bulletin-td {
+    background-color: #f9f9f9;
+}
+
+.bulletin-table tr:nth-child(even) .bulletin-td {
+    background-color: #f1f1f1;
+}
+
+.bulletin-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.bulletin-th.comments-column, .bulletin-td.comments-column {
+    width: 30%; /* Make the comments column wider */
+    text-align: left; /* Align text to the left for readability */
+}
+
+.honor-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.honor-table {
+    border-collapse: collapse;
+    width: auto;
+    margin-bottom: 100px;
+    margin-top: 50px;
+    margin-right:200px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.honor-table td {
+    padding: 5px 10px;
+    border: 1px solid black;
+}
+
+.honor-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.summary-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.summary-table {
+    width: 80%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-left:100px;
+    text-align: left;
+}
+
+.summary-table td {
+    border: 1px solid black;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.summary-table td:first-child {
+    font-weight: bold;
+    width: 40%;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; /* Espace entre les deux sections */
+    margin-top: 20px;
+}
+
+.honor-section, .summary-section {
+    flex: 1; /* Permet aux deux sections de prendre une largeur égale */
+    max-width: 48%; /* Ajuste la largeur maximale des sections */
+}
+
+.honor-table, .summary-table {
+    width: 100%; /* Les tableaux occupent toute la largeur des sections */
+}

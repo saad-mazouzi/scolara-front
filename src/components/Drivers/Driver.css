@@ -1,0 +1,119 @@
+.driver-list-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.driver-name{
+    color: #4e7dad;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: -50px;
+}
+
+.edit-driver-button, .delete-driver-button, .create-driver-button, .save-driver-button, .cancel-driver-button {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-driver-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.delete-driver-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
+.create-driver-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+.save-driver-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 10px;
+}
+
+.cancel-driver-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    margin-top: 10px;
+}
+
+.driver-input-firstname, .driver-input-lastname, .driver-input-phone {
+    width: 50%; /* Largeur pleine pour tous les champs */
+    padding: 10px; /* Espacement intérieur */
+    margin: 10px 0; /* Espacement vertical entre les champs */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px; /* Coins arrondis */
+    font-size: 16px; /* Taille de la police */
+    transition: border-color 0.3s; /* Transition de la couleur de la bordure */
+    margin-left:10px;
+}
+
+.modify-profile-picture {
+    position: absolute;
+    top: 390px;
+    left: 410px;
+    background-color: #5c7fa1;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 0px;
+    transition: background-color 0.5s ease;
+}
+
+.driver-profile-picture {
+    margin-left: 100px;
+    flex-shrink: 0;
+    margin-top: 100px;
+}
+
+.driver-profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.driver-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -150px;
+    margin-left: 420px;
+}
+
+.driver-details h2 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.driver-details p strong {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+
+

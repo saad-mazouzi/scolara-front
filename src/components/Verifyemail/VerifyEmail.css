@@ -1,0 +1,33 @@
+/* VerifyEmail.css */
+.verify-email-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Au-dessus de tout autre élément */
+}
+
+.verify-email-modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre légère */
+    width: 100%;
+    max-width: 400px;
+}
+
+.verify-email-modal h2 {
+    margin-bottom: 10px;
+    color: #355a85; /* Bleu foncé cohérent avec d'autres composants */
+}
+
+.verify-email-modal p {
+    margin-top: 5px;
+    color: #4e7dad; /* Couleur du texte */
+}

@@ -1,0 +1,216 @@
+.transport-container {
+    padding: 20px;
+    margin-top: -30px;
+}
+
+.transport-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.transport-table {
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transport-table th,
+.transport-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.transport-form-title,
+.transport-stations-title {
+    margin-top: 20px;
+}
+
+.transport-form {
+    margin: 20px 0;
+}
+
+.transport-row {
+    display: flex;
+    gap: 10px; /* Espace entre les champs */
+    flex-wrap: wrap; /* Permet de revenir à la ligne si l'espace est insuffisant */
+}
+
+.transport-input,
+.transport-select {
+    width: 30%; /* Largeur de 50% pour chaque champ */
+    padding: 10px; /* Espacement intérieur */
+    margin: 10px 0; /* Espacement vertical entre les champs */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 5px; /* Coins arrondis */
+    font-size: 16px; /* Taille de la police */
+    transition: border-color 0.3s; /* Transition de la couleur de la bordure */
+    margin-left: 10px;
+}
+
+
+.transport-student-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.transport-student-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permet de revenir à la ligne */
+    gap: 20px; /* Espace horizontal entre les colonnes */
+}
+
+.transport-student-label {
+    flex-basis: 45%; /* Largeur de chaque élément pour deux colonnes */
+    margin-bottom: 10px; /* Espacement vertical entre les éléments */
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+
+.transport-map-container {
+    height: 400px;
+    width: 100%;
+}
+
+.transport-station-info {
+    margin: 10px 0;
+}
+
+.transport-station-address {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.transport-submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.transport-submit-button:hover {
+    background-color: #45a049;
+}
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Ajuste les colonnes pour s'adapter à la largeur de l'écran */
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.student-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.student-name {
+    margin: 0;
+}
+
+
+.station-list {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Une seule colonne pour chaque station */
+    gap: 10px;
+}
+
+.station-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #e6e9ea;
+}
+
+.blue-text{
+    margin-top: 30px;
+    color: #4e7dad;
+}
+
+.transport-student-checkboxes {
+    margin-top: 15px;
+}
+
+.transport-student-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+.transport-student-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* Rond */
+    border: 2px solid #007BFF; /* Couleur de bordure */
+    background-color: white;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.transport-student-label input[type="checkbox"]:checked {
+    background-color: #007BFF; /* Couleur de fond si coché */
+    border-color: #007BFF;
+}
+
+.transport-student-label input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    background-color: white; /* Couleur du cercle intérieur */
+    border-radius: 50%;
+}
+
+.student-name-transport{
+    color:black;
+}
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 4 colonnes max si espace disponible */
+    gap: 20px; /* Espace entre les étudiants */
+    justify-content: center; /* Centrer les étudiants si moins de 4 */
+    margin: 20px 0;
+}
+
+.transport-student-profile {
+    text-align: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Transportation-tr{
+    cursor: pointer;
+}

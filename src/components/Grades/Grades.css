@@ -1,0 +1,45 @@
+.grades-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.education-level-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.education-card {
+    width: 200px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.education-card:hover {
+    transform: scale(1.05);
+}
+
+.education-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.education-card p {
+    color: #555;
+}
+
+.education-card.selected {
+    background-color: #4e7dad ;/* Changez cette couleur selon vos préférences */
+    color: #fff;
+    border: 2px solid #ffcc00;
+}
+
+.total-score{
+    margin-top: 30px;
+    color : green;
+}

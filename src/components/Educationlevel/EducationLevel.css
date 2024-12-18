@@ -1,0 +1,228 @@
+/* EducationLevel.css */
+.education-level-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px;
+    background-color: white;
+    /* border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); Ajout d'une ombre pour le conteneur principal */
+    box-sizing: border-box;
+}
+
+.education-level-title {
+    text-align: center;
+    color: #4e7dad;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.education-level-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.education-level-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    padding: 20px; /* Ajout de padding pour chaque carte */
+    background-color: #eef3f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre pour chaque carte */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.education-level-item:hover {
+    background-color: #d9e6f2;
+    transform: translateY(-2px); /* Légère élévation au survol */
+}
+
+.education-level-button {
+    background-color: #4e7dad;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    margin-left: 10px;
+}
+
+.education-level-button:hover {
+    background-color: #3d6a94;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.education-level-button-delete {
+    background-color: #ffcc00;
+}
+
+.education-level-button-delete:hover {
+    background-color: #e6b800;
+}
+
+.education-level-add-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.education-level-input,
+.education-level-container select {
+    width: 250px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.2s ease;
+    margin-left: 20px;
+}
+
+.education-level-input:focus {
+    border-color: #4e7dad;
+    box-shadow: 0 0 5px rgba(78, 125, 173, 0.5);
+    outline: none;
+}
+
+.education-level-add-button {
+    width: 150px;
+    padding: 12px;
+    background-color: #4e7dad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    margin-left: 20px;
+}
+
+.education-level-add-button:hover {
+    background-color: #3d6a94;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Modale CSS */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 100%;
+}
+
+.close {
+    cursor: pointer;
+    float: right;
+    font-size: 24px;
+    color: #333;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-update-button {
+    background-color: #4e7dad;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+
+.modal-update-button:hover {
+    background-color: #3d6a94;
+}
+
+.mettre-jour {
+    margin-top: 30px;
+}
+
+
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.students-table th,
+.students-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.students-table th.small-column,
+.students-table td.small-column {
+    width: 100px; /* Colonnes des horaires plus petites */
+}
+
+.students-table th.large-column,
+.students-table td.large-column {
+    width: 200px; /* Colonne Remarques plus large */
+}
+
+.students-table th {
+    background-color: #000000;
+    font-weight: bold;
+}
+
+.students-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.students-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.middle-text{
+    color:black;
+    text-align: center;
+    margin-top:-10px;
+    margin-bottom: 40px;
+}
+
+.print-button {
+    margin-left:980px; 
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.print-button:hover {
+    background-color: #f4c404;
+}
+
+.signature-liste-appel {
+    margin-top: 50px;
+    margin-right : 150px;
+    text-align: right;
+    margin-bottom: 100px;
+}

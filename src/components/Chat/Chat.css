@@ -1,0 +1,330 @@
+.roles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px;
+}
+
+.role-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 800px;
+    transition: transform 0.3s ease;
+}
+
+.role-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.role-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.users-container {
+    padding: 20px;
+}
+
+.users-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px auto;
+    display: block;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: #007bff;
+}
+
+.users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    /* border: 1px solid #ddd; */
+    border-radius: 8px;
+    padding: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.user-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.messages-container {
+    flex: 1; /* Prend tout l'espace disponible */
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px; /* Laisse un peu d'espace entre les messages et la barre d'entrée */
+}
+
+.message {
+    max-width: 80%; /* Limite la largeur à 80% */
+    padding: 10px; /* Espace interne du message */
+    margin-bottom: 10px; /* Espace entre les messages */
+    border-radius: 12px; /* Arrondi les bords */
+    font-size: 14px; /* Taille de la police */
+    line-height: 0.01; /* Hauteur de ligne */
+    
+}
+
+.message.sent {
+    align-self: flex-end;
+    background-color: #4e7dad;
+    color: #fff;
+} 
+
+.message.received {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    color: #333;
+}
+
+.message-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    gap: 10px; /* Espace entre les éléments */
+    align-items: center;
+}
+
+.message-input {
+    flex: 1; /* Remplit tout l'espace disponible */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin-top: 10px;
+}
+
+.message-input:focus {
+    border-color: #4e7dad;
+}
+
+.send-button {
+    padding: 13px 10px;
+    background-color: #4e7dad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #40668d;
+    color: #ffcc00;
+}
+
+
+.file-input {
+    margin-right: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.message a {
+    color: white; /* Couleur blanche pour les liens */
+    text-decoration: none; /* Supprime le soulignement */
+    font-weight: bold; /* Facultatif : rend le texte plus épais */
+}
+
+.message a:hover {
+    color: white; /* Garde la couleur blanche au survol */
+    text-decoration: underline; /* Facultatif : ajoute un soulignement au survol */
+}
+
+
+.file-link {
+    color: white; /* Couleur blanche pour les liens */
+    text-decoration: none; /* Supprime le soulignement */
+    font-weight: bold; /* Facultatif : rend le texte plus épais */
+}
+
+.file-link:hover {
+    color: white; /* Garde la couleur blanche au survol */
+    text-decoration: underline; /* Facultatif : ajoute un soulignement au survol */
+}
+
+.file-icon {
+    font-size: 24px; /* Taille de l'icône */
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    margin-right: 10px; /* Espacement entre l'icône et l'entrée texte */
+    color: #4e7dad; /* Couleur de l'icône */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-icon:hover {
+    color: #40668d; /* Couleur au survol */
+}
+
+.hidden-file-input {
+    display: none; /* Masque le champ de fichier natif */
+}
+
+.messages-container {
+    flex: 1; /* Prend tout l'espace disponible */
+    padding: 10px;
+    overflow-y: scroll; /* Défilement vertical uniquement */
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px; /* Laisse un peu d'espace entre les messages et la barre d'entrée */
+    
+    /* Masquer la barre de défilement */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer */
+}
+
+.messages-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari et Edge */
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px; /* Ajoute un espace au-dessus de l'heure */
+    text-align: right; /* Aligne l'heure à droite */
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.message-wrapper.sent {
+    align-items: flex-end;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    align-self: flex-end;
+    background-color: #4e7dad;
+    color: #fff;
+}
+
+.message.received {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    color: #333;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px; /* Espacement avec la bulle du message */
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche et à droite */
+    align-items: center; /* Centre verticalement tous les éléments */
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px; /* Espace entre l'image et le contenu */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement le nom et le message */
+}
+
+.user-info h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.last-message-preview {
+    margin-top: 7px;
+    font-size: 14px;
+    color: #555;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+    text-align: right; /* Aligne l'heure à droite */
+}

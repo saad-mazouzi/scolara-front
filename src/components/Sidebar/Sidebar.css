@@ -1,0 +1,130 @@
+/* Sidebar.css */
+.sidebar {
+    background-color: #ffffff; /* Fond blanc pour le frontend */
+    color: #333333; /* Texte gris foncé pour une meilleure lisibilité */
+    width: 250px; /* Largeur de la barre latérale */
+    height: 100vh; /* Hauteur de la barre latérale */
+    padding: 20px; /* Espacement interne */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Légère ombre pour un effet de profondeur */
+    display: flex; 
+    flex-direction: column; /* Aligne les éléments en colonne */
+    overflow: auto;
+    position:fixed;
+}
+/* Styles pour les navigateurs basés sur WebKit (Chrome, Edge, Safari) */
+.sidebar::-webkit-scrollbar {
+    width: 20px; /* Largeur de la scrollbar */
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #ffffff; /* Couleur de la piste */
+    border-radius: 10px; /* Arrondi des bords */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #888; /* Couleur du curseur */
+    border-radius: 1px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #bfb6b6; /* Couleur au survol */
+}
+
+/* Styles pour Firefox */
+.sidebar {
+    scrollbar-width: thin; /* Barre fine */
+    scrollbar-color: #ffffff #ffffff; /* Couleur du curseur et de la piste */
+}
+
+
+.logo img {
+    width: 30%; /* Ajuste l'image à la largeur de la barre latérale */
+    height: auto; /* Maintient les proportions de l'image */
+    margin-bottom: 5px; /* Espace en bas du logo */
+    margin-left: 85px;
+    align-items: center;
+}
+
+.sidebar-nav ul {
+    list-style: none; /* Supprime les puces */
+    padding: 0; /* Supprime le remplissage */
+    margin: 0; /* Supprime la marge */
+}
+
+.sidebar-button {
+    padding: 15px 20px; /* Espacement interne pour les boutons */
+    color: black; /* Couleur du texte pour les boutons */
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    border: none; /* Supprime la bordure par défaut */
+    background: transparent; /* Supprime le fond */
+    cursor: pointer; /* Change le curseur au survol */
+    width: 100%; /* Prend toute la largeur */
+    text-align: left; /* Aligne le texte à gauche */
+    display: flex; /* Utilise flexbox pour le bouton */
+    align-items: center; /* Centre verticalement les éléments */
+    border-radius: 5px; /* Arrondir les coins des boutons */
+    transition: background 0.3s, transform 0.2s; /* Ajoute des transitions douces */
+}
+
+.sidebar-button-timetable {
+    padding: 15px 20px; /* Espacement interne pour les boutons */
+    color: black; /* Couleur du texte pour les boutons */
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    border: none; /* Supprime la bordure par défaut */
+    background: transparent; /* Supprime le fond */
+    cursor: pointer; /* Change le curseur au survol */
+    width: 100%; /* Prend toute la largeur */
+    text-align: left; /* Aligne le texte à gauche */
+    display: flex; /* Utilise flexbox pour le bouton */
+    align-items: center; /* Centre verticalement les éléments */
+    border-radius: 5px; /* Arrondir les coins des boutons */
+    transition: background 0.3s, transform 0.2s; /* Ajoute des transitions douces */
+}
+
+
+.sidebar-button:hover {
+    color: #0056b3; /* Couleur du texte lors du survol */
+    text-decoration: none; /* Supprime le soulignement lors du survol */
+    background-color: rgba(248, 248, 248, 0.5); /* Fond bleu clair semi-transparent lors du survol */
+    transform: scale(1.02); 
+}
+
+.sidebar-button img {
+    width: 30px; /* Diminue la taille de l'icône pour éviter le débordement */
+    height: 30px; /* Assure que l'icône est carrée */
+    margin-right: 15px; /* Espace entre l'icône et le texte */
+}
+
+.sidebar-button-timetable img {
+    width: 30px; /* Diminue la taille de l'icône pour éviter le débordement */
+    height: 60px; /* Assure que l'icône est carrée */
+    margin-right: 15px; /* Espace entre l'icône et le texte */
+}
+
+.sidebar-button-timetable span {
+    font-size: 1.2em; /* Diminue légèrement la taille du texte */
+    font-weight: 500; /* Met le texte en gras */
+}
+
+.sidebar-button span {
+    font-size: 1.2em; /* Diminue légèrement la taille du texte */
+    font-weight: 500; /* Met le texte en gras */
+}
+
+
+.profile-picture {
+    width: 50px; /* Ajustez la largeur selon vos besoins */
+    height: 50px; /* Ajustez la hauteur selon vos besoins */
+    border-radius: 50%; /* Pour une image ronde */
+    object-fit: cover; /* Pour conserver le ratio de l'image */
+}
+/* Ajoutez ce style à Sidebar.css */
+.sidebar-button.active {
+    color: #0056b3; /* Couleur du texte pour le lien actif */
+    background-color: rgba(248, 248, 248, 0.5); /* Fond bleu clair semi-transparent pour le lien actif */
+    transform: scale(1.02); /* Effet de zoom pour le lien actif */
+}
+
+.whitetext{
+    color: white;
+}

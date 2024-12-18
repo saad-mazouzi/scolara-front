@@ -1,0 +1,8 @@
+.main-layout {
+    display: flex; /* Utilise Flexbox pour la mise en page */
+}
+
+.content {
+    flex: 1; /* Prend tout l'espace restant à droite de la barre latérale */
+    padding: 20px; /* Ajoute un peu de padding autour du contenu */
+}

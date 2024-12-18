@@ -1,0 +1,35 @@
+/* Footer.css */
+.footer-container {
+    background-color: #4e7dad; /* Couleur de fond du footer */
+    color: white; /* Couleur du texte */
+    padding: 5px;
+    text-align: center; /* Centre le texte */
+    position: relative;
+    bottom: 0;
+    width: 100%; /* Assure que le footer prend toute la largeur */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-links a,
+.footer-socials a {
+    color: white; /* Couleur des liens */
+    text-decoration: none; /* Supprime le soulignement */
+    margin: 0 15px; /* Espacement entre les liens */
+    transition: color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+    color: #ffcc00; /* Change la couleur des liens au survol */
+}
+
+.footer-bottom {
+    margin-top: 0px; /* Espacement au-dessus du texte copyright */
+    margin-bottom: 0px;
+}

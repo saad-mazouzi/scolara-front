@@ -1,0 +1,43 @@
+/* Modal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Couverture semi-transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* S'assurer que le modal est au-dessus des autres éléments */
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 8px; /* Coins arrondis */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombre pour le modal */
+}
+
+.modal-content h3 {
+    margin: 0 0 10px;
+}
+
+.modal-content button {
+    background: #4e7dad; /* Couleur de fond du bouton */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; /* Coins arrondis du bouton */
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+    margin-right:13px;
+    margin-left: 13px;
+}
+
+.modal-content button:hover {
+    background: #3c5c8a; /* Couleur au survol */
+    color: #ffcc00;
+}

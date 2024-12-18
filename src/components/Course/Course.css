@@ -1,0 +1,307 @@
+.file-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Crée une grille responsive */
+    gap: 56px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.file-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-align: center;
+}
+
+.file-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Type de fichier en haut, en gras et plus grand */
+.file-card .file-type {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Nom de fichier en texte simple */
+.file-card .file-name {
+    font-size: 1em;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-card p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.download-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+
+.card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    /* text-align: center; */
+    position: relative;
+}
+
+.close-button {
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.close-button:hover {
+    background-color: #0056b3;
+}
+
+.download-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4e7dad;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.download-button:hover {
+    background-color: #3e6389;
+    color:#ffcc00;
+}
+
+.course-teacher-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.course-teacher-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.course-teacher-form label {
+    font-size: 14px;
+    color: #555;
+}
+
+.course-teacher-form input[type="file"],
+.course-teacher-form input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 200px;
+}
+
+.course-teacher-form button {
+    background-color: #4e7dad;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.course-teacher-form button:hover {
+    background-color: #3c6791;
+    color:#ffcc00;
+}
+
+.course-teacher-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}   
+
+.course-teacher-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.course-teacher-delete-btn {
+    margin-left: 15px; /* Ajout de l'espace entre les deux éléments */
+}
+
+
+.course-teacher-table tr:hover {
+    background-color: #e6f7ff;
+}
+
+.course-teacher-table a {
+    color: #4e7dad;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.course-teacher-table a:hover {
+    text-decoration: underline;
+}
+
+.course-teacher-table button {
+    background-color: #ffcc00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.course-teacher-table button:hover {
+    background-color: #dcb105;
+}
+
+.course-teacher-empty-message {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+}
+
+
+.student-list-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.subject-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    height:100px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.subject-card:hover {
+    transform: scale(1.05);
+}
+
+.subject-card h4 {
+    margin-top:35px;
+    font-size: 18px;
+    color: #333;
+}
+
+.subject-card p {
+    margin: 10px 0 0;
+    color: #666;
+}
+
+.course-files-container {
+    padding: 20px;
+}
+
+.files-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux cartes de passer à la ligne si nécessaire */
+    gap: 20px; /* Ajoute un espace de 20px entre les cartes */
+    justify-content: center; /* Centrer les cartes dans leur conteneur */
+    padding: 20px; /* Ajoute un espacement autour de la grille */
+}
+
+.file-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width:300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.file-card:hover {
+    transform: scale(1.05);
+}
+
+.download-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+    color: #f00;
+}
+

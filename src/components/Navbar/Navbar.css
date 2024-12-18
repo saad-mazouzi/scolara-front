@@ -1,0 +1,201 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding: 5px 15px; /* Réduction du padding pour la rendre plus fine */
+    margin-left: 1px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; /* Transition douce pour les changements */
+}
+
+
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left {
+    margin-left: 0px;
+}
+
+.navbar-right {
+    margin-right: 320px;
+}
+
+.navbar-center {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.navbar-school-name h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #ffcc00;
+}
+
+.logout-button {
+    background-color: #4e7dad;
+    color: white;   
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.logout-button:hover {
+    background-color: #3a7bb8;
+}
+
+.logout-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    gap: 10px;
+}
+
+.navbar-user strong {
+    color: #01050a;
+    font-weight: bold;
+}
+
+.navbar-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.notification-icon {
+    position: relative;
+    font-size: 1.5em;
+    color: #333;
+    margin-right: 40px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.notification-icon .fa-bell {
+    transition: color 0.3s;
+}
+
+.notification-icon .fa-bell.has-events {
+    color: #ff0000; /* Rouge uniquement s'il y a des événements */
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.navbar-user-link {
+    text-decoration: none;
+    color: inherit;
+}
+.navbar-user-link:hover {
+    opacity: 0.9;
+}
+
+.notification-icon {
+    position: relative;
+    font-size: 1.5em;
+    color: #333;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.notification-icon .fa-bell {
+    transition: color 0.3s;
+}
+
+.notification-icon .fa-bell.has-events {
+    color: #ff0000; /* Rouge uniquement s'il y a des notifications */
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 0.8em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.notification-container {
+    position: relative;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    background-color: #f5f5f5;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+

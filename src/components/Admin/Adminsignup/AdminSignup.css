@@ -1,0 +1,144 @@
+.signupbody {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Couleur de fond de secours */
+    background-image: url('../../../images/ecoole.jpg'), url('../../../images/ecole3.jpg'), url('../../../images/ecole5.jpg'); /* Ajoutez plusieurs images ici */
+    background-size: 65%; /* Ajuste la largeur automatiquement et la hauteur à 100% */
+    background-position: left bottom; /* Aligne l'image à gauche et en bas */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    height: 95vh; /* Utilise toute la hauteur de la fenêtre */
+    animation: slide 15s infinite; /* Appelle l'animation */
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+
+/* Animation pour changer d'image de fond */
+@keyframes slide {
+    0% {
+        background-image: url('../../../images/ecoole.jpg');
+    }
+    33% {
+        background-image: url('../../../images/ecole3.jpg');
+    }
+    66% {
+        background-image: url('../../../images/ecole5.jpg');
+    }
+}
+
+/* Ajoutez ces règles pour le conteneur */
+.container {
+    margin-top:0px;
+    margin-right:50px;
+    display: flex; /* Utiliser flexbox pour la disposition */
+    height: 80vh; /* Utilise toute la hauteur de la fenêtre */
+    justify-content: flex-end; /* Aligner le formulaire à droite */
+    align-items: center; /* Centrer verticalement */
+    padding-right: 20px; /* Ajoutez un peu d'espace à droite */
+}
+
+/* Ajoutez ces règles pour s'assurer que le formulaire reste sur le côté droit */
+.form-section {
+    background-color: rgba(255, 255, 255, 0.9); /* Fond blanc avec opacité pour un léger effet translucide */
+    border-radius: 8px; /* Coins arrondis pour le formulaire */
+    padding: 30px; /* Espacement intérieur */
+    width: 100%; /* Largeur complète pour le formulaire */
+    max-width: 500px; /* Largeur maximale du formulaire */
+}
+
+h2 {
+    color: #003366; /* Bleu foncé pour le titre */
+    text-align: center; /* Centrer le titre */
+}
+
+form {
+    margin-left: 0; /* Enlever les marges par défaut */
+}
+
+div {
+    margin-bottom: 6px; /* Espacement entre les éléments du formulaire */
+}
+
+label {
+    display: block; /* Étiquettes en bloc pour les aligner avec les champs */
+    margin-bottom: 10px; /* Espacement sous les étiquettes */
+    color: #003366; /* Couleur des étiquettes */
+}
+
+.admin-signup-input {
+    width: 100%; /* Largeur complète */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 4px; /* Coins arrondis */
+    transition: border-color 0.3s; /* Transition douce pour le changement de couleur */
+}
+
+.admin-signup-input:focus {
+    border-color: #ffcc00; /* Bordure jaune au focus */
+    outline: none; /* Supprimer le contour par défaut */
+}
+
+.admin-signup-select {
+    width: 100%; /* Largeur complète */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 4px; /* Coins arrondis */
+    transition: border-color 0.3s; /* Transition douce pour le changement de couleur */
+}
+
+
+.signup-button {
+    width: 100%; /* Largeur complète pour le bouton */
+    padding: 10px; /* Espacement intérieur */
+    background-color: #4e7dad; /* Couleur de fond bleue */
+    color: white; /* Couleur du texte blanche */
+    border: none; /* Pas de bordure */
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 16px; /* Taille de la police */
+}
+
+.signup-button:hover {
+    background-color: #005599; /* Couleur de fond au survol */
+}
+
+.form-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+    gap: 30px; /* Espace horizontal entre les colonnes */
+    margin-bottom: 20px; /* Espace sous chaque paire */
+}
+
+.form-pair div {
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px; /* Espacement à droite de chaque champ */
+}
+
+
+
+.zoom-container {
+    transform: scale(0.8); /* Réduit le zoom à 80% */
+    transform-origin: bottom left; /* Ajuste l'origine de la transformation */
+    margin-top: 10px;
+    width: 125%; /* Ajuste la largeur pour compenser le zoom */
+    overflow: visible; /* Masque tout débordement */
+}
+
+.file-input {
+    display: block;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Pour que le champ prenne toute la largeur */
+    background-color: #f9f9f9; /* Couleur de fond légère */
+}
+
+.file-input:hover {
+    border-color: #ffcc00; /* Couleur lors du survol */
+}
+
+.file-input:focus {
+    outline: none;
+    border-color: #ffcc00; /* Couleur de la bordure au focus */
+}

@@ -34,7 +34,7 @@ const StudentProfileNavbar = () => {
                 const response = await axiosInstance.get(`users/${studentId}/retrieve_student/`);
                 const { profile_picture, first_name, last_name, absences_number, parent_key } = response.data;
 
-                setProfilePicture(profile_picture ? `http://127.0.0.1:8000${profile_picture}` : '');
+                setProfilePicture(profile_picture ? `https://scolara-backend.onrender.com${profile_picture}` : '');
                 setUserName(`${first_name} ${last_name}`);
                 setAbsencesNumber(absences_number || 0);
                 setParentKey(parent_key || 'Non défini'); // Mettre à jour la clé secrète
@@ -66,7 +66,7 @@ const StudentProfileNavbar = () => {
         try {
             const updatedData = await updateStudentProfilePicture(studentId, formData);
             const newProfilePicturePath = updatedData.profile_picture;
-            setProfilePicture(`http://127.0.0.1:8000${newProfilePicturePath}`);
+            setProfilePicture(`https://scolara-backend.onrender.com${newProfilePicturePath}`);
             setNewProfilePicture(null);
             setCookie('profilePicture', encodeURIComponent(newProfilePicturePath), { path: '/' });
             setAlertMessage('Photo de profil mise à jour avec succès.');

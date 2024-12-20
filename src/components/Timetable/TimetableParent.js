@@ -20,7 +20,7 @@ const TimetableParent= () => {
 
     const fetchTimetableSessions = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/timetable-sessions/?school_id=${SchoolId}`);
+            const response = await axios.get(`https://scolara-backend.onrender.com/api/timetable-sessions/?school_id=${SchoolId}`);
             const filteredSessions = response.data.filter(
                 session => session.education_level === parseInt(teacherEducationLevel)
             );
@@ -34,7 +34,7 @@ const TimetableParent= () => {
 
     const fetchEducationLevelName = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/educationlevel/${teacherEducationLevel}/`);
+            const response = await axios.get(`https://scolara-backend.onrender.com/api/educationlevel/${teacherEducationLevel}/`);
             setEducationLevelName(response.data.name || 'Niveau inconnu');
         } catch (error) {
             console.error("Erreur lors de la récupération du niveau d'éducation:", error);

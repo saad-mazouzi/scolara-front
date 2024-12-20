@@ -26,26 +26,26 @@ const SecretKeyForm = () => {
 
             // Récupérer l'education_level via l'API
             const educationLevelResponse = await axios.get(
-                `http://127.0.0.1:8000/api/education-level-by-parent-key/${encodeURIComponent(secretKey)}/`
+                `https://scolara-backend.onrender.com/api/education-level-by-parent-key/${encodeURIComponent(secretKey)}/`
             );
             const educationLevelId = educationLevelResponse.data.education_level_id;
             Cookies.set('education_level', educationLevelId, { expires: 7 });
 
             // Récupérer l'école via l'API
             const schoolResponse = await axios.get(
-                `http://127.0.0.1:8000/api/school-by-parent-key/${encodeURIComponent(secretKey)}/`
+                `https://scolara-backend.onrender.com/api/school-by-parent-key/${encodeURIComponent(secretKey)}/`
             );
             const schoolId = schoolResponse.data.school_id;
             Cookies.set('SchoolId', schoolId, { expires: 7 }); // Stocke school_id en tant que SchoolId
 
             const studentResponse = await axios.get(
-                `http://127.0.0.1:8000/api/student-by-parent-key/${encodeURIComponent(secretKey)}/`
+                `https://scolara-backend.onrender.com/api/student-by-parent-key/${encodeURIComponent(secretKey)}/`
             );
             const studentId = studentResponse.data.student_id;
             Cookies.set('StudentId', studentId, { expires: 7 }); // Stocke school_id en tant que SchoolId
 
             const absencesResponse = await axios.get(
-                `http://127.0.0.1:8000/api/absences-by-parent-key/${encodeURIComponent(secretKey)}/`
+                `https://scolara-backend.onrender.com/api/absences-by-parent-key/${encodeURIComponent(secretKey)}/`
             );
             const absences= absencesResponse.data.absences_number;
             Cookies.set('absences', absences, { expires: 7 }); // Stocke school_id en tant que SchoolId

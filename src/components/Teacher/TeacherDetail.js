@@ -262,7 +262,7 @@ const TeacherProfile = () => {
                  <div className="profile-picture">
                     {teacher.profile_picture ? (
                         <img
-                        src={`http://127.0.0.1:8000${teacher.profile_picture}`}
+                        src={`https://scolara-backend.onrender.com${teacher.profile_picture}`}
                         alt={`${teacher.first_name} ${teacher.last_name}`}
                         style={{ width: '150px', height: '150px', borderRadius: '50%' }}
                         />

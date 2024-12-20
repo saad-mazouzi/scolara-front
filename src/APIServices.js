@@ -2,7 +2,7 @@ import axiosInstance from "./axiosConfig";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:8000/api';  
+const API_URL = 'https://scolara-backend.onrender.com/api';  
 
 
 export const getUserRole = async () => {
@@ -141,7 +141,7 @@ export const fetchTeacherAvailabilities = async () => {
 
 export const fetchTeachersBySubject = async (subjectId) => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/teacher-by-subject/${subjectId}/`);
+        const response = await axios.get(`https://scolara-backend.onrender.com/api/teacher-by-subject/${subjectId}/`);
         return response.data.teachers;
     } catch (error) {
         console.error("Erreur lors de la récupération des enseignants par matière:", error);
@@ -205,7 +205,7 @@ export const fetchEducationLevels = async (schoolId) => {
 // Utilisez cette URL dans fetchTeacherById pour appeler retrieve_teacher avec l'ID de l'utilisateur.
 export const fetchTeacherById = async (userId) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId}/retrieve_teacher/`);
+      const response = await axios.get(`https://scolara-backend.onrender.com/api/users/${userId}/retrieve_teacher/`);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -235,7 +235,7 @@ export const fetchUsersByRoleSchool = async (schoolId,roleId) => {
 
 export const fetchDriverById = async (driverId) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/users/${driverId}/retrieve_driver/`);
+      const response = await axios.get(`https://scolara-backend.onrender.com/api/users/${driverId}/retrieve_driver/`);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -245,7 +245,7 @@ export const fetchDriverById = async (driverId) => {
 
 export const fetchStudentById = async (userId) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId}/retrieve_student/`);
+      const response = await axios.get(`https://scolara-backend.onrender.com/api/users/${userId}/retrieve_student/`);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -565,7 +565,7 @@ export const fetchSubjects = async (schoolId) => {
 
 export const updateTeacherAbsence = async (teacherId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${teacherId}/update_teacher/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${teacherId}/update_teacher/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du nombre d'absences :", error);
@@ -575,7 +575,7 @@ export const updateTeacherAbsence = async (teacherId, updatedData) => {
 
 export const updateAdminPassword = async (adminId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${adminId}/update_admin/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${adminId}/update_admin/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour de l'admin:", error);
@@ -585,7 +585,7 @@ export const updateAdminPassword = async (adminId, updatedData) => {
 
 export const updateTeacherpassword = async (teacherId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${teacherId}/update_teacher/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${teacherId}/update_teacher/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour de l'ensignant:", error);
@@ -595,7 +595,7 @@ export const updateTeacherpassword = async (teacherId, updatedData) => {
 
 export const updateStudentPassword = async (studentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${studentId}/updatestudent/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${studentId}/updatestudent/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour de l'étudiant:", error);
@@ -605,7 +605,7 @@ export const updateStudentPassword = async (studentId, updatedData) => {
 
 export const updateParentPassword = async (parentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${parentId}/updateparent/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${parentId}/updateparent/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du parent :", error);
@@ -615,7 +615,7 @@ export const updateParentPassword = async (parentId, updatedData) => {
 
 export const updateSchoolLogo = async (schoolId, formData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/school/${schoolId}/update_logo/`, formData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/school/${schoolId}/update_logo/`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -629,7 +629,7 @@ export const updateSchoolLogo = async (schoolId, formData) => {
 
 export const updateStudentAbsence = async (studentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${studentId}/updatestudent/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${studentId}/updatestudent/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du nombre d'absences :", error);
@@ -640,7 +640,7 @@ export const updateStudentAbsence = async (studentId, updatedData) => {
 
 export const updateTeacherSalary = async (teacherId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${teacherId}/update_teacher/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${teacherId}/update_teacher/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du salaire :", error);
@@ -650,7 +650,7 @@ export const updateTeacherSalary = async (teacherId, updatedData) => {
 
 export const updateDriverSalary = async (driverId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${driverId}/update_driver/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${driverId}/update_driver/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du salaire :", error);
@@ -660,7 +660,7 @@ export const updateDriverSalary = async (driverId, updatedData) => {
 
 export const updateStudentSalary = async (studentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${studentId}/updatestudent/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${studentId}/updatestudent/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du salaire :", error);
@@ -670,7 +670,7 @@ export const updateStudentSalary = async (studentId, updatedData) => {
 
 export const updateTeacherSessionSalary = async (teacherId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${teacherId}/update_teacher/`, updatedData);
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${teacherId}/update_teacher/`, updatedData);
         return response.data;
     } catch (error) {
         console.error("Erreur lors de la mise à jour du salaire par séance :", error);
@@ -682,7 +682,7 @@ export const updateTeacherSessionSalary = async (teacherId, updatedData) => {
 
 export const updateTeacherProfilePicture = async (teacherId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${teacherId}/update_teacher/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${teacherId}/update_teacher/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -696,7 +696,7 @@ export const updateTeacherProfilePicture = async (teacherId, updatedData) => {
 
 export const updatestudentProfilePicture = async (studentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${studentId}/updatestudent/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${studentId}/updatestudent/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -710,7 +710,7 @@ export const updatestudentProfilePicture = async (studentId, updatedData) => {
 
 export const updateParentProfilePicture = async (parentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${parentId}/updateparent/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${parentId}/updateparent/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -724,7 +724,7 @@ export const updateParentProfilePicture = async (parentId, updatedData) => {
 
 export const updateAdminProfilePicture = async (adminId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${adminId}/update_admin/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${adminId}/update_admin/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -739,7 +739,7 @@ export const updateAdminProfilePicture = async (adminId, updatedData) => {
 
 export const updateDriverProfilePicture = async (driverId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${driverId}/update_driver/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${driverId}/update_driver/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -753,7 +753,7 @@ export const updateDriverProfilePicture = async (driverId, updatedData) => {
 
 export const updateStudentProfilePicture = async (studentId, updatedData) => {
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/users/${studentId}/updatestudent/`, updatedData, {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${studentId}/updatestudent/`, updatedData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -1510,7 +1510,7 @@ export const checkExistingChatRoom = async (user1Id, user2Id) => {
 };
 
 export const fetchCoefficientsSum = async (studentId) => {
-    const url = `http://127.0.0.1:8000/api/users/${studentId}/calculate_coefficients_sum/`;
+    const url = `https://scolara-backend.onrender.com/api/users/${studentId}/calculate_coefficients_sum/`;
 
     try {
         const response = await axios.get(url);

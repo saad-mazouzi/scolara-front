@@ -42,7 +42,7 @@ const AdminProfile = () => {
                 // Récupération des données de l'administrateur
                 const adminResponse = await axiosInstance.get(`users/${TeacherId}/retrieve_admin/`);
                 const { profile_picture, first_name, last_name } = adminResponse.data;
-                setProfilePicture(profile_picture ? `http://127.0.0.1:8000${profile_picture}` : '');
+                setProfilePicture(profile_picture ? `https://scolara-backend.onrender.com${profile_picture}` : '');
                 setUserName(`${first_name} ${last_name}`);
     
                 // Récupération des données de l'école
@@ -109,7 +109,7 @@ const AdminProfile = () => {
         try {
             const updatedData = await updateAdminProfilePicture(TeacherId, formData);
             const newProfilePicturePath = updatedData.profile_picture;
-            setProfilePicture(`http://127.0.0.1:8000${newProfilePicturePath}`);
+            setProfilePicture(`https://scolara-backend.onrender.com${newProfilePicturePath}`);
             setNewProfilePicture(null);
             setCookie('profilePicture', encodeURIComponent(newProfilePicturePath), { path: '/' });
             setAlertMessage('Photo de profil mise à jour avec succès.');
@@ -141,7 +141,7 @@ const AdminProfile = () => {
     
             // Mise à jour du logo dans l'état après succès
             const newSchoolLogoPath = updatedData.logo; // Chemin relatif renvoyé par le backend
-            setSchoolLogo(`http://127.0.0.1:8000${newSchoolLogoPath}`);
+            setSchoolLogo(`https://scolara-backend.onrender.com${newSchoolLogoPath}`);
             setNewSchoolLogo(null);
             setAlertMessage('Logo de l\'école mis à jour avec succès.');
             setAlertType('success');

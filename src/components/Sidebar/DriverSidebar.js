@@ -24,7 +24,7 @@ const DriverSidebar = () => {
                     setError("ID du chauffeur introuvable dans les cookies.");
                     return;
                 }
-                const response = await axios.get(`http://127.0.0.1:8000/api/stations-by-driver-id/${driverId}/`);
+                const response = await axios.get(`https://scolara-backend.onrender.com/api/stations-by-driver-id/${driverId}/`);
                 setTransportId(response.data.transport_id);
             } catch (err) {
                 console.error("Erreur lors de la récupération de l'ID du transport :", err);

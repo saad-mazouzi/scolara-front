@@ -207,7 +207,7 @@ const Timetable = () => {
 
     const fetchTimetableSessions = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/timetable-sessions/?school_id=${SchoolId}`);
+            const response = await axios.get(`https://scolara-backend.onrender.com/api/timetable-sessions/?school_id=${SchoolId}`);
             setTimetableSessions(response.data);
         } catch (error) {
             console.error("Erreur lors de la récupération des sessions d'emploi du temps:", error);
@@ -239,7 +239,7 @@ const Timetable = () => {
 
         try {
             const payload = { education_level: selectedLevel, school: parseInt(SchoolId, 10) };
-            const response = await axios.post('http://localhost:8000/api/timetables/', payload);
+            const response = await axios.post('https://scolara-backend.onrender.com/api/timetables/', payload);
             const newTimetable = response.data;
 
             Cookies.set('TimetableID', newTimetable.id, { expires: 7 });
@@ -252,7 +252,7 @@ const Timetable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const levelsResponse = await axios.get(`http://localhost:8000/api/educationlevel/?school_id=${SchoolId}`);
+                const levelsResponse = await axios.get(`https://scolara-backend.onrender.com/api/educationlevel/?school_id=${SchoolId}`);
                 setEducationLevels(levelsResponse.data);
 
                 setTeachers(await fetchTeachers());
@@ -395,7 +395,7 @@ const Timetable = () => {
                 school: parseInt(SchoolId, 10),
             };
     
-            const response = await axios.post('http://localhost:8000/api/timetable-sessions/', sessionData);
+            const response = await axios.post('https://scolara-backend.onrender.com/api/timetable-sessions/', sessionData);
             const newSession = response.data;
     
             // Mettre à jour immédiatement l'état `schedule`

@@ -28,7 +28,7 @@ const AdminProfile = () => {
                 const response = await axiosInstance.get(`school/${schoolId}/`);
                 const { logo, name, address, phone_number } = response.data;
 
-                setSchoolLogo(logo ? `http://127.0.0.1:8000${logo}` : '');
+                setSchoolLogo(logo ? `https://scolara-backend.onrender.com${logo}` : '');
                 setSchoolName(name || ''); // Store the school name
                 setSchoolAddress(address || '');
                 setSchoolPhone(phone_number || '');

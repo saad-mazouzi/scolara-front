@@ -165,7 +165,7 @@ const StudentProfile = () => {
           <div className="student-profile-picture">
             {student.profile_picture ? (
               <img
-                src={`http://127.0.0.1:8000${student.profile_picture}`}
+                src={`https://scolara-backend.onrender.com${student.profile_picture}`}
                 alt={`${student.first_name} ${student.last_name}`}
                 style={{ width: '150px', height: '150px', borderRadius: '50%' }}
               />

@@ -7,7 +7,7 @@ import './BulletinHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = 'https://scolara-backend.onrender.com/api';
 
 const BulletinHeader = React.forwardRef((props, ref) => {
     const { studentId } = useParams();

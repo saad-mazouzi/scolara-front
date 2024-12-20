@@ -14,7 +14,7 @@ const VerifyEmail = () => {
 
         if (token) {
             axios
-                .get(`http://localhost:8000/verify-email/?token=${token}`)
+                .get(`https://scolara-backend.onrender.com/verify-email/?token=${token}`)
                 .then(response => {
                     setMessage(response.data.message);
                     setTimeout(() => {

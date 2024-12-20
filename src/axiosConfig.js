@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie';
 
 const cookies = new Cookies();
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'https://scolara-backend.onrender.com/api/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
 
             if (refreshToken) {
                 try {
-                    const response = await axios.post('http://localhost:8000/api/token/refresh/', {
+                    const response = await axios.post('https://scolara-backend.onrender.com/api/token/refresh/', {
                         refresh: refreshToken,
                     });
                     const { access } = response.data;

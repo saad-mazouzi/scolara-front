@@ -28,18 +28,15 @@ const LoginForm = () => {
             const response = await axiosInstance.post('users/login/', formData);
             const { access, refresh, first_name, school, school_id, user } = response.data;
     
-            // Stocker les cookies
             setCookie('jwtToken', access, { path: '/', sameSite: 'None', secure: true });
             setCookie('refreshToken', refresh, { path: '/', sameSite: 'None', secure: true });
-            setCookie('userFirstName', first_name, { path: '/' });
-            setCookie('profilePicture', user.profile_picture, { path: '/' });
-            setCookie('SchoolName', school, { path: '/' });
-            setCookie('SchoolId', school_id, { path: '/' });
-    
-            // Stocker l'ID et le rôle de l'utilisateur dans les cookies
-            setCookie('TeacherId', user.id, { path: '/' });
-            setCookie('UserRole', user.role, { path: '/' });
-    
+            setCookie('userFirstName', first_name, { path: '/', sameSite: 'None', secure: true });
+            setCookie('profilePicture', user.profile_picture, { path: '/', sameSite: 'None', secure: true });
+            setCookie('SchoolName', school, { path: '/', sameSite: 'None', secure: true });
+            setCookie('SchoolId', school_id, { path: '/', sameSite: 'None', secure: true });
+            setCookie('TeacherId', user.id, { path: '/', sameSite: 'None', secure: true });
+            setCookie('UserRole', user.role, { path: '/', sameSite: 'None', secure: true });
+            
             if (user.role === 5) { // Chauffeur
                 // Récupérer l'ID du transport en fonction de l'ID du chauffeur
                 try {

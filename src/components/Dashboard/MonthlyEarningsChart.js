@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
 import axiosInstance from '../../axiosConfig';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const MonthlyEarningsChart = () => {
     const [earningsData, setEarningsData] = useState([]);
@@ -15,7 +16,7 @@ const MonthlyEarningsChart = () => {
             }
 
             try {
-                const response = await axiosInstance.get(`transactions/monthly-earnings/?school_id=${schoolId}`);
+                const response = await axios.get(`transactions/monthly-earnings/?school_id=${schoolId}`);
                 console.log("Données récupérées :", response.data);
                 const formattedData = response.data.map((item) => ({
                     month: item.month,

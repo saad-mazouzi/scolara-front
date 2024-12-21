@@ -105,11 +105,7 @@ export const fetchTeachers = async () => {
       }
   
       // Effectuer la requête avec le cookie SchoolId en tant qu'en-tête
-      const response = await axiosInstance.get(`${API_URL}/users/get_teacher/`, {
-        headers: {
-          Cookie: `SchoolId=${schoolId}`,  // Envoi du cookie dans l'en-tête
-        },
-      });
+      const response = await axiosInstance.get(`${API_URL}/users/get_teacher/?school_id=${schoolId}`);
   
       return response.data;  // Retourne la liste des enseignants
     } catch (error) {

@@ -15,11 +15,7 @@ const MonthlyEarningsChart = () => {
             }
 
             try {
-                const response = await axiosInstance.get('/api/dashboard/', {
-                    headers: {
-                        'X-School-ID': schoolId, // En-tête personnalisé
-                    },
-                });
+                axiosInstance.get(`/api/dashboard/?school_id=${schoolId}`);
                 console.log("Données récupérées :", response.data);
                 const formattedData = response.data.map((item) => ({
                     month: item.month,

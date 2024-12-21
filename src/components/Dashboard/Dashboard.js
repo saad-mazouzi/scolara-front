@@ -36,7 +36,7 @@ const Dashboard = () => {
                 return;
             }
             try {
-                const response = await axiosInstance.get(`/api/dashboard/?school_id=${schoolId}`);
+                const response = await axiosInstance.get(`/dashboard/?school_id=${schoolId}`);
                 setData(response.data);
             } catch (err) {
                 setError("Erreur lors de la récupération des données.");

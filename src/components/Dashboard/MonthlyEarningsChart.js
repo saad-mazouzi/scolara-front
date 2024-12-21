@@ -17,7 +17,7 @@ const MonthlyEarningsChart = () => {
             try {
                 const response = await axiosInstance.get('/api/dashboard/', {
                     headers: {
-                        'Cookie': `SchoolId=${schoolId}`,
+                        'X-School-ID': schoolId, // En-tête personnalisé
                     },
                 });
                 console.log("Données récupérées :", response.data);

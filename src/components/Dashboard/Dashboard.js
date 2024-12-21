@@ -11,6 +11,8 @@ import { faArrowLeft, faArrowRight,faTrash } from '@fortawesome/free-solid-svg-i
 import MonthlyExpensesChart from './MonthlyExpensesChart';
 import MonthlyEarningsChart from './MonthlyEarningsChart';
 import { deleteEvent } from '../../APIServices';
+import Cookies from 'js-cookie';
+
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -27,8 +29,14 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+
+            const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
+            if (!schoolId) {
+                console.error("SchoolId non trouvé dans les cookies");
+                return;
+            }
             try {
-                const response = await axiosInstance.get('dashboard/');
+                const response = await axiosInstance.get(`/api/dashboard/?school_id=${schoolId}`);
                 setData(response.data);
             } catch (err) {
                 setError("Erreur lors de la récupération des données.");

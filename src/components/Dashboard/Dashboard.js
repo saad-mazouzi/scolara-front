@@ -26,15 +26,12 @@ const Dashboard = () => {
     const [showForm, setShowForm] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
     const eventsPerPage = 2; // Nombre maximum d'événements par page
+    const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
 
+    
     useEffect(() => {
         const fetchData = async () => {
 
-            const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
-            if (!schoolId) {
-                console.error("SchoolId non trouvé dans les cookies");
-                return;
-            }
             try {
                 const response = await axiosInstance.get(`/dashboard/?school_id=${schoolId}`);
                 setData(response.data);
@@ -48,7 +45,7 @@ const Dashboard = () => {
 
         const fetchEvents = async () => {
             try {
-                const response = await axiosInstance.get('/events/');
+                const response = await axiosInstance.get(`/events/?school_id=${schoolId}`);
                 setEvents(response.data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des événements:", error);
@@ -78,7 +75,7 @@ const Dashboard = () => {
         };
 
         try {
-            const response = await axiosInstance.post('/events/', eventData);
+            const response = await axiosInstance.post(`/events/?school_id=${schoolId}`, eventData);
             setEvents([...events, response.data]);
             setNewEvent({ title: '', description: '' });
             setShowForm(false);

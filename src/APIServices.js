@@ -77,7 +77,13 @@ export const fetchSchools = async () => {
 
 export const fetchStudents = async () => {
     try {
-        const response = await axiosInstance.get(`${API_URL}/users/get_students/`);
+        const schoolId = Cookies.get('SchoolId');
+      
+        if (!schoolId) {
+          throw new Error("Le cookie 'SchoolId' est introuvable.");
+        }
+        
+        const response = await axiosInstance.get(`${API_URL}/users/get_students/?school_id=${schoolId}`);
         return response.data;  // Retourne la liste des étudiants
     } catch (error) {
         console.error('Erreur lors de la récupération des étudiants :', error);

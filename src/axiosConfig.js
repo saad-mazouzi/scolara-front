@@ -4,7 +4,7 @@ import { Cookies } from 'react-cookie';
 const cookies = new Cookies();
 const axiosInstance = axios.create({
     baseURL: 'https://scolara-backend.onrender.com/api/',
-    timeout: 5000,
+    timeout: 20000,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

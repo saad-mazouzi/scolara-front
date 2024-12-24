@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { fetchTeachers, fetchClassrooms, fetchSubjects } from '../../APIServices';
 import axios from 'axios';
 import '../Timetable/Timetable.css';
+import { PulseLoader } from 'react-spinners';
 
 const TimetableParent= () => {
     const [teachers, setTeachers] = useState([]);
@@ -12,6 +13,7 @@ const TimetableParent= () => {
     const [timetableSessions, setTimetableSessions] = useState([]);
     const [educationLevelName, setEducationLevelName] = useState(''); // Pour le nom du niveau d'éducation
     const [SchoolId, setSchoolId] = useState(Cookies.get('SchoolId') || '');
+    const [loadingEducationLevel, setLoadingEducationLevel] = useState(true);
     // const teacherId = Cookies.get('TeacherId'); // ID de l'enseignant connecté
     const teacherEducationLevel = Cookies.get('education_level'); // Niveau d'éducation de l'enseignant
 
@@ -36,6 +38,7 @@ const TimetableParent= () => {
         try {
             const response = await axios.get(`https://scolara-backend.onrender.com/api/educationlevel/${teacherEducationLevel}/`);
             setEducationLevelName(response.data.name || 'Niveau inconnu');
+            setLoadingEducationLevel(false);    
         } catch (error) {
             console.error("Erreur lors de la récupération du niveau d'éducation:", error);
             setEducationLevelName('Niveau inconnu');
@@ -70,10 +73,10 @@ const TimetableParent= () => {
         });
 
         timetableSessions.forEach(session => {
-            const subject = subjects.find(subj => subj.id === session.subject)?.name || "Matière inconnue";
+            const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#4e7dad" size={8} />;
             const teacher = teachers.find(teach => teach.id === session.teacher);
-            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : "Enseignant inconnu";
-            const classroom = classrooms.find(room => room.id === session.classroom)?.name || "Salle inconnue";
+            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#4e7dad" size={8} />;
+            const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#4e7dad" size={8} />;
 
             const timeSlot = `${session.start_time.slice(0, 5)} - ${session.end_time.slice(0, 5)}`;
             if (organizedSchedule[session.day]) {
@@ -93,7 +96,14 @@ const TimetableParent= () => {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-                <h4>Niveau d'éducation : {educationLevelName}</h4>
+                <h4 style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                    Niveau d'éducation : 
+                    {loadingEducationLevel ? (
+                        <PulseLoader size={8} color="#ffcc00" />
+                    ) : (
+                        <span>{educationLevelName}</span>
+                    )}
+                </h4>
                 <table border="1" style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
                     <thead>
                         <tr>

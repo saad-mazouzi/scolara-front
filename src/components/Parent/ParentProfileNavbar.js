@@ -4,6 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateParentProfilePicture, updateParentPassword } from '../../APIServices'; // Import des fonctions spécifiques aux étudiants
 import axiosInstance from '../../axiosConfig';
 import '../Teacher/TeacherProfile.css';
+import { HashLoader } from 'react-spinners';
 
 const ParentProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId', 'absences']); // Inclure absences dans les cookies
@@ -21,6 +22,7 @@ const ParentProfileNavbar = () => {
     const [parentKey, setParentKey] = useState(''); // Clé secrète des parents
     const studentId = cookies.TeacherId; // ID de l'étudiant
     const schoolId = cookies.SchoolId;
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -47,6 +49,8 @@ const ParentProfileNavbar = () => {
             } catch (error) {
                 setAlertMessage('Erreur lors de la récupération des données.');
                 setAlertType('error');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -111,6 +115,14 @@ const ParentProfileNavbar = () => {
         }
     }, [alertMessage]);
 
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <HashLoader size={60} color="#ffcc00" />
+            </div>
+        );
+    }
+
     return (
         <div className="admin-profile-container">
             {alertMessage && (
@@ -122,7 +134,7 @@ const ParentProfileNavbar = () => {
             <div className="admin-profile-content">
                 <div className="admin-profile-picture-container">
                     <div className="admin-name">
-                        {userName || 'Nom Inconnu'}
+                        {userName}
                     </div>
                     {profilePicture ? (
                         <img
@@ -131,9 +143,7 @@ const ParentProfileNavbar = () => {
                             className="admin-profile-picture"
                         />
                     ) : (
-                        <div className="admin-placeholder">
-                            <span>Aucune Photo</span>
-                        </div>
+                        <div></div>
                     )}
                     <FaEdit
                         className="edit-icon-admin"

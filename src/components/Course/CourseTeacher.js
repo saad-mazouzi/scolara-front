@@ -9,15 +9,20 @@ import {
     fetchEducationLevels
 } from '../../APIServices';
 import './Course.css';
+import { PuffLoader, PulseLoader } from 'react-spinners';
 
 const CourseTeacher = () => {
     const [courseFiles, setCourseFiles] = useState([]);
+    const [loadingcoursefiles, setLoadingCourseFiles] = useState(true);
     const [newFile, setNewFile] = useState(null);
     const [fileType, setFileType] = useState('');
     const [currentCourse, setCurrentCourse] = useState(null);
     const [subjectName, setSubjectName] = useState('');
     const [educationLevelName, setEducationLevelName] = useState('');
     const [error, setError] = useState(null);
+    const [loadingcourse, setLoadingCourse] = useState(true);
+    const [loadingSubject, setLoadingSubject] = useState(true);
+    const [loadingEducationlevel, setLoadingEducationlevel] = useState(true);
 
     // Données automatiques des cookies
     const teacherId = parseInt(Cookies.get('TeacherId'), 10);
@@ -37,6 +42,7 @@ const CourseTeacher = () => {
     const getSubjectName = async () => {
         try {
             const subjects = await fetchSubjects(schoolId);
+            setLoadingSubject(false);
             const subject = subjects.find(sub => sub.id === teacherSubject);
             setSubjectName(subject ? subject.name : 'Non spécifiée');
         } catch (error) {
@@ -48,6 +54,7 @@ const CourseTeacher = () => {
     const getEducationLevelName = async () => {
         try {
             const educationLevels = await fetchEducationLevels(schoolId);
+            setLoadingEducationlevel(false);
             const level = educationLevels.find(edu => edu.id === teacherEducationLevel);
             setEducationLevelName(level ? level.name : 'Non spécifié');
         } catch (error) {
@@ -64,6 +71,7 @@ const CourseTeacher = () => {
             }
 
             const data = await fetchCourses(schoolId, teacherEducationLevel); // Transmettez `teacherEducationLevel` dans la requête
+            setLoadingCourse(false);
             const teacherCourse = data.find(
                 course =>
                     course.teacher === teacherId &&
@@ -87,6 +95,7 @@ const CourseTeacher = () => {
         try {
             const files = await fetchCourseFiles(courseId);
             setCourseFiles(files);
+            setLoadingCourseFiles(false);
         } catch (error) {
             console.error("Erreur lors de la récupération des fichiers du cours :", error);
         }
@@ -138,6 +147,14 @@ const CourseTeacher = () => {
         return <p className="error-message">{error}</p>;
     }
 
+    if (loadingcourse) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loadingcourse} />
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="course-teacher">
@@ -146,8 +163,19 @@ const CourseTeacher = () => {
                 </div>
                 {currentCourse ? (
                     <>
-                        <h4>
-                            Matière : {subjectName} | Niveau : {educationLevelName}
+                        <h4 style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                            Matière :
+                            {loadingSubject ? (
+                                <PulseLoader size={8} color="#ffcc00" />
+                            ) : (
+                                <span>{subjectName}</span>
+                            )}
+                            | Niveau :
+                            {loadingEducationlevel ? (
+                                <PulseLoader size={8} color="#ffcc00" />
+                            ) : (
+                                <span>{educationLevelName}</span>
+                            )}
                         </h4>
                         <form onSubmit={handleUploadFile} className="course-teacher-form">
                             <label>
@@ -170,36 +198,42 @@ const CourseTeacher = () => {
                             </label>
                             <button type="submit">Téléverser</button>
                         </form>
-                        <table className="course-teacher-table">
-                            <thead>
-                                <tr>
-                                    <th>Nom du fichier</th>
-                                    <th>Type</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {courseFiles.map((file) => (
-                                    <tr key={file.id}>
-                                        <td>{file.file.split('/').pop()}</td>
-                                        <td>{file.file_type || 'Inconnu'}</td>
-                                        <td>{new Date(file.uploaded_at).toLocaleDateString()}</td>
-                                        <td>
-                                            <a href={file.file} target="_blank" rel="noopener noreferrer">
-                                                Télécharger
-                                            </a>
-                                            <button
-                                                onClick={() => handleDeleteFile(file.id)}
-                                                className="course-teacher-delete-btn"
-                                            >
-                                                Supprimer
-                                            </button>
-                                        </td>
+                        {loadingcoursefiles ? (
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                                <PuffLoader color="#007bff" size={60} />
+                            </div>
+                        ) : (
+                            <table className="course-teacher-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom du fichier</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {courseFiles.map((file) => (
+                                        <tr key={file.id}>
+                                            <td>{file.file.split('/').pop()}</td>
+                                            <td>{file.file_type || 'Inconnu'}</td>
+                                            <td>{new Date(file.uploaded_at).toLocaleDateString()}</td>
+                                            <td>
+                                                <a href={file.file} target="_blank" rel="noopener noreferrer">
+                                                    Télécharger
+                                                </a>
+                                                <button
+                                                    onClick={() => handleDeleteFile(file.id)}
+                                                    className="course-teacher-delete-btn"
+                                                >
+                                                    Supprimer
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </>
                 ) : (
                     <p className="course-teacher-empty-message">

@@ -9,7 +9,7 @@ import * as XLSX from 'xlsx'; // Import XLSX
 import { ClockLoader } from 'react-spinners';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import {PuffLoader} from 'react-spinners';
+import {PuffLoader ,PulseLoader} from 'react-spinners';
 
 
 const TeacherList = () => {
@@ -116,11 +116,14 @@ const TeacherList = () => {
 
 
   const getEducationLevelName = (levelId) => {
-    if (levelId === null) {
-      return 'Niveau d\'éducation non défini';
-    }
-    const level = educationLevels.find((lvl) => lvl.id === levelId);
-    return level ? level.name : 'Niveau d\'éducation non défini';
+      if (loading) {
+          return <PulseLoader   color="#4e7dad" size={8}/>;
+      }
+      if (levelId === null) {
+          return <PulseLoader   color="#4e7dad" size={8}/>;
+      }
+      const level = educationLevels.find((lvl) => lvl.id === levelId);
+      return level ? level.name : <PulseLoader   color="#4e7dad" size={8}/>;
   };
 
   const paginatedTeachers = filteredTeachers.slice(
@@ -145,11 +148,14 @@ const TeacherList = () => {
 
 
   const getSubjectName = (subjectId) => {
-    if (!subjectId) {
-      return 'Matière non définie';
+    if (loading) {
+        return <PulseLoader   color="#ffcc00" size={8}/>;
     }
-    const subject = subjects.find(subj => subj.id === subjectId);
-    return subject ? subject.name : 'Matière non définie';
+    if (!subjectId) {
+        return <PulseLoader   color="#ffcc00" size={8}/>;
+    }
+    const subject = subjects.find((subj) => subj.id === subjectId);
+    return subject ? subject.name : <PulseLoader   color="#ffcc00" size={8}/>;
   };
 
   const handleInputChange = (e) => {

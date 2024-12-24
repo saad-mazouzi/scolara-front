@@ -196,3 +196,24 @@
     margin-bottom: 10px;
     vertical-align: middle; /* Centrage vertical */
 }
+
+.sessions-loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:-93px;
+    margin-left: 170px;
+    height: 100vh;  /* Remplir la hauteur de la fenêtre */
+    margin-bottom: 300px;
+    width: 100%;
+    position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+    top: 0;
+    left: 0;
+}
+
+.teacher-dispo-spinner {
+    margin-left: 600px; /* Centrage horizontal */
+    margin-top : 10px;
+    margin-bottom: 10px;
+    vertical-align: middle; /* Centrage vertical */
+}

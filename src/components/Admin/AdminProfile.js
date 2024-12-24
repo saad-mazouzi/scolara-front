@@ -4,6 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa'; // Icones pour l'éd
 import { updateAdminProfilePicture, updateAdminPassword,updateSchoolLogo } from '../../APIServices'; // Import des fonctions
 import axiosInstance from '../../axiosConfig';
 import './AdminProfile.css';
+import { HashLoader } from 'react-spinners';
 
 const AdminProfile = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -265,7 +266,11 @@ const AdminProfile = () => {
 
 
     if (isLoading) {
-        return <div className="admin-profile-loader">Chargement...</div>;
+        return (
+            <div className="loading-container">
+                <HashLoader size={60} color="#ffcc00" loading={isLoading} />
+            </div>
+        );
     }
 
     return (
@@ -279,7 +284,7 @@ const AdminProfile = () => {
             <div className="admin-profile-content">
                 <div className="admin-profile-picture-container">
                     <div className="admin-name">
-                        {userName || 'Nom Inconnu'}
+                        {userName}
                     </div>
                     {profilePicture ? (
                         <img
@@ -288,8 +293,8 @@ const AdminProfile = () => {
                             className="admin-profile-picture"
                         />
                     ) : (
-                        <div className="admin-placeholder">
-                            <span>Aucune Photo</span>
+                        <div className="loading-container">
+                            <HashLoader size={60} color="#ffcc00" loading={isLoading} />
                         </div>
                     )}
                     <FaEdit
@@ -355,8 +360,8 @@ const AdminProfile = () => {
                                 className="school-logo"
                             />
                         ) : (
-                            <div className="school-placeholder">
-                                <span>Aucun Logo</span>
+                            <div className="loading-container">
+                                <HashLoader size={60} color="#ffcc00" loading={isLoading} />
                             </div>
                         )}
                         <FaEdit

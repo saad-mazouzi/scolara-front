@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { fetchTeachers, fetchClassrooms, fetchSubjects, fetchTeacherAvailabilities, createTeacherAvailability, deleteTeacherAvailability, fetchTimeSlots  } from '../../APIServices';
 import axios from 'axios';
 import '../Timetable/Timetable.css';
+import { PulseLoader , PuffLoader} from 'react-spinners';
 
 const TimetableTeacher = () => {
     const [teachers, setTeachers] = useState([]);
@@ -15,6 +16,9 @@ const TimetableTeacher = () => {
     const [availabilities, setAvailabilities] = useState([]);
     const [timeSlots, setTimeSlots] = useState([]); // Créneaux horaires récupérés depuis l'API
     const teacherId = Cookies.get('TeacherId'); // ID de l'enseignant connecté
+    const [loadingEducationLevel, setLoadingEducationLevel] = useState(true); // Indicateur de chargement
+    const [loadingTimetable, setLoadingTimetable] = useState(true); // Indicateur de chargement pour la table
+    const [loadingAvailabilities, setLoadingAvailabilities] = useState(true); // Indicateur pour les disponibilités
     const [newAvailability, setNewAvailability] = useState({
         day: '',
         start_time: '',
@@ -26,15 +30,16 @@ const TimetableTeacher = () => {
 
     const fetchTimetableSessions = async () => {
         try {
+            setLoadingTimetable(true); // Commence le chargement
             const response = await axios.get(`https://scolara-backend.onrender.com/api/timetable-sessions/?school_id=${SchoolId}`);
-            console.log("Sessions récupérées :", response.data); // Vérifiez les données ici
             const filteredSessions = response.data.filter(
                 session => session.education_level === parseInt(teacherEducationLevel)
             );
-            console.log("Sessions filtrées :", filteredSessions); // Vérifiez les sessions filtrées
             setTimetableSessions(filteredSessions);
         } catch (error) {
             console.error("Erreur lors de la récupération des sessions:", error);
+        } finally {
+            setLoadingTimetable(false); // Fin du chargement
         }
     };
     
@@ -87,26 +92,28 @@ const TimetableTeacher = () => {
 
     const fetchTeacherAvailabilitiesData = async () => {
         try {
-            const data = await fetchTeacherAvailabilities(); // Récupère toutes les disponibilités
-            console.log("Toutes les disponibilités :", data); // Debug
-    
+            setLoadingAvailabilities(true); // Commence le chargement
+            const data = await fetchTeacherAvailabilities();
             const teacherAvailabilities = data.filter(av => av.teacher === parseInt(teacherId));
-            console.log("Disponibilités pour l'enseignant :", teacherAvailabilities); // Debug
-    
             setAvailabilities(teacherAvailabilities);
         } catch (error) {
             console.error('Erreur lors de la récupération des disponibilités:', error);
+        } finally {
+            setLoadingAvailabilities(false); // Fin du chargement
         }
     };
     
-
+    
     const fetchEducationLevelName = async () => {
         try {
+            setLoadingEducationLevel(true); // Commence le chargement
             const response = await axios.get(`https://scolara-backend.onrender.com/api/educationlevel/${teacherEducationLevel}/`);
             setEducationLevelName(response.data.name || 'Niveau inconnu');
         } catch (error) {
             console.error("Erreur lors de la récupération du niveau d'éducation:", error);
             setEducationLevelName('Niveau inconnu');
+        } finally {
+            setLoadingEducationLevel(false); // Fin du chargement
         }
     };
 
@@ -156,9 +163,9 @@ const TimetableTeacher = () => {
             if (slot && organizedSchedule[session.day]) {
                 const teacher = teachers.find(teacher => teacher.id === session.teacher);
                 organizedSchedule[session.day][slot.id] = {
-                    subject: subjects.find(subj => subj.id === session.subject)?.name || "Matière inconnue",
-                    teacherName: teacher ? `${teacher.first_name} ${teacher.last_name}` : "Enseignant inconnu",
-                    classroom: classrooms.find(room => room.id === session.classroom)?.name || "Salle inconnue",
+                    subject: subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader size={8} color="#ffcc00" />,
+                    teacherName: teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader size={8} color="#4e7dad" />,
+                    classroom: classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader size={8} color="#ffcc00" />,
                 };
             }
         });
@@ -181,35 +188,49 @@ const TimetableTeacher = () => {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-                <h4>Niveau d'éducation : {educationLevelName}</h4>
+                <h4 style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                    Niveau d'éducation : 
+                    {loadingEducationLevel ? (
+                        <PulseLoader size={8} color="#ffcc00" />
+                    ) : (
+                        <span>{educationLevelName}</span>
+                    )}
+                </h4>
+                {loadingTimetable ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                        <PuffLoader color="#007bff" size={60} />
+                    </div>
+                ) : (
                     <table border="1" style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
-                    <thead>
-                        <tr>
-                            <th>Heure/Jour</th>
-                            {daysOfWeek.map(day => <th key={day}>{day}</th>)}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timeSlots.map(slot => (
-                            <tr key={slot.id}>
-                                <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
-                                {daysOfWeek.map(day => (
-                                    <td key={`${day}-${slot.id}`}>
-                                        {schedule[day][slot.id] ? (
-                                            <>
-                                                <div><strong>{schedule[day][slot.id].subject}</strong></div>
-                                                <div>{schedule[day][slot.id].teacherName}</div>
-                                                <div><i>{schedule[day][slot.id].classroom}</i></div>
-                                            </>
-                                        ) : (
-                                            <span style={{ color: 'grey' }}>Pas de session</span>
-                                        )}
-                                    </td>
-                                ))}
+                        <thead>
+                            <tr>
+                                <th>Heure/Jour</th>
+                                {daysOfWeek.map(day => <th key={day}>{day}</th>)}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {timeSlots.map(slot => (
+                                <tr key={slot.id}>
+                                    <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
+                                    {daysOfWeek.map(day => (
+                                        <td key={`${day}-${slot.id}`}>
+                                            {schedule[day][slot.id] ? (
+                                                <>
+                                                    <div><strong>{schedule[day][slot.id].subject}</strong></div>
+                                                    <div>{schedule[day][slot.id].teacherName}</div>
+                                                    <div><i>{schedule[day][slot.id].classroom}</i></div>
+                                                </>
+                                            ) : (
+                                                <span style={{ color: 'grey' }}>Pas de session</span>
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+
             </div>
 
             <div>
@@ -227,7 +248,11 @@ const TimetableTeacher = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {availabilities.length > 0 ? (
+                        {loadingAvailabilities ? (
+                            <tr>
+                                <div className='teacher-dispo-spinner'><PulseLoader color="#ffcc00" size={15} /></div>
+                            </tr>
+                        ) : availabilities.length > 0 ? (
                             availabilities.map((availability, index) => (
                                 <tr key={index}>
                                     <td>{availability.day}</td>

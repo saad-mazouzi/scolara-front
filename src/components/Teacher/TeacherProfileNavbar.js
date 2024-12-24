@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa'; // Icones pour l'édition et affichage/masquage des mots de passe
-import { updateTeacherProfilePicture, updateTeacherpassword } from '../../APIServices'; // Import des fonctions
+import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { updateTeacherProfilePicture, updateTeacherpassword } from '../../APIServices';
 import axiosInstance from '../../axiosConfig';
 import './TeacherProfile.css';
+import { HashLoader } from 'react-spinners';
 
 const TeacherProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -17,7 +18,9 @@ const TeacherProfileNavbar = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
-    const [absencesNumber, setAbsencesNumber] = useState(null); // Nombre d'absences
+    const [absencesNumber, setAbsencesNumber] = useState(null);
+    const [loading, setLoading] = useState(true); // Indicateur de chargement
+    const [profilePictureLoading, setProfilePictureLoading] = useState(false); // Indicateur de chargement pour la mise à jour de la photo
     const TeacherId = cookies.TeacherId;
     const schoolId = cookies.SchoolId;
 
@@ -29,13 +32,14 @@ const TeacherProfileNavbar = () => {
                 return;
             }
 
+            setLoading(true); // Début du chargement
             try {
                 const response = await axiosInstance.get(`users/${TeacherId}/retrieve_teacher/`);
                 const { profile_picture, first_name, last_name, absences_number } = response.data;
 
                 setProfilePicture(profile_picture ? `https://scolara-backend.onrender.com${profile_picture}` : '');
                 setUserName(`${first_name} ${last_name}`);
-                setAbsencesNumber(absences_number || 0); // Mettre à jour le nombre d'absences
+                setAbsencesNumber(absences_number || 0);
 
                 if (schoolId) {
                     const schoolResponse = await axiosInstance.get(`school/${schoolId}/`);
@@ -45,6 +49,8 @@ const TeacherProfileNavbar = () => {
             } catch (error) {
                 setAlertMessage('Erreur lors de la récupération des données.');
                 setAlertType('error');
+            } finally {
+                setLoading(false); // Fin du chargement
             }
         };
 
@@ -61,6 +67,7 @@ const TeacherProfileNavbar = () => {
         const formData = new FormData();
         formData.append('profile_picture', newProfilePicture);
 
+        setProfilePictureLoading(true); // Début du chargement
         try {
             const updatedData = await updateTeacherProfilePicture(TeacherId, formData);
             const newProfilePicturePath = updatedData.profile_picture;
@@ -72,6 +79,8 @@ const TeacherProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour de la photo de profil.');
             setAlertType('error');
+        } finally {
+            setProfilePictureLoading(false); // Fin du chargement
         }
     };
 
@@ -109,6 +118,14 @@ const TeacherProfileNavbar = () => {
         }
     }, [alertMessage]);
 
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <HashLoader size={60} color="#ffcc00" />
+            </div>
+        );
+    }
+
     return (
         <div className="admin-profile-container">
             {alertMessage && (
@@ -122,7 +139,9 @@ const TeacherProfileNavbar = () => {
                     <div className="admin-name">
                         {userName || 'Nom Inconnu'}
                     </div>
-                    {profilePicture ? (
+                    {profilePictureLoading ? (
+                        <HashLoader size={40} color="#ffcc00" />
+                    ) : profilePicture ? (
                         <img
                             src={profilePicture}
                             alt={`Photo de profil de ${userName}`}
@@ -186,7 +205,7 @@ const TeacherProfileNavbar = () => {
                         </button>
                     </div>
                 </div>
-                <div className='left-text'><strong>Nombre d'absences :{absencesNumber !== null ? absencesNumber : 0}</strong></div>
+                <div className='left-text'><strong>Nombre d'absences : {absencesNumber !== null ? absencesNumber : 0}</strong></div>
             </div>
         </div>
     );

@@ -6,6 +6,7 @@ import './StudentTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx'; // Import XLSX
+import { PuffLoader } from 'react-spinners';
 
 
 const StudentsTable = () => {
@@ -232,7 +233,11 @@ const StudentsTable = () => {
     };
 
     if (loading) {
-        return <div>Chargement des données...</div>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

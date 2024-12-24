@@ -10,3 +10,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+/* Pour tous les navigateurs compatibles */
+* {
+  scrollbar-width: thin; /* Barre fine pour Firefox */
+  scrollbar-color: #ffffff #ffffff; /* Couleur du curseur et de la piste pour Firefox */
+}
+
+/* Styles pour Chrome, Edge et autres navigateurs basés sur WebKit */
+*::-webkit-scrollbar {
+  width: 8px; /* Largeur de la scrollbar */
+  height: 8px; /* Hauteur de la scrollbar pour un défilement horizontal */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ffffff; /* Couleur de la barre de défilement */
+  border-radius: 4px; /* Coins arrondis */
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff; /* Couleur de la piste */
+  border-radius: 4px; /* Coins arrondis pour la piste */
+}

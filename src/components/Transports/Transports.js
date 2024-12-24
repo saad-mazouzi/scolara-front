@@ -8,7 +8,7 @@ import './Transports.css';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
-
+import { PuffLoader } from 'react-spinners';
 
 
 const Transport = () => {
@@ -248,7 +248,11 @@ const Transport = () => {
     });
 
     if (loading) {
-        return <p>Chargement...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

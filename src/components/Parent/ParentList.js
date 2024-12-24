@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faSearch, faRobot } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx';
 import './Parent.css';
+import { PuffLoader } from 'react-spinners';
 
 const ParentList = () => {
   const [parents, setParents] = useState([]);
@@ -130,6 +131,14 @@ const ParentList = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  if (loading) {
+      return (
+          <div className="loading-container">
+              <PuffLoader size={60} color="#ffcc00" loading={loading} />
+          </div>
+      );
+  }
 
   const handleGeneratePassword = () => {
     const password = generatePassword();

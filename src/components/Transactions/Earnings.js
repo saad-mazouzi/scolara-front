@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import './Transactions.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
+import { PuffLoader } from 'react-spinners';
 
 const Earnings = () => {
     const [amount, setAmount] = useState('');
@@ -18,12 +19,14 @@ const Earnings = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Mois par défaut : mois actuel
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Année par défaut : année actuelle
     const schoolId = Cookies.get('SchoolId');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadTransactions = async () => {
             try {
                 const data = await fetchEarnings(schoolId);
                 setTransactions(data);
+                setLoading(false);
             } catch (error) {
                 console.error("Erreur lors de la récupération des transactions :", error);
             }
@@ -171,6 +174,14 @@ const Earnings = () => {
             newWindow.close();
         }
     };
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     return (
         <div className="transactions-container">

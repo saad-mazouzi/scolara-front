@@ -189,3 +189,10 @@
     font-size: 16px;
     margin-top:5px;
 }
+
+.dispo-spinner {
+    margin-left: 500px; /* Centrage horizontal */
+    margin-top : 10px;
+    margin-bottom: 10px;
+    vertical-align: middle; /* Centrage vertical */
+}

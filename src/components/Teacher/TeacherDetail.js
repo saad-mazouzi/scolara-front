@@ -14,6 +14,7 @@ import {
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './TeacherProfile.css';
+import { ScaleLoader } from 'react-spinners';
 
 const TeacherProfile = () => {
   const { id } = useParams();
@@ -193,7 +194,14 @@ const TeacherProfile = () => {
       }
   };
 
-  if (loading) return <div>Chargement...</div>;
+  if (loading) {
+      return (
+          <div className="loading-container">
+              <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+          </div>
+      );
+  }
+
   if (error) return <p>{error}</p>;
 
   const paymentStatusStyle = {

@@ -3,6 +3,7 @@ import { fetchEducationLevels, fetchStudentsByEducationLevel } from '../../APISe
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom'; // Importer useNavigate
 import '../Grades/Grades.css';
+import { PuffLoader } from 'react-spinners';
 
 const StudentBulletins = () => {
     const [educationLevels, setEducationLevels] = useState([]);
@@ -53,7 +54,11 @@ const StudentBulletins = () => {
     };
 
     if (loading) {
-        return <p>Chargement des niveaux d'éducation...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     return (
@@ -76,7 +81,9 @@ const StudentBulletins = () => {
             {selectedEducationLevel && (
                 <div className="selected-education-level">
                     {studentsLoading ? (
-                        <p>Chargement des étudiants...</p>
+                        <div className="subjects-loading-container">
+                            <PuffLoader size={60} color="#ffcc00" loading={studentsLoading} />
+                        </div>
                     ) : students.length > 0 ? (
                         <div className="grades-table">
                             <div className="student-list-title">
@@ -101,14 +108,14 @@ const StudentBulletins = () => {
                                         >
                                             <td>
                                                 {student.profile_picture ? (
-                                                <img
-                                                    className="student-img"
-                                                    src={`https://scolara-backend.onrender.com${student.profile_picture}`}
-                                                    alt={`${student.first_name} ${student.last_name}`}
-                                                    style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                                                />
+                                                    <img
+                                                        className="student-img"
+                                                        src={`https://scolara-backend.onrender.com${student.profile_picture}`}
+                                                        alt={`${student.first_name} ${student.last_name}`}
+                                                        style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                                                    />
                                                 ) : (
-                                                <span>Aucune image</span>
+                                                    <span>Aucune image</span>
                                                 )}
                                             </td>
                                             <td>{student.last_name}</td>

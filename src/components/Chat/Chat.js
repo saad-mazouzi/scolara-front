@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchMessages, sendMessage } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Chat.css';
+import { ScaleLoader } from 'react-spinners';
 
 const ChatPage = () => {
     const { chatRoomId } = useParams();
@@ -64,7 +65,11 @@ const ChatPage = () => {
     };
 
     if (loading) {
-        return <p>Chargement de la conversation...</p>;
+        return (
+            <div className="loading-container">
+                <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

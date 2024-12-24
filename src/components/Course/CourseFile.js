@@ -4,6 +4,7 @@ import { fetchCourseFiles } from '../../APIServices';
 import './Course.css';
 import image1 from '../../images/test4.jpg';
 import { FaTimes } from 'react-icons/fa'; // Icône pour fermer la modal
+import { PuffLoader } from 'react-spinners';
 
 // Liste d'images pour générer des images aléatoires
 const images = [image1];
@@ -71,7 +72,14 @@ const CourseFile = () => {
         }
     };
 
-    if (loading) return <p>Loading files...</p>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>Error loading files: {error.message}</p>;
 
     return (

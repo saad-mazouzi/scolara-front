@@ -10,12 +10,16 @@ import '../Timetable/Timetable.css';
 import {fetchTimeSlots,createTimeSlot,updateTimeSlot,deleteTimeSlot} from '../../APIServices.js';
 import { MdOutlineSettings } from "react-icons/md";
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
+import { PuffLoader } from 'react-spinners';
+import {PulseLoader} from 'react-spinners';
+
 
 
 
 const Timetable = () => {
     const [educationLevels, setEducationLevels] = useState([]);
     const [teachers, setTeachers] = useState([]);
+    const [loading , setLoading] = useState(true);
     const [activeTable, setActiveTable] = useState(null); // Contrôle de la table active
     const [availableTeachers, setAvailableTeachers] = useState([]);
     const [filteredSubjects, setFilteredSubjects] = useState([]);
@@ -131,6 +135,7 @@ const Timetable = () => {
     };
     
     
+    
 
     const loadTimeSlots = async () => {
         try {
@@ -138,8 +143,11 @@ const Timetable = () => {
             setTimeSlots(fetchedTimeSlots);
         } catch (error) {
             console.error('Erreur lors de la récupération des créneaux horaires:', error);
+        } finally {
+            setLoading(false); // Fin du chargement, même en cas d'erreur
         }
     };
+    
 
     useEffect(() => {
         loadTimeSlots();
@@ -205,12 +213,15 @@ const Timetable = () => {
 }, [availableTeachers]);
 
 
+
     const fetchTimetableSessions = async () => {
         try {
             const response = await axios.get(`https://scolara-backend.onrender.com/api/timetable-sessions/?school_id=${SchoolId}`);
             setTimetableSessions(response.data);
         } catch (error) {
             console.error("Erreur lors de la récupération des sessions d'emploi du temps:", error);
+        } finally {
+            setLoading(false); // Fin du chargement
         }
     };
 
@@ -248,6 +259,7 @@ const Timetable = () => {
             console.error("Erreur lors de la création de l'emploi du temps:", error);
         }
     };
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -602,10 +614,10 @@ const Timetable = () => {
     
         // Remplir l'emploi du temps avec les sessions
         levelSessions.forEach(session => {
-            const subject = subjects.find(subj => subj.id === session.subject)?.name || "Matière inconnue";
+            const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#4e7dad" size={8} />;
             const teacher = teachers.find(teach => teach.id === session.teacher);
-            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : "Enseignant inconnu";
-            const classroom = classrooms.find(room => room.id === session.classroom)?.name || "Salle inconnue";
+            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#ffcc00" size={8} />;
+            const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#4e7dad" size={8} />;
     
             // Associer la session à l'heure et au jour appropriés
             levelSchedule[session.day][session.start_time] = {
@@ -817,40 +829,50 @@ const Timetable = () => {
                             <FontAwesomeIcon icon={faPrint} /> Imprimer
                         </button>
                         </div>
-                        <table
-                            id={`table-${levelId}`}
-                            border="1"
-                            style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}
-                        >
-                            <thead>
-                                <tr>
-                                    <th>Heure/Jour</th>
-                                    {days.map(day => (
-                                        <th key={day}>{day}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {timeSlots.map(slot => (
-                                    <tr key={slot.start_time}>
-                                        <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
+
+                        {loading ? (
+                            // Affiche le loader pendant le chargement des données
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                                <PuffLoader color="#007bff" size={60} />
+                            </div>
+                        ) : (
+                            // Affiche la table une fois les données chargées
+                            <table
+                                id={`table-${levelId}`}
+                                border="1"
+                                style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>Heure/Jour</th>
                                         {days.map(day => (
-                                            <td key={day}>
-                                                {schedule[day][slot.start_time] ? (
-                                                    <>
-                                                        <div><strong>{schedule[day][slot.start_time].subject}</strong></div>
-                                                        <div>{schedule[day][slot.start_time].teacherName}</div>
-                                                        <div><i>{schedule[day][slot.start_time].classroom}</i></div>
-                                                    </>
-                                                ) : (
-                                                    "Pas de session"
-                                                )}
-                                            </td>
+                                            <th key={day}>{day}</th>
                                         ))}
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {timeSlots.map(slot => (
+                                        <tr key={slot.start_time}>
+                                            <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
+                                            {days.map(day => (
+                                                <td key={day}>
+                                                    {schedule[day][slot.start_time] ? (
+                                                        <>
+                                                            <div><strong>{schedule[day][slot.start_time].subject}</strong></div>
+                                                            <div>{schedule[day][slot.start_time].teacherName}</div>
+                                                            <div><i>{schedule[day][slot.start_time].classroom}</i></div>
+                                                        </>
+                                                    ) : (
+                                                        "Pas de session"
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+
                     </div>
                 );
             })}
@@ -958,9 +980,8 @@ const Timetable = () => {
                                 );
                             })
                         ) : (
-                            <tr>
-                                <td colSpan="5">Aucune disponibilité trouvée pour ce terme de recherche.</td>
-                            </tr>
+                                <div className='dispo-spinner'><PulseLoader color="#ffcc00" size={15} /></div>
+
                         )}
                     </tbody>
                 </table>

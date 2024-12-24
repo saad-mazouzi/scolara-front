@@ -5,6 +5,7 @@ import { fetchUsersByRoleSchool, fetchMessages, checkExistingChatRoom, fetchAdmi
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import './Chat.css';
+import { PuffLoader } from 'react-spinners';
 
 const UsersPage = () => {
     const [users, setUsers] = useState([]);
@@ -142,7 +143,11 @@ const UsersPage = () => {
     };
     
     if (loading) {
-        return <p>Chargement des utilisateurs...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

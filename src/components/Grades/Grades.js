@@ -8,6 +8,7 @@ import {
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Grades.css';
+import { PuffLoader } from 'react-spinners';
 
 const Grades = () => {
     const [educationLevels, setEducationLevels] = useState([]);
@@ -19,6 +20,9 @@ const Grades = () => {
     const [loading, setLoading] = useState(true);
     const [selectedEducationLevel, setSelectedEducationLevel] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
+    const [loadingSubjects, setLoadingSubjects] = useState(false);
+    const [loadingGrades, setLoadingGrades] = useState(false); 
+
 
     const schoolId = Cookies.get('SchoolId');
 
@@ -94,48 +98,59 @@ const Grades = () => {
     
     const handleEducationLevelClick = async (educationLevelId) => {
         try {
+            setLoadingSubjects(true); // Commence le chargement
             setSelectedEducationLevel(educationLevelId);
             Cookies.set('selectedEducationLevel', educationLevelId);
-
+    
             // Filter students by education level
             const filtered = students.filter((student) => student.education_level === educationLevelId);
             setFilteredStudents(filtered);
-
+    
             // Load subjects related to the education level
             const subjects = await fetchSubjectsByEducationLevel(educationLevelId);
             setSubjects(subjects);
-
+    
             setSelectedSubject(null); // Reset selected subject
             setGrades([]); // Reset grades
             setControls([]); // Reset controls
         } catch (error) {
             console.error("Erreur lors de la récupération des matières et des étudiants :", error);
+        } finally {
+            setLoadingSubjects(false); // Fin du chargement
         }
     };
+    
 
     const handleSubjectClick = async (subjectId) => {
         try {
+            setLoadingGrades(true); // Commence le chargement
             setSelectedSubject(subjectId);
             Cookies.set('selectedSubject', subjectId);
-
+    
             // Load controls for the selected level and subject
             const controlsData = await fetchAdminControls(schoolId, selectedEducationLevel, subjectId);
             setControls(controlsData);
-
+    
             // Load grades for each control
             const gradesPromises = controlsData.map((control) =>
                 fetchGrades(selectedEducationLevel, subjectId)
             );
-
+    
             const gradesData = await Promise.all(gradesPromises);
             setGrades(gradesData.flat());
         } catch (error) {
             console.error("Erreur lors de la récupération des contrôles et des notes :", error);
+        } finally {
+            setLoadingGrades(false); // Fin du chargement
         }
     };
-
+    
     if (loading) {
-        return <p>Chargement des niveaux d'éducation...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     const rankings = getRankings();
@@ -163,55 +178,68 @@ const Grades = () => {
                     <div className="student-list-title">
                         <h3>Matières</h3>
                     </div>
-                    <div className="education-level-cards">
-                        {subjects.map((subject) => (
-                            <div
-                                key={subject.id}
-                                className={`education-card ${selectedSubject === subject.id ? 'selected' : ''}`}
-                                onClick={() => handleSubjectClick(subject.id)}
-                            >
-                                <h4>{subject.name}</h4>
-                            </div>
-                        ))}
-                    </div>
+                    {loadingSubjects ? (
+                        <div className="subjects-loading-container">
+                            <PuffLoader size={60} color="#ffcc00" loading={loadingSubjects} />
+                        </div>
+                    ) : (
+                        <div className="education-level-cards">
+                            {subjects.map((subject) => (
+                                <div
+                                    key={subject.id}
+                                    className={`education-card ${selectedSubject === subject.id ? 'selected' : ''}`}
+                                    onClick={() => handleSubjectClick(subject.id)}
+                                >
+                                    <h4>{subject.name}</h4>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 
-            {grades.length > 0 && controls.length > 0 && (
-                <div className="grades-table">
-                    <div className='whitetext'>Scolara</div>
-                    <div className="student-list-title">
-                        <h3>Notes des étudiants</h3>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Classement</th>
-                                <th>Nom de l'étudiant</th>
-                                {controls.map((control) => (
-                                    <th key={control.id}>{getControlType(control.id)}</th>
-                                ))}
-                                <th>Note Totale</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rankings.map((student) => (
-                                <tr key={student.id}>
-                                    <td>{student.rank}</td>
-                                    <td>{student.name}</td>
-                                    {controls.map((control) => {
-                                        const grade = grades.find(
-                                            (g) => g.student === student.id && g.control === control.id
-                                        );
-                                        return <td key={control.id}>{grade ? grade.score : '-'}</td>;
-                                    })}
-                                    <td>{student.totalGrade}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            {loadingGrades ? (
+                <div className="grades-loading-container">
+                    <PuffLoader size={60} color="#ffcc00" loading={loadingGrades} />
                 </div>
+            ) : (
+                grades.length > 0 && controls.length > 0 && (
+                    <div className="grades-table">
+                        <div className='whitetext'>Scolara</div>
+                        <div className="student-list-title">
+                            <h3>Notes des étudiants</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Classement</th>
+                                    <th>Nom de l'étudiant</th>
+                                    {controls.map((control) => (
+                                        <th key={control.id}>{getControlType(control.id)}</th>
+                                    ))}
+                                    <th>Note Totale</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {rankings.map((student) => (
+                                    <tr key={student.id}>
+                                        <td>{student.rank}</td>
+                                        <td>{student.name}</td>
+                                        {controls.map((control) => {
+                                            const grade = grades.find(
+                                                (g) => g.student === student.id && g.control === control.id
+                                            );
+                                            return <td key={control.id}>{grade ? grade.score : '-'}</td>;
+                                        })}
+                                        <td>{student.totalGrade}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )
             )}
+
         </div>
     );
 };

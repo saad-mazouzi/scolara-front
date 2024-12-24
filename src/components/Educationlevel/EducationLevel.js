@@ -8,11 +8,12 @@ import {
     deleteEducationLevel 
 } from '../../APIServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import './EducationLevel.css';
+import { PuffLoader } from 'react-spinners';
 
 const EducationLevel = () => {
+    const [loading, setLoading] = useState(true);
     const [cookies] = useCookies(['SchoolId']); 
     const [levels, setLevels] = useState([]);
     const [filteredLevels, setFilteredLevels] = useState([]);
@@ -21,16 +22,22 @@ const EducationLevel = () => {
     const [editLevelId, setEditLevelId] = useState('');
     const [editLevelName, setEditLevelName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1); // État pour la page actuelle
-    const itemsPerPage = 4; // Nombre d'éléments par page
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
     const navigate = useNavigate();
 
     useEffect(() => {
         const getLevels = async () => {
-            const schoolId = cookies.SchoolId;
-            const data = await fetchEducationLevels(schoolId);
-            setLevels(data);
-            setFilteredLevels(data);
+            try {
+                const schoolId = cookies.SchoolId;
+                const data = await fetchEducationLevels(schoolId);
+                setLevels(data);
+                setFilteredLevels(data);
+            } catch (error) {
+                console.error('Error fetching education levels:', error);
+            } finally {
+                setLoading(false);
+            }
         };
         getLevels();
     }, [cookies.SchoolId]);
@@ -41,7 +48,7 @@ const EducationLevel = () => {
             level.name.toLowerCase().includes(e.target.value.toLowerCase())
         );
         setFilteredLevels(filtered);
-        setCurrentPage(1); // Réinitialiser à la première page après recherche
+        setCurrentPage(1);
     };
 
     const handleCreate = async () => {
@@ -77,17 +84,23 @@ const EducationLevel = () => {
         navigate(`/education-level-students/${id}`);
     };
 
-    // Calculer les éléments pour la pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredLevels.slice(indexOfFirstItem, indexOfLastItem);
 
-    // Déterminer le nombre total de pages
     const totalPages = Math.ceil(filteredLevels.length / itemsPerPage);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     return (
         <div className="education-level-container">
@@ -145,30 +158,27 @@ const EducationLevel = () => {
                     Ajouter
                 </button>
             </div>
-
-            <div className='whitetext'>Scolara</div>
-            {/* Pagination */}
             <div className="pagination-controls-student">
                 <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
-                <FontAwesomeIcon icon={faAngleDoubleLeft} />
+                    <FontAwesomeIcon icon={faAngleDoubleLeft} />
                 </button>
                 <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                <FontAwesomeIcon icon={faChevronLeft} />
+                    <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
                 {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                    key={index}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={currentPage === index + 1 ? 'active-page' : ''}
-                >
-                    {index + 1}
-                </button>
+                    <button
+                        key={index}
+                        onClick={() => handlePageChange(index + 1)}
+                        className={currentPage === index + 1 ? 'active-page' : ''}
+                    >
+                        {index + 1}
+                    </button>
                 ))}
                 <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-                <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronRight} />
                 </button>
                 <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
-                <FontAwesomeIcon icon={faAngleDoubleRight} />
+                    <FontAwesomeIcon icon={faAngleDoubleRight} />
                 </button>
             </div>
             {isModalOpen && (

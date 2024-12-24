@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { fetchRoles } from '../../APIServices';
 import { useNavigate } from 'react-router-dom';
 import './Chat.css';
+import { PuffLoader } from 'react-spinners';
 
 const RolesCards = () => {
     const [roles, setRoles] = useState([]);
@@ -87,7 +88,11 @@ const RolesCards = () => {
     };
 
     if (loading) {
-        return <p>Chargement des rôles...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

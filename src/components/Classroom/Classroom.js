@@ -9,11 +9,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { PuffLoader } from 'react-spinners';
 
 
 const Classroom = () => {
     const [cookies] = useCookies(['SchoolId']);
     const [levels, setLevels] = useState([]);
+    const [loading,setLoading] = useState(true);
     const [filteredLevels, setFilteredLevels] = useState([]);
     const [newLevel, setNewLevel] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,6 +36,8 @@ const Classroom = () => {
                     setFilteredLevels(data);
                 } catch (error) {
                     console.error("Erreur lors du chargement des salles : ", error);
+                } finally {
+                    setLoading(false);
                 }
             };
             getClassrooms();
@@ -104,6 +108,14 @@ const Classroom = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     return (
         <div className="education-level-container">

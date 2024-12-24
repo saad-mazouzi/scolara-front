@@ -6,6 +6,7 @@ import axios from 'axios';
 import './BulletinHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
+import { PuffLoader } from 'react-spinners';
 
 const API_URL = 'https://scolara-backend.onrender.com/api';
 
@@ -464,7 +465,11 @@ const BulletinHeader = React.forwardRef((props, ref) => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

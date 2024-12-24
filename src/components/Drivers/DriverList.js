@@ -7,6 +7,7 @@ import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } 
 import './Driver.css';
 import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
+import { PuffLoader } from 'react-spinners';
 
 const DriverList = () => {
     const [drivers, setDrivers] = useState([]);
@@ -163,7 +164,11 @@ const DriverList = () => {
     };
 
     if (loading) {
-        return <p>Chargement...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {
@@ -225,7 +230,11 @@ const DriverList = () => {
     };
     
     if (loading) {
-        return <p>Chargement...</p>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

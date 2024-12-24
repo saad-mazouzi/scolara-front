@@ -10,11 +10,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { PuffLoader } from 'react-spinners';
 
 const Subject = () => {
     const [cookies] = useCookies(['SchoolId']);
     const [subjects, setSubjects] = useState([]);
     const [educationLevels, setEducationLevels] = useState([]);
+    const [loading,setLoading] = useState(true);
     const [filteredSubjects, setFilteredSubjects] = useState([]);
     const [newSubject, setNewSubject] = useState('');
     const [newCoefficient, setNewCoefficient] = useState(''); // Coefficient for new subject
@@ -39,6 +41,8 @@ const Subject = () => {
                     setFilteredSubjects(data);
                 } catch (error) {
                     console.error("Erreur lors du chargement des sujets : ", error);
+                } finally {
+                    setLoading(false);
                 }
             };
             const getEducationLevels = async () => {
@@ -116,6 +120,14 @@ const Subject = () => {
             console.error("Erreur lors de la mise à jour du sujet : ", error);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     const handleDelete = async (id) => {
         try {

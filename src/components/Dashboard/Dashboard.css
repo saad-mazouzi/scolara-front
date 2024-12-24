@@ -375,3 +375,15 @@
 .event-reminder .delete-icon:hover {
     color: darkred; /* Darker red on hover */
 }
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 170px;
+    height: 100vh;  /* Remplir la hauteur de la fenêtre */
+    width: 100%;
+    position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+    top: 0;
+    left: 0;
+}

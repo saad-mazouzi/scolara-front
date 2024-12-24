@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx'; // Import XLSX
 import { ClockLoader } from 'react-spinners';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import {PuffLoader} from 'react-spinners';
 
 
 const TeacherList = () => {
@@ -133,6 +134,15 @@ const TeacherList = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };  
+
+  if (loading) {
+    return (
+        <div className="loading-container">
+            <PuffLoader size={60} color="#ffcc00" loading={loading} />
+        </div>
+    );
+}
+
 
   const getSubjectName = (subjectId) => {
     if (!subjectId) {

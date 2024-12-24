@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchAdminCourses, fetchTeachers, fetchSubjects, fetchEducationLevels } from '../../APIServices';
 import { faSearch, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { PuffLoader } from 'react-spinners';
 
 const Course = () => {
     const [courses, setCourses] = useState([]);
@@ -83,7 +84,14 @@ const Course = () => {
         navigate(`/courses/${courseId}/files`);
     };
 
-    if (loading) return <p>Loading courses...</p>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>Error loading courses: {error.message}</p>;
 
     return (

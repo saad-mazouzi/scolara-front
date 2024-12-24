@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx'; // Import XLSX
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import { PuffLoader } from 'react-spinners';
 
 
 
@@ -80,6 +81,14 @@ const StudentList = () => {
     }
     return password;
   };
+
+  if (loading) {
+      return (
+          <div className="loading-container">
+              <PuffLoader size={60} color="#ffcc00" loading={loading} />
+          </div>
+      );
+  }
 
   const handleGeneratePassword = () => {
     const password = generatePassword();

@@ -9,6 +9,7 @@ import {
   updateDriver,
 } from '../../APIServices';
 import './Driver.css';
+import { PuffLoader } from 'react-spinners';
 
 const DriverProfile = () => {
   const { id } = useParams();
@@ -95,7 +96,13 @@ const DriverProfile = () => {
 
 
 
-  if (loading) return <div>Chargement...</div>;
+  if (loading) {
+    return (
+        <div className="loading-container">
+            <PuffLoader size={60} color="#ffcc00" loading={loading} />
+        </div>
+    );
+}
   if (error) return <p>{error}</p>;
 
   return (

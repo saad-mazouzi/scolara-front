@@ -43,3 +43,29 @@
     margin-top: 30px;
     color : green;
 }
+
+.subjects-loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top : 100px;
+    margin-left: 155px;
+    height: 100vh;  /* Remplir la hauteur de la fenêtre */
+    width: 100%;
+    position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+    top: 0;
+    left: 0;
+}
+
+.grades-loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top : 280px;
+    margin-left: 155px;
+    height: 100vh;  /* Remplir la hauteur de la fenêtre */
+    width: 100%;
+    position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+    top: 0;
+    left: 0;
+}

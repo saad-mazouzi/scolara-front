@@ -12,6 +12,7 @@ import {
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Student.css';
+import { ScaleLoader } from 'react-spinners';
 
 const StudentProfile = () => {
   const { id } = useParams();
@@ -150,7 +151,14 @@ const StudentProfile = () => {
     return level ? level.name : 'Niveau d\'éducation non défini';
   };
 
-  if (loading) return <div>Chargement...</div>;
+  if (loading) {
+      return (
+          <div className="loading-container">
+              <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+          </div>
+      );
+  }
+
   if (error) return <p>{error}</p>;
 
   const paymentStatusStyle = {

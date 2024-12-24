@@ -12,6 +12,7 @@ import MonthlyExpensesChart from './MonthlyExpensesChart';
 import MonthlyEarningsChart from './MonthlyEarningsChart';
 import { deleteEvent } from '../../APIServices';
 import Cookies from 'js-cookie';
+import { PuffLoader } from 'react-spinners';
 
 
 const Dashboard = () => {
@@ -122,7 +123,14 @@ const Dashboard = () => {
         }
     };
 
-    if (loading) return <p>Chargement...</p>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>{error}</p>;
 
     return (

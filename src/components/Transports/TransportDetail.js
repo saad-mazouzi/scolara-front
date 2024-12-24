@@ -5,6 +5,7 @@ import L from 'leaflet';
 import { getTransports, fetchStudentsBySchool } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Transports.css';
+import { ScaleLoader } from 'react-spinners';
 
 const TransportDetails = () => {
     const { id } = useParams();
@@ -13,9 +14,11 @@ const TransportDetails = () => {
     const [stations, setStations] = useState([]);
     const [error, setError] = useState(null);
     const [visibleCount, setVisibleCount] = useState(8); // Afficher initialement 8 étudiants
+    const [loading, setLoading] = useState(true); // État de chargement
 
     useEffect(() => {
         const fetchTransportDetails = async () => {
+            setLoading(true); // Démarre le chargement
             try {
                 const schoolId = Cookies.get('SchoolId');
                 const transports = await getTransports(schoolId);
@@ -34,6 +37,8 @@ const TransportDetails = () => {
             } catch (err) {
                 console.error(err);
                 setError("Erreur lors de la récupération des données.");
+            } finally {
+                setLoading(false); // Termine le chargement
             }
         };
 
@@ -77,6 +82,14 @@ const TransportDetails = () => {
         }, [stations, map]);
         return null;
     };
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     if (error) {
         return <p>{error}</p>;

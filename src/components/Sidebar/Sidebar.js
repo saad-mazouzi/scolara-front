@@ -25,6 +25,125 @@ const Sidebar = () => {
     const location = useLocation(); // Utiliser useLocation pour obtenir le chemin actuel
     const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
 
+    const isDashboardActive = () => {
+        const paths = [
+            '/dashboard', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isTeacherActive = () => {
+        const paths = [
+            '/teachers',
+            '/teacher' // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isStudentActive = () => {
+        const paths = [
+            '/students',
+            '/student' // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isParenttActive = () => {
+        const paths = [
+            '/parents',
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isTimetableActive = () => {
+        const paths = [
+            '/timetable', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isEducationLevelActive = () => {
+        const paths = [
+            '/education-level', 
+            '/education-level-students' // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isSubjectActive = () => {
+        const paths = [
+            '/subjects', 
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isClassroomActive = () => {
+        const paths = [
+            '/classrooms'
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isCoursesActive = () => {
+        const paths = [
+            '/courses', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isGradesActive = () => {
+        const paths = [
+            '/grades', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isBulletinsActive = () => {
+        const paths = [
+            '/bulletins', // Chemin principal
+            '/bulletin', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isChatActive = () => {
+        const paths = [
+            '/chat', // Chemin principal
+            '/users', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isDriverActive = () => {
+        const paths = [
+            '/drivers', // Chemin principal
+            '/driver', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isTransportActive = () => {
+        const paths = [
+            '/transports', // Chemin principal
+            '/transport', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isExpensesActive = () => {
+        const paths = [
+            '/expenses', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isearningsActive = () => {
+        const paths = [
+            '/earnings', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
     return (
         <div className="sidebar">
             {/* <Navbar/> */}
@@ -36,7 +155,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/dashboard"
-                            className={`sidebar-button ${activeLink === '/dashboard' ? 'active' : ''}`}
+                            className={`sidebar-button ${isDashboardActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/dashboard')}
                         >
                     <FontAwesomeIcon icon={faChartLine} size="lg" style={{ color: "#4e7dad", marginRight: '13px' }} />
@@ -46,7 +165,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/teachers"
-                            className={`sidebar-button ${activeLink === '/teachers' ? 'active' : ''}`}
+                            className={`sidebar-button ${isTeacherActive()? 'active' : ''}`}
                             onClick={() => setActiveLink('/teachers')}
                         >
                             <FontAwesomeIcon icon={faChalkboardUser} size="lg" style={{ color: "#4e7dad" ,marginRight: '13px'}} />
@@ -56,7 +175,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/students"
-                            className={`sidebar-button ${activeLink === '/students' ? 'active' : ''}`}
+                            className={`sidebar-button ${isStudentActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/students')}
                         >
                             <PiStudentBold style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -66,7 +185,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/parents"
-                            className={`sidebar-button ${activeLink === '/parents' ? 'active' : ''}`}
+                            className={`sidebar-button ${isParenttActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/parents')}
                         >   
                         <RiParentFill style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -77,7 +196,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/education-level"
-                            className={`sidebar-button ${activeLink === '/education-level' ? 'active' : ''}`}
+                            className={`sidebar-button ${isEducationLevelActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/education-level')}
                         >
                             <MdCastForEducation style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -87,7 +206,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/subjects"
-                            className={`sidebar-button ${activeLink === '/subjects' ? 'active' : ''}`}
+                            className={`sidebar-button ${isSubjectActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/subjects')}
                         >
                             <MdOutlineSubject style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -97,7 +216,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/classrooms"
-                            className={`sidebar-button ${activeLink === '/classrooms' ? 'active' : ''}`}
+                            className={`sidebar-button ${isClassroomActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/classrooms')}
                         >
                             <SiGoogleclassroom style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }} />
@@ -107,7 +226,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/courses"
-                            className={`sidebar-button ${activeLink === '/courses' ? 'active' : ''}`}
+                            className={`sidebar-button ${isCoursesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/courses')}
                         >
                         <RiPagesFill style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -117,7 +236,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/timetable"
-                            className={`sidebar-button ${activeLink === '/timetable' ? 'active' : ''}`}
+                            className={`sidebar-button ${isTimetableActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/timetable')}
                         >
                             <GrTableAdd style={{ color: "#4e7dad", marginRight: '13px',fontSize: '26px' }}/>
@@ -127,7 +246,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/grades"
-                            className={`sidebar-button ${activeLink === '/grades' ? 'active' : ''}`}
+                            className={`sidebar-button ${isGradesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/grades')}
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -137,7 +256,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/bulletins"
-                            className={`sidebar-button ${activeLink === '/bulletins' ? 'active' : ''}`}
+                            className={`sidebar-button ${isBulletinsActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/bulletins')}
                         >
                             <LuNewspaper style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -147,7 +266,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/chat"
-                            className={`sidebar-button ${activeLink === '/chat' ? 'active' : ''}`}
+                            className={`sidebar-button ${isChatActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/chat')}
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -157,7 +276,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/drivers"
-                            className={`sidebar-button ${activeLink === '/chauffeur' ? 'active' : ''}`}
+                            className={`sidebar-button ${isDriverActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/chauffeur')}
                         >
                             <img src={driverIcon} alt="Chauffeur Icon" style={{ width: '24px', marginRight: '13px' }} />
@@ -167,7 +286,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/transports"
-                            className={`sidebar-button ${activeLink === '/transports' ? 'active' : ''}`}
+                            className={`sidebar-button ${isDriverActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/transports')}
                         >
                             <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -177,7 +296,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/expenses"
-                            className={`sidebar-button ${activeLink === '/expenses' ? 'active' : ''}`}
+                            className={`sidebar-button ${isExpensesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/expenses')}
                         >
                             <FaFileInvoiceDollar style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
@@ -187,7 +306,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/earnings"
-                            className={`sidebar-button ${activeLink === '/earnings' ? 'active' : ''}`}
+                            className={`sidebar-button ${isearningsActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/earnings')}
                         >
                             <FaMoneyBillTrendUp style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>

@@ -14,6 +14,13 @@ const DriverSidebar = () => {
     const [transportId, setTransportId] = useState(null); // État pour stocker l'ID du transport
     const [error, setError] = useState(null); // État pour les erreurs
 
+    const isTransportActive = () => {
+        const paths = [
+            '/transport-driver', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
     // Récupérer l'ID du chauffeur depuis les cookies
     const driverId = Cookies.get('TeacherId');
 
@@ -45,7 +52,7 @@ const DriverSidebar = () => {
                     <li>
                         <Link
                             to={`/transport-driver/${transportId}`} // Lien dynamique avec l'ID du transport
-                            className={`sidebar-button ${activeLink === `/transport/${transportId}` ? 'active' : ''}`}
+                            className={`sidebar-button ${isTransportActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink(`/transport-driver/${transportId}`)}
                         >
                         <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>

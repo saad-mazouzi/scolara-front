@@ -73,10 +73,10 @@ const TimetableParent= () => {
         });
 
         timetableSessions.forEach(session => {
-            const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#4e7dad" size={8} />;
+            const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#ffcc00" size={8} />;
             const teacher = teachers.find(teach => teach.id === session.teacher);
-            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#4e7dad" size={8} />;
-            const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#4e7dad" size={8} />;
+            const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#ffcc00" size={8} />;
+            const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#ffcc00" size={8} />;
 
             const timeSlot = `${session.start_time.slice(0, 5)} - ${session.end_time.slice(0, 5)}`;
             if (organizedSchedule[session.day]) {

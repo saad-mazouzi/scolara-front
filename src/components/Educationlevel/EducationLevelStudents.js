@@ -5,6 +5,7 @@ import { fetchStudentsByEducationLevel } from '../../APIServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
 import './EducationLevel.css';
+import { PuffLoader } from 'react-spinners';
 
 const EducationLevelStudents = () => {
     const { id } = useParams(); // Récupérer l'id du niveau d'éducation depuis l'URL
@@ -116,7 +117,11 @@ const EducationLevelStudents = () => {
     
     
     if (loading) {
-        return <div>Chargement...</div>;
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
     }
 
     if (error) {

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { fetchStudentGrades, fetchStudentControls } from '../../APIServices';
 import './Grades.css';
+import { ScaleLoader } from 'react-spinners';
 
 const StudentGrades = () => {
     const { subjectId } = useParams(); // ID du sujet cliqué depuis l'URL
@@ -73,7 +74,15 @@ const StudentGrades = () => {
         }
     }, [grades, controls]);
 
-    if (loading) return <p>Chargement des notes...</p>;
+   
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>{error}</p>;
 
     return (

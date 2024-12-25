@@ -4,6 +4,7 @@ import { fetchStudentCourseFiles } from '../../APIServices';
 import './Course.css';
 import image1 from '../../images/test4.jpg'; // Exemple d'image
 import { FaTimes } from 'react-icons/fa'; // Icône pour fermer la modal
+import { ScaleLoader } from 'react-spinners';
 
 // Liste d'images pour générer des images aléatoires
 const images = [image1];
@@ -76,7 +77,14 @@ const StudentCourseFiles = () => {
         }
     };
 
-    if (loading) return <p>Chargement des fichiers...</p>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <ScaleLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>{error}</p>;
 
     return (

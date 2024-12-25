@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { fetchStudentSubjects } from '../../APIServices';
 import './Course.css'; // Assurez-vous que votre fichier CSS est correctement importé
+import { PuffLoader } from 'react-spinners';
 
 const StudentSubjects = () => {
     const [subjects, setSubjects] = useState([]);
@@ -36,7 +37,14 @@ const StudentSubjects = () => {
         navigate(`/student-courses/${courseId}/files`);
     };
 
-    if (loading) return <p>Chargement des matières...</p>;
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
+
     if (error) return <p>Erreur lors du chargement des matières : {error.message}</p>;
 
     return (

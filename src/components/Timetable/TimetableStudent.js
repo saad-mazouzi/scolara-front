@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { fetchTeachers, fetchClassrooms, fetchSubjects, fetchTimeSlots } from '../../APIServices';
 import axios from 'axios';
 import '../Timetable/Timetable.css';
+import { PulseLoader , PuffLoader } from 'react-spinners';
 
 const TimetableStudent = () => {
     const [teachers, setTeachers] = useState([]);
@@ -14,6 +15,8 @@ const TimetableStudent = () => {
     const [SchoolId, setSchoolId] = useState(Cookies.get('SchoolId') || '');
     const [timeSlots, setTimeSlots] = useState([]); // Time slots dynamiques
     const teacherEducationLevel = Cookies.get('education_level'); 
+    const [loadingEducationLevel, setLoadingEducationLevel] = useState(true);
+    const [loadingtimetableSessions, setLoadingtimetableSessions] = useState(true);
 
     const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
@@ -37,6 +40,8 @@ const TimetableStudent = () => {
             setTimetableSessions(filteredSessions);
         } catch (error) {
             console.error("Erreur lors de la récupération des sessions d'emploi du temps:", error);
+        } finally {
+            setLoadingtimetableSessions(false);
         }
     };
 
@@ -44,6 +49,7 @@ const TimetableStudent = () => {
         try {
             const response = await axios.get(`https://scolara-backend.onrender.com/api/educationlevel/${teacherEducationLevel}/`);
             setEducationLevelName(response.data.name || 'Niveau inconnu');
+            setLoadingEducationLevel(false);
         } catch (error) {
             console.error("Erreur lors de la récupération du niveau d'éducation:", error);
             setEducationLevelName('Niveau inconnu');
@@ -90,10 +96,10 @@ const TimetableStudent = () => {
                 t => t.start_time === session.start_time && t.end_time === session.end_time
             );
             if (slot && organizedSchedule[session.day]) {
-                const subject = subjects.find(subj => subj.id === session.subject)?.name || "Matière inconnue";
+                const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#ffcc00" size={8} />;
                 const teacher = teachers.find(teach => teach.id === session.teacher);
-                const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : "Enseignant inconnu";
-                const classroom = classrooms.find(room => room.id === session.classroom)?.name || "Salle inconnue";
+                const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#ffcc00" size={8} />;
+                const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#ffcc00" size={8} />;
 
                 organizedSchedule[session.day][slot.id] = { subject, teacherName, classroom };
             }
@@ -111,7 +117,21 @@ const TimetableStudent = () => {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-                <h4>Niveau d'éducation : {educationLevelName}</h4>
+                <h4 style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                    Niveau d'éducation : 
+                    {loadingEducationLevel ? (
+                        <PulseLoader size={8} color="#ffcc00" />
+                    ) : (
+                        <span>{educationLevelName}</span>
+                    )}
+                </h4>
+
+                {loadingtimetableSessions ? (
+                    // Affiche le loader pendant le chargement des données
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                        <PuffLoader color="#007bff" size={60} />
+                    </div>
+                ) : (
                 <table border="1" style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
                     <thead>
                         <tr>
@@ -142,6 +162,7 @@ const TimetableStudent = () => {
                         ))}
                     </tbody>
                 </table>
+                )}
             </div>
             <div className='whitetext'>Scolara</div>
         </div>

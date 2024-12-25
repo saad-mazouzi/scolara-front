@@ -463,7 +463,7 @@ const StudentList = () => {
             Générer un mot de passe
           </button>
           <button type="submit" className="create-student-student-button">
-            {editStudentData ? 'Modifier l\'Étudiant' : 'Créer l\'Étudiant'}
+            {editStudentData ? 'Modifier l\'Étudiant' : 'Créer l\'Étudiant(e)'}
           </button>
         </form>
       )}

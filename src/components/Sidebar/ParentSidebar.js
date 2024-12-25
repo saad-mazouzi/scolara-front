@@ -26,7 +26,7 @@ const ParentSidebar = () => {
                         <Link
                             to={`/parent-timetable/${encodeURIComponent(parentKey)}`}
                             className={`sidebar-button ${activeLink === '/parent-timetable' ? 'active' : ''}`}
-                            onClick={() => setActiveLink(`/parent-timetable/${encodeURIComponent(parentKey)}`)}
+                            onClick={() => setActiveLink(`/parent-timetable`)}
                         >
                             <GrTableAdd style={{ color: "#4e7dad", marginRight: '13px', fontSize: '26px' }} />
                             Emploi du temps

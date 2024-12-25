@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Sidebar.css'; // Réutilise le même style que le Sidebar admin
 import logo from '../../images/logo.png';
 import { RiPagesFill } from "react-icons/ri";
@@ -8,8 +8,32 @@ import { GrTableAdd } from "react-icons/gr";
 import { Link, useLocation } from 'react-router-dom';
 
 const StudentSidebar = () => {
-    const location = useLocation(); // Utiliser useLocation pour obtenir le chemin actuel
-    const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
+    const location = useLocation(); // Utilise useLocation pour obtenir le chemin actuel
+
+    // Fonction utilitaire pour vérifier les chemins
+    const isCoursesActive = () => {
+        const paths = [
+            '/courses-student', // Chemin principal
+            '/student-courses', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isGradesActive = () => {
+        const paths = [
+            '/grades-student', // Chemin principal
+            '/student-grades', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isChatActive = () => {
+        const paths = [
+            '/chat-student', // Chemin principal
+            '/users-student', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
 
     return (
         <div className="sidebar">
@@ -21,8 +45,7 @@ const StudentSidebar = () => {
                     <li>
                         <Link
                             to="/student-timetable"
-                            className={`sidebar-button ${activeLink === '/student-timetable' ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/timetable')}
+                            className={`sidebar-button ${location.pathname === '/student-timetable' ? 'active' : ''}`}
                         >
                             <GrTableAdd style={{ color: "#4e7dad", marginRight: '13px', fontSize: '26px' }} />
                             Emploi du temps
@@ -31,8 +54,7 @@ const StudentSidebar = () => {
                     <li>
                         <Link
                             to="/courses-student"
-                            className={`sidebar-button ${activeLink === '/courses-student' ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/courses')}
+                            className={`sidebar-button ${isCoursesActive() ? 'active' : ''}`}
                         >
                             <RiPagesFill style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Cours
@@ -41,8 +63,7 @@ const StudentSidebar = () => {
                     <li>
                         <Link
                             to="/grades-student"
-                            className={`sidebar-button ${activeLink === '/grades-student' ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/grades')}
+                            className={`sidebar-button ${isGradesActive() ? 'active' : ''}`}
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Notes
@@ -51,8 +72,7 @@ const StudentSidebar = () => {
                     <li>
                         <Link
                             to="/chat-student"
-                            className={`sidebar-button ${activeLink === '/chat-student' ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/chat')}
+                            className={`sidebar-button ${isChatActive() ? 'active' : ''}`}
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Chat

@@ -43,21 +43,14 @@ const DriverSidebar = () => {
             <nav className="sidebar-nav">
                 <ul>
                     <li>
-                        {transportId ? (
-                            <Link
-                                to={`/transport-driver/${transportId}`} // Lien dynamique avec l'ID du transport
-                                className={`sidebar-button ${activeLink === `/transport/${transportId}` ? 'active' : ''}`}
-                                onClick={() => setActiveLink(`/transport-driver/${transportId}`)}
-                            >
-                            <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
-                            Transport
-                            </Link>
-                        ) : (
-                            <span className="sidebar-button disabled">
-                                <IoCarSportOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
-                                Transport
-                            </span>
-                        )}
+                        <Link
+                            to={`/transport-driver/${transportId}`} // Lien dynamique avec l'ID du transport
+                            className={`sidebar-button ${activeLink === `/transport/${transportId}` ? 'active' : ''}`}
+                            onClick={() => setActiveLink(`/transport-driver/${transportId}`)}
+                        >
+                        <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                        Transport
+                        </Link>
                     </li>
                     {/* <li>
                         <Link

@@ -286,7 +286,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/transports"
-                            className={`sidebar-button ${isDriverActive() ? 'active' : ''}`}
+                            className={`sidebar-button ${isTransportActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/transports')}
                         >
                             <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>

@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { fetchTeachers, fetchClassrooms, fetchSubjects } from '../../APIServices';
 import axios from 'axios';
 import '../Timetable/Timetable.css';
-import { PulseLoader } from 'react-spinners';
+import { PulseLoader,PuffLoader } from 'react-spinners';
 
 const TimetableParent= () => {
     const [teachers, setTeachers] = useState([]);
@@ -14,6 +14,7 @@ const TimetableParent= () => {
     const [educationLevelName, setEducationLevelName] = useState(''); // Pour le nom du niveau d'éducation
     const [SchoolId, setSchoolId] = useState(Cookies.get('SchoolId') || '');
     const [loadingEducationLevel, setLoadingEducationLevel] = useState(true);
+    const [loadingtimetableSessions, setLoadingtimetableSessions] = useState(true);
     // const teacherId = Cookies.get('TeacherId'); // ID de l'enseignant connecté
     const teacherEducationLevel = Cookies.get('education_level'); // Niveau d'éducation de l'enseignant
 
@@ -27,6 +28,7 @@ const TimetableParent= () => {
                 session => session.education_level === parseInt(teacherEducationLevel)
             );
             setTimetableSessions(filteredSessions);
+            setLoadingtimetableSessions(false);
         } catch (error) {
             console.error("Erreur lors de la récupération des sessions d'emploi du temps:", error);
         }
@@ -104,6 +106,12 @@ const TimetableParent= () => {
                         <span>{educationLevelName}</span>
                     )}
                 </h4>
+                {loadingtimetableSessions ? (
+                    // Affiche le loader pendant le chargement des données
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                        <PuffLoader color="#007bff" size={60} />
+                    </div>
+                ) : (
                 <table border="1" style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
                     <thead>
                         <tr>
@@ -134,6 +142,7 @@ const TimetableParent= () => {
                         ))}
                     </tbody>
                 </table>
+                )}
             </div>
             <div className='whitetext'>Scolara</div>
            </div>

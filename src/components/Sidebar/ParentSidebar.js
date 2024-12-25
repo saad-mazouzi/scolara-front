@@ -15,6 +15,29 @@ const ParentSidebar = () => {
     // Récupérer la clé parent_key des cookies
     const parentKey = Cookies.get('parent_key');
 
+    const isTimetableActive = () => {
+        const paths = [
+            '/parent-timetable', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isGradesActive = () => {
+        const paths = [
+            '/parent-grades',
+            '/grades-parent' ,
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isChatActive = () => {
+        const paths = [
+            '/chat-parent',
+            '/users-parent' ,
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+    
     return (
         <div className="sidebar">
             <div className="logo">
@@ -25,7 +48,7 @@ const ParentSidebar = () => {
                     <li>
                         <Link
                             to={`/parent-timetable/${encodeURIComponent(parentKey)}`}
-                            className={`sidebar-button ${activeLink === '/parent-timetable' ? 'active' : ''}`}
+                            className={`sidebar-button ${isTimetableActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink(`/parent-timetable`)}
                         >
                             <GrTableAdd style={{ color: "#4e7dad", marginRight: '13px', fontSize: '26px' }} />
@@ -35,7 +58,7 @@ const ParentSidebar = () => {
                     <li>
                         <Link
                             to={`/grades-parent/${encodeURIComponent(parentKey)}`}
-                            className={`sidebar-button ${activeLink === '/grades-parent' ? 'active' : ''}`}
+                            className={`sidebar-button ${isGradesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/grades-parent')}
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
@@ -45,7 +68,7 @@ const ParentSidebar = () => {
                     <li>
                         <Link
                             to="/chat-parent"
-                            className={`sidebar-button ${activeLink === '/chat-parent' ? 'active' : ''}`}
+                            className={`sidebar-button ${isChatActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/chat-parent')}
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />

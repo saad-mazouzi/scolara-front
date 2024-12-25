@@ -11,6 +11,38 @@ const TeacherSidebar = () => {
     const location = useLocation(); // Utiliser useLocation pour obtenir le chemin actuel
     const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
 
+
+    const isTimetableActive = () => {
+        const paths = [
+            '/timetable-teacher', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isCoursesActive = () => {
+        const paths = [
+            '/courses-teacher', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isGradesActive = () => {
+        const paths = [
+            '/grades-teacher', // Chemin principal
+            '/student-grades', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isChatActive = () => {
+        const paths = [
+            '/chat-teacher', // Chemin principal
+            '/users-teacher', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+
     return (
         <div className="sidebar">
             <div className="logo">
@@ -21,7 +53,7 @@ const TeacherSidebar = () => {
                     <li>
                         <Link
                             to="/timetable-teacher"
-                            className={`sidebar-button ${activeLink === '/timetable' ? 'active' : ''}`}
+                            className={`sidebar-button ${isTimetableActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/timetable')}
                         >
                             <GrTableAdd style={{ color: "#4e7dad", marginRight: '13px', fontSize: '26px' }} />
@@ -31,7 +63,7 @@ const TeacherSidebar = () => {
                     <li>
                         <Link
                             to="/courses-teacher"
-                            className={`sidebar-button ${activeLink === '/courses' ? 'active' : ''}`}
+                            className={`sidebar-button ${isCoursesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/courses')}
                         >
                             <RiPagesFill style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
@@ -41,7 +73,7 @@ const TeacherSidebar = () => {
                     <li>
                         <Link
                             to="/grades-teacher"
-                            className={`sidebar-button ${activeLink === '/grades' ? 'active' : ''}`}
+                            className={`sidebar-button ${isGradesActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/grades')}
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
@@ -51,7 +83,7 @@ const TeacherSidebar = () => {
                     <li>
                         <Link
                             to="/chat-teacher"
-                            className={`sidebar-button ${activeLink === '/chat' ? 'active' : ''}`}
+                            className={`sidebar-button ${isChatActive() ? 'active' : ''}`}
                             onClick={() => setActiveLink('/chat')}
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />

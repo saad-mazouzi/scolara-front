@@ -1205,9 +1205,12 @@ export const updateEvent = async (eventId, updatedEventData) => {
 };
 
 // Fonction pour supprimer un événement
-export const deleteEvent = async (eventId) => {
+export const deleteEvent = async (eventId, schoolId) => {
     try {
-        await axiosInstance.delete(`/events/${eventId}/`);
+        await axiosInstance.delete(`/events/${eventId}/`, {
+            params: { school_id: schoolId },
+        });
+        console.log(`Événement ${eventId} supprimé avec succès.`);
     } catch (error) {
         console.error("Erreur lors de la suppression de l'événement:", error);
         throw error;

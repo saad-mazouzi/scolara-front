@@ -67,28 +67,40 @@ const Dashboard = () => {
 
     const handleEventSubmit = async (e) => {
         e.preventDefault();
-
+    
         const formattedDate = selectedDate.toLocaleDateString('fr-CA');
         const eventData = {
             title: newEvent.title,
             description: newEvent.description,
             date: formattedDate,
+            school: schoolId, // Ajout de school_id
         };
-
+    
+        console.log("Données envoyées :", eventData);
+    
         try {
-            const response = await axiosInstance.post(`/events/?school_id=${schoolId}`, eventData);
+            const response = await axiosInstance.post(`/events/`, eventData);
             setEvents([...events, response.data]);
             setNewEvent({ title: '', description: '' });
             setShowForm(false);
         } catch (error) {
-            console.error("Erreur lors de la création de l'événement:", error);
+            console.error("Erreur lors de la création de l'événement :", error);
         }
     };
+    
+    
 
     const handleDeleteEvent = async (eventId) => {
         try {
-            await deleteEvent(eventId);
-            setEvents(events.filter(event => event.id !== eventId));
+            const schoolId = Cookies.get('SchoolId'); // Récupère le schoolId depuis les cookies
+            if (!schoolId) {
+                console.error("Erreur : L'ID de l'école (schoolId) est introuvable dans les cookies.");
+                return;
+            }
+    
+            await deleteEvent(eventId, schoolId); // Passe le schoolId comme paramètre
+            setEvents(events.filter(event => event.id !== eventId)); // Met à jour la liste des événements
+            console.log(`Événement ${eventId} supprimé avec succès.`);
         } catch (error) {
             console.error("Erreur lors de la suppression de l'événement:", error);
         }

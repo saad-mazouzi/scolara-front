@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader , PulseLoader } from 'react-spinners';
 
 const Subject = () => {
     const [cookies] = useCookies(['SchoolId']);
@@ -62,7 +62,7 @@ const Subject = () => {
 
     const getEducationLevelName = (id) => {
         const level = educationLevels.find(level => level.id === id);
-        return level ? level.name : 'N/A';
+        return level ? level.name : <PulseLoader   color="#4e7dad" size={8} />;
     };
 
     const handleSearchChange = (e) => {

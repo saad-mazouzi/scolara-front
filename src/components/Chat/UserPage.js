@@ -132,6 +132,8 @@ const UsersPage = () => {
                 case 4: // Parents
                     navigate(`/chat-parent/${chatRoom.id}`);
                     break;
+                case 5:
+                    navigate(`/chat-driver/${chatRoom.id}`);
                 default:
                     console.error("Rôle non reconnu");
                     break;

@@ -92,7 +92,7 @@ const Navbar = () => {
         } else if (userRole === 4) {
             navigate(`parent-profile/${teacherId}`);
         } else if (userRole === 5) {
-            navigate(`transport-station/${teacherId}`);
+            navigate(`driver-profile/${teacherId}`);
         } else {
             console.warn("Rôle inconnu ou utilisateur non authentifié");
         }

@@ -61,7 +61,7 @@ import RolesCards from './components/Chat/RolesCards';
 import UsersPage from './components/Chat/UserPage';
 import StudentBulletins from './components/Bulletin/StudentBulletins';
 import BulletinHeader from './components/Bulletin/BulletinHeader';
-
+import DriverProfileNavbar from './components/Drivers/DriverProfile';
 
 function Router() {
     return (
@@ -132,6 +132,10 @@ function Router() {
 
                     <Route path="/" element={<DriverLayout />}>
                         <Route path="/transport-driver/:id" element={<TransportDetails />} />
+                        <Route path="/driver-profile/:id" element={<DriverProfileNavbar />} />
+                        <Route path="/chat-driver" element={< RolesCards/>} />
+                        <Route path="/users-driver" element={<UsersPage />} />
+                        <Route path="/chat-driver/:chatRoomId" element={<ChatPage />} />
                     </Route>
                     <Route path="/student-info" element={<StudentInfo />} />
                     <Route path="/enter-secret-key" element={<SecretKeyPage/>} />

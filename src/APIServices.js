@@ -621,6 +621,16 @@ export const updateParentPassword = async (parentId, updatedData) => {
     }
 };
 
+export const updateDriverpassword = async (driverId, updatedData) => {
+    try {
+        const response = await axios.put(`https://scolara-backend.onrender.com/api/users/${driverId}/update_driver/`, updatedData);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour du chauffeur:", error);
+        throw error;
+    }
+};
+
 export const updateSchoolLogo = async (schoolId, formData) => {
     try {
         const response = await axios.put(`https://scolara-backend.onrender.com/api/school/${schoolId}/update_logo/`, formData, {
@@ -701,6 +711,7 @@ export const updateTeacherProfilePicture = async (teacherId, updatedData) => {
         throw error;
     }
 };
+
 
 export const updatestudentProfilePicture = async (studentId, updatedData) => {
     try {

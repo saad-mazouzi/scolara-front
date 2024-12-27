@@ -13,6 +13,13 @@ const DriverSidebar = () => {
     const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
     const [transportId, setTransportId] = useState(null); // État pour stocker l'ID du transport
     const [error, setError] = useState(null); // État pour les erreurs
+    const isChatActive = () => {
+        const paths = [
+            '/chat-driver',
+            '/users-driver' ,
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
 
     const isTransportActive = () => {
         const paths = [
@@ -59,16 +66,16 @@ const DriverSidebar = () => {
                         Transport
                         </Link>
                     </li>
-                    {/* <li>
+                    <li>
                         <Link
                             to="/chat-driver"
-                            className={`sidebar-button ${activeLink === '/chat-driver' ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/chat-driver')}
+                            className={`sidebar-button ${isChatActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/chat-parent')}
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Chat
                         </Link>
-                    </li> */}
+                    </li>
                 </ul>
             </nav>
             {error && <p className="error">{error}</p>} {/* Afficher l'erreur s'il y en a */}

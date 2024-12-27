@@ -34,13 +34,13 @@ const RolesCards = () => {
 
                 if (currentUserRole === '4') {
                     // Si l'utilisateur est Parent, afficher uniquement Administration et Enseignants
-                    const allowedRoles = ["Administrateur", "Enseignant"];
+                    const allowedRoles = ["Administrateur", "Enseignant","Chauffeur"];
                     filteredRoles = fetchedRoles.filter((role) =>
                         allowedRoles.includes(role.name)
                     );
                 } else if (currentUserRole === '2') {
                     // Si l'utilisateur est Étudiant, afficher certains rôles
-                    const allowedRoles = ["Administrateur", "Enseignant", "Étudiant"];
+                    const allowedRoles = ["Administrateur", "Enseignant", "Étudiant","Chauffeur"];
                     filteredRoles = fetchedRoles.filter((role) =>
                         allowedRoles.includes(role.name)
                     );
@@ -81,6 +81,9 @@ const RolesCards = () => {
         }else if (currentUserRole === '4') {
             // Redirige vers /users-teacher si le rôle connecté est Teacher
             navigate(`/users-parent?role_id=${roleId}`);
+        } else if (currentUserRole === '5') {
+            // Redirige vers /users-teacher si le rôle connecté est Teacher
+            navigate(`/users-driver?role_id=${roleId}`);
         } else {
             // Redirige vers /users pour tous les autres cas
             navigate(`/users?role_id=${roleId}`);

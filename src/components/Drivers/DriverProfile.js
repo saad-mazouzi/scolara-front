@@ -205,7 +205,6 @@ const DriverProfileNavbar = () => {
                         </button>
                     </div>
                 </div>
-                <div className='left-text'><strong>Nombre d'absences : {absencesNumber !== null ? absencesNumber : 0}</strong></div>
             </div>
         </div>
     );

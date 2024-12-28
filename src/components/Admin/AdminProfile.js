@@ -110,7 +110,7 @@ const AdminProfile = () => {
         try {
             const updatedData = await updateAdminProfilePicture(TeacherId, formData);
             const newProfilePicturePath = updatedData.profile_picture;
-            setProfilePicture(`https://scolara-backend.onrender.com${newProfilePicturePath}`);
+            setProfilePicture(`${newProfilePicturePath}`);
             setNewProfilePicture(null);
             setCookie('profilePicture', encodeURIComponent(newProfilePicturePath), { path: '/' });
             setAlertMessage('Photo de profil mise à jour avec succès.');

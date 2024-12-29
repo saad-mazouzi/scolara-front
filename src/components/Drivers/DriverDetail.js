@@ -112,7 +112,7 @@ const DriverProfile = () => {
           <div className="driver-profile-picture">
             {driver.profile_picture ? (
               <img
-                src={`https://scolara-backend.onrender.com${driver.profile_picture}`}
+                src={`${driver.profile_picture}`}
                 alt={`${driver.first_name} ${driver.last_name}`}
                 style={{ width: '150px', height: '150px', borderRadius: '50%' }}
               />

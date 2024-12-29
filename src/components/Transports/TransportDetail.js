@@ -51,7 +51,7 @@ const TransportDetails = () => {
             return student
                 ? {
                       name: `${student.first_name} ${student.last_name}`,
-                      profile_picture: student.profile_picture ? `https://scolara-backend.onrender.com${student.profile_picture}` : '',
+                      profile_picture: student.profile_picture ? `${student.profile_picture}` : '',
                   }
                 : { name: 'Nom inconnu', profile_picture: '' };
         });

@@ -83,7 +83,7 @@ export const fetchStudents = async () => {
           throw new Error("Le cookie 'SchoolId' est introuvable.");
         }
         
-        const response = await axiosInstance.get(`${API_URL}/users/get_students/?school_id=${schoolId}`);
+        const response = await axios.get(`${API_URL}/users/get_students/?school_id=${schoolId}`);
         return response.data;  // Retourne la liste des étudiants
     } catch (error) {
         console.error('Erreur lors de la récupération des étudiants :', error);

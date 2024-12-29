@@ -43,7 +43,7 @@ const AdminProfile = () => {
                 // Récupération des données de l'administrateur
                 const adminResponse = await axiosInstance.get(`users/${TeacherId}/retrieve_admin/`);
                 const { profile_picture, first_name, last_name } = adminResponse.data;
-                setProfilePicture(profile_picture ? `https://scolara-backend.onrender.com${profile_picture}` : '');
+                setProfilePicture(profile_picture ? `${profile_picture}` : '');
                 setUserName(`${first_name} ${last_name}`);
     
                 // Récupération des données de l'école
@@ -67,6 +67,10 @@ const AdminProfile = () => {
     useEffect(() => {
         console.log("Chemin du logo de l'école:", schoolLogo);
     }, [schoolLogo]);
+
+    useEffect(() => {
+        console.log ('le chemin du photo de profil est :', profilePicture);
+    }, [profilePicture]);
     
     
     useEffect(() => {
@@ -142,7 +146,7 @@ const AdminProfile = () => {
     
             // Mise à jour du logo dans l'état après succès
             const newSchoolLogoPath = updatedData.logo; // Chemin relatif renvoyé par le backend
-            setSchoolLogo(`https://scolara-backend.onrender.com${newSchoolLogoPath}`);
+            setSchoolLogo(`${newSchoolLogoPath}`);
             setNewSchoolLogo(null);
             setAlertMessage('Logo de l\'école mis à jour avec succès.');
             setAlertType('success');

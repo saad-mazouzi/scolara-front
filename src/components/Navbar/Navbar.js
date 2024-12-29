@@ -23,7 +23,8 @@ const Navbar = () => {
 
     useEffect(() => {
         if (cookies.profilePicture) {
-            setProfilePicture(decodeURIComponent(`https://scolara-backend.onrender.com${cookies.profilePicture}`));
+            setProfilePicture(decodeURIComponent(`${cookies.profilePicture}`));
+            console.log("Profile picture du navbar:", profilePicture);
         }
 
         const fetchNotifications = async () => {

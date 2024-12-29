@@ -130,11 +130,16 @@ const Signup = () => {
         }        
     
         if (formData.profilePicture) {
+            console.log("Fichier de la photo de profil : ", formData.profilePicture);
             userData.append('profile_picture', formData.profilePicture);
+        } else {
+            console.log("Aucune photo de profil n'a été sélectionnée.");
         }
-        console.log(formData.profilePicture);
-        console.log(userData.get('profile_picture'));
-    
+        
+        for (let [key, value] of userData.entries()) {
+            console.log(`${key}:`, value); // Vérifiez toutes les données envoyées
+        }
+        
         try {
             if (formData.role === '3') {
                 // Appeler createTeacher si le rôle est Teacher

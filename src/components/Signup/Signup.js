@@ -132,6 +132,8 @@ const Signup = () => {
         if (formData.profilePicture) {
             userData.append('profile_picture', formData.profilePicture);
         }
+        console.log(formData.profilePicture);
+        console.log(userData.get('profile_picture'));
     
         try {
             if (formData.role === '3') {

@@ -9,7 +9,7 @@ import * as XLSX from 'xlsx'; // Import XLSX
 import { ClockLoader } from 'react-spinners';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import {PuffLoader ,PulseLoader} from 'react-spinners';
+import {PuffLoader ,PulseLoader, MoonLoader} from 'react-spinners';
 
 
 const TeacherList = () => {
@@ -20,6 +20,8 @@ const TeacherList = () => {
   const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
   const itemsPerPage = 4; // Nombre d'étudiants par page
   const [error, setError] = useState(null);
+  const [loadingForm, setLoadingForm] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [shouldRefresh, setShouldRefresh] = useState(false); // Nouvel état pour rafraîchir les données
   const [newTeacherData, setNewTeacherData] = useState({
     first_name: '',
@@ -242,14 +244,18 @@ const downloadXLSX = () => {
   };
 
   const handleDeleteClick = async (teacherId) => {
+    setLoadingDelete(true); // Activer le loader
     try {
-      await deleteTeacher(teacherId);
-      const updatedTeachers = teachers.filter(teacher => teacher.id !== teacherId);
-      setTeachers(updatedTeachers);
+        await deleteTeacher(teacherId);
+        const updatedTeachers = teachers.filter(teacher => teacher.id !== teacherId);
+        setTeachers(updatedTeachers);
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'enseignant:', error);
+        console.error('Erreur lors de la suppression de l\'enseignant:', error);
+    } finally {
+        setLoadingDelete(false); // Désactiver le loader
     }
-  };
+};
+
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -274,7 +280,7 @@ const downloadXLSX = () => {
       teacherData.append('subject', newTeacherData.subject);
       teacherData.append('password', newTeacherData.password); // Vérifiez si le mot de passe est bien inclus
 
-      console.log('Données envoyées à l\'API :', Object.fromEntries(teacherData.entries()));
+      setLoadingForm(true); // Démarrer le spinner
 
       try {
           if (editTeacherData) {
@@ -299,8 +305,11 @@ const downloadXLSX = () => {
           setShouldRefresh((prev) => !prev);
       } catch (error) {
           console.error('Erreur lors de la création ou de la modification de l\'enseignant:', error);
+      } finally {
+          setLoadingForm(false); // Arrêter le spinner
       }
   };
+
 
 
   const handleEditClick = (teacher) => {
@@ -512,11 +521,27 @@ const downloadXLSX = () => {
             <FontAwesomeIcon icon={faRobot} className="icon" />
             Générer un mot de passe
           </button>
-          <button type="submit" className="create-student-button">
-            {editTeacherData ? 'Modifier l\'Enseignant' : 'Créer l\'Enseignant'}
+          <button type="submit" className="create-student-button" disabled={loadingForm}>
+              {loadingForm ? (
+                    <div className="overlay-loader">
+                        <div className="CRUD-loading-container">
+                            <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                        </div>
+                    </div>
+              ) : (
+                  editTeacherData ? 'Modifier l\'Enseignant' : 'Créer l\'Enseignant'
+              )}
           </button>
         </form>
       )}
+      {loadingDelete && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+              </div>
+          </div>
+      )}
+
       <div className='whitetext'>Scolara</div>
     </div>
   );

@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { PuffLoader , PulseLoader } from 'react-spinners';
+import { PuffLoader , PulseLoader , MoonLoader} from 'react-spinners';
 
 const Subject = () => {
     const [cookies] = useCookies(['SchoolId']);
@@ -24,6 +24,9 @@ const Subject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editSubjectId, setEditSubjectId] = useState('');
     const [editSubjectName, setEditSubjectName] = useState('');
+    const [loadingCreate, setLoadingCreate] = useState(false);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
     const [editCoefficient, setEditCoefficient] = useState(''); // Coefficient in edit modal
     const [editEducationLevel, setEditEducationLevel] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -76,6 +79,7 @@ const Subject = () => {
 
     const handleCreate = async () => {
         if (!newSubject.trim() || !selectedEducationLevel || !newCoefficient.trim()) return;
+        setLoadingCreate(true);
         try {
             const created = await addSubject({ 
                 name: newSubject, 
@@ -90,6 +94,8 @@ const Subject = () => {
             setSelectedEducationLevel('');
         } catch (error) {
             console.error("Erreur lors de la création du sujet : ", error);
+        } finally {
+            setLoadingCreate(false);
         }
     };
 
@@ -102,6 +108,7 @@ const Subject = () => {
     };
 
     const handleModalUpdate = async () => {
+        setLoadingUpdate(true);
         try {
             const updated = await updateSubject(editSubjectId, { 
                 name: editSubjectName, 
@@ -118,6 +125,8 @@ const Subject = () => {
             setEditEducationLevel('');
         } catch (error) {
             console.error("Erreur lors de la mise à jour du sujet : ", error);
+        } finally {
+            setLoadingUpdate(false);
         }
     };
 
@@ -130,12 +139,15 @@ const Subject = () => {
     }
 
     const handleDelete = async (id) => {
+        setLoadingDelete(true);
         try {
             await deleteSubject(id);
             setSubjects(subjects.filter(subject => subject.id !== id));
             setFilteredSubjects(filteredSubjects.filter(subject => subject.id !== id));
         } catch (error) {
             console.error("Erreur lors de la suppression du sujet : ", error);
+        } finally {
+            setLoadingDelete(false);
         }
     };
 
@@ -275,6 +287,30 @@ const Subject = () => {
                     </div>
                 </div>
             )}
+            {loadingCreate && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingCreate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingUpdate && (
+            <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingUpdate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingDelete && (
+            <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

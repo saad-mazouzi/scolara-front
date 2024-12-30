@@ -10,7 +10,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import './EducationLevel.css';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader,MoonLoader } from 'react-spinners';
+
 
 const EducationLevel = () => {
     const [loading, setLoading] = useState(true);
@@ -23,6 +24,9 @@ const EducationLevel = () => {
     const [editLevelName, setEditLevelName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [loadingCreate, setLoadingCreate] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
     const itemsPerPage = 4;
     const navigate = useNavigate();
 
@@ -53,11 +57,25 @@ const EducationLevel = () => {
 
     const handleCreate = async () => {
         const schoolId = cookies.SchoolId;
-        const created = await createEducationLevel({ name: newLevel, school: schoolId });
-        setLevels([...levels, created]);
-        setFilteredLevels([...filteredLevels, created]);
-        setNewLevel('');
+        if (!schoolId) {
+            console.error("Aucun ID d'école trouvé dans les cookies.");
+            return;
+        }
+    
+        setLoadingCreate(true); // Activer le loader
+    
+        try {
+            const created = await createEducationLevel({ name: newLevel, school: schoolId });
+            setLevels([...levels, created]);
+            setFilteredLevels([...filteredLevels, created]);
+            setNewLevel('');
+        } catch (error) {
+            console.error('Erreur lors de la création du niveau d\'éducation :', error);
+        } finally {
+            setLoadingCreate(false); // Désactiver le loader
+        }
     };
+    
 
     const handleUpdate = (id, name) => {
         setEditLevelId(id);
@@ -66,19 +84,35 @@ const EducationLevel = () => {
     };
 
     const handleModalUpdate = async () => {
-        const updated = await updateEducationLevel(editLevelId, { name: editLevelName, school: cookies.SchoolId });
-        setLevels(levels.map(level => (level.id === editLevelId ? updated : level)));
-        setFilteredLevels(filteredLevels.map(level => (level.id === editLevelId ? updated : level)));
-        setIsModalOpen(false);
-        setEditLevelId('');
-        setEditLevelName('');
+        setLoadingUpdate(true); // Activer le loader
+        try {
+            const updated = await updateEducationLevel(editLevelId, { name: editLevelName, school: cookies.SchoolId });
+            setLevels(levels.map(level => (level.id === editLevelId ? updated : level)));
+            setFilteredLevels(filteredLevels.map(level => (level.id === editLevelId ? updated : level)));
+            setIsModalOpen(false);
+            setEditLevelId('');
+            setEditLevelName('');
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du niveau d\'éducation :', error);
+        } finally {
+            setLoadingUpdate(false); // Désactiver le loader
+        }
     };
+    
 
     const handleDelete = async (id) => {
-        await deleteEducationLevel(id);
-        setLevels(levels.filter(level => level.id !== id));
-        setFilteredLevels(filteredLevels.filter(level => level.id !== id));
+        setLoadingDelete(true); // Activer le loader
+        try {
+            await deleteEducationLevel(id);
+            setLevels(levels.filter(level => level.id !== id));
+            setFilteredLevels(filteredLevels.filter(level => level.id !== id));
+        } catch (error) {
+            console.error('Erreur lors de la suppression du niveau d\'éducation :', error);
+        } finally {
+            setLoadingDelete(false); // Désactiver le loader
+        }
     };
+    
 
     const handleNavigate = (id) => {
         navigate(`/education-level-students/${id}`);
@@ -200,7 +234,32 @@ const EducationLevel = () => {
                     </div>
                 </div>
             )}
+            {loadingCreate && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingCreate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingUpdate && (
+            <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingUpdate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingDelete && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+                    </div>
+                </div>
+            )}
+
         </div>
+        
     );
 };
 

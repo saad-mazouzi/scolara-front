@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx'; // Import XLSX
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader,MoonLoader } from 'react-spinners';
 
 
 
@@ -16,7 +16,9 @@ const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [educationLevels, setEducationLevels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingForm, setLoadingForm] = useState(false);
   const navigate = useNavigate();
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
   const itemsPerPage = 4; // Nombre d'étudiants par page
   const [error, setError] = useState(null);
@@ -112,13 +114,16 @@ const StudentList = () => {
   };
 
   const handleDeleteClick = async (studentId) => {
+    setLoadingDelete(true); // Activer le loader
     try {
       await deleteStudent(studentId);
       const updatedStudents = students.filter(student => student.id !== studentId);
       setStudents(updatedStudents);
     } catch (error) {
       console.error('Erreur lors de la suppression de l\'étudiant:', error);
-    }
+    } finally {
+      setLoadingDelete(false); // Désactiver le loader
+    } 
   };
 
   const handleSearchChange = (e) => {
@@ -173,6 +178,8 @@ const StudentList = () => {
         studentData.append('school', schoolId); // Ajout de l'ID de l'école
         studentData.append('education_level', newStudentData.education_level);
         studentData.append('gender', newStudentData.gender); // Ajout du genre
+        setLoadingForm(true); // Démarrer le spinner
+
 
         // Ajout du mot de passe s'il est généré
         if (newStudentData.password) {
@@ -210,6 +217,8 @@ const StudentList = () => {
         setEditStudentData(null);
     } catch (error) {
         console.error('Erreur lors de la création ou de la modification de l\'étudiant:', error);
+    } finally {        
+        setLoadingForm(false); // Arrêter le spinner
     }
 };
 
@@ -379,6 +388,15 @@ const StudentList = () => {
           Créer un Nouvel Étudiant
         </button>
       )}
+
+      {loadingDelete && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+              </div>
+          </div>
+      )}
+
       <div className='whitetext'>Scolara</div>
 
       {showForm && (
@@ -462,8 +480,16 @@ const StudentList = () => {
             <FontAwesomeIcon icon={faRobot} className="icon" />
             Générer un mot de passe
           </button>
-          <button type="submit" className="create-student-student-button">
-            {editStudentData ? 'Modifier l\'Étudiant' : 'Créer l\'Étudiant(e)'}
+          <button type="submit" className="create-student-button" disabled={loadingForm}>
+              {loadingForm ? (
+                    <div className="overlay-loader">
+                        <div className="CRUD-loading-container">
+                            <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                        </div>
+                    </div>
+              ) : (
+                  editStudentData ? 'Modifier l\'Étudiant' : 'Créer l\'Étudiant(e)'
+              )}
           </button>
         </form>
       )}

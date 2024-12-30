@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 
 
 const Classroom = () => {
@@ -20,6 +20,9 @@ const Classroom = () => {
     const [newLevel, setNewLevel] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editLevelId, setEditLevelId] = useState('');
+    const [loadingCreate, setLoadingCreate] = useState(false);  
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
     const [editLevelName, setEditLevelName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // État pour la page actuelle
@@ -57,6 +60,7 @@ const Classroom = () => {
 
     const handleCreate = async () => {
         if (!newLevel.trim()) return;
+        setLoadingCreate(true);
         try {
             const created = await createClassrooms({ name: newLevel, school: schoolId });
             setLevels([...levels, created]);
@@ -64,6 +68,8 @@ const Classroom = () => {
             setNewLevel('');
         } catch (error) {
             console.error("Erreur lors de la création de la salle : ", error);
+        } finally {
+            setLoadingCreate(false);
         }
     };
 
@@ -74,6 +80,7 @@ const Classroom = () => {
     };
 
     const handleModalUpdate = async () => {
+        setLoadingUpdate(true);
         try {
             const updated = await updateClassrooms(editLevelId, { 
                 name: editLevelName, 
@@ -86,16 +93,21 @@ const Classroom = () => {
             setEditLevelName('');
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la salle : ", error);
+        } finally {
+            setLoadingUpdate(false);
         }
     };
 
     const handleDelete = async (id) => {
+        setLoadingDelete(true);
         try {
             await deleteClassrooms(id);
             setLevels(levels.filter(level => level.id !== id));
             setFilteredLevels(filteredLevels.filter(level => level.id !== id));
         } catch (error) {
             console.error("Erreur lors de la suppression de la salle : ", error);
+        } finally {
+            setLoadingDelete(false);    
         }
     };
 
@@ -211,6 +223,30 @@ const Classroom = () => {
                     </div>
                 </div>
             )}
+            {loadingCreate && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingCreate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingUpdate && (
+            <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingUpdate} />
+                    </div>
+                </div>
+            )}
+
+            {loadingDelete && (
+            <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+                    </div>
+                </div>
+            )}
+            
         </div>
     );
 };

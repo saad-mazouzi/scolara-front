@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faSearch, faRobot } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx';
 import './Parent.css';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 
 const ParentList = () => {
   const [parents, setParents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const[loadingDelete, setLoadingDelete] = useState(false); // État pour le chargement de la suppression
+  const [loadingForm, setLoadingForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,12 +51,15 @@ const ParentList = () => {
   };
 
   const handleDeleteClick = async (parentId) => {
+    setLoadingDelete(true);
     try {
       await deleteParent(parentId);
       const updatedParents = parents.filter(parent => parent.id !== parentId);
       setParents(updatedParents);
     } catch (error) {
       console.error('Erreur lors de la suppression du parent:', error);
+    } finally {
+      setLoadingDelete(false);
     }
   };
 
@@ -73,6 +78,7 @@ const ParentList = () => {
         parentData.append('email', newParentData.email);
         parentData.append('phone_number', newParentData.phone_number);
         parentData.append('school', schoolId);
+        setLoadingForm(true);
         if (newParentData.password) {
             parentData.append('password', newParentData.password);
         }
@@ -98,6 +104,8 @@ const ParentList = () => {
         });
     } catch (error) {
         console.error('Erreur lors de la création du parent:', error);
+    } finally {
+        setLoadingForm(false);
     }
 };
 
@@ -221,6 +229,15 @@ const ParentList = () => {
           ))}
         </tbody>
       </table>
+
+      {loadingDelete && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingDelete} />
+              </div>
+          </div>
+      )}
+      
       <div className='whitetext'>Scolara</div>
       <div className="pagination-controls-student">
         <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
@@ -313,8 +330,18 @@ const ParentList = () => {
             <FontAwesomeIcon icon={faRobot} className="icon" />
             Générer un mot de passe
           </button>
-            <button type="submit" className="create-student-student-button">Créer le Parent</button>
-          </form>
+          <button type="submit" className="create-student-button" disabled={loadingForm}>
+              {loadingForm ? (
+                    <div className="overlay-loader">
+                        <div className="CRUD-loading-container">
+                            <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                        </div>
+                    </div>
+              ) : (
+                  'Créer le parent'
+              )}
+          </button>
+        </form>
         )}
         <div className='whitetext'>Scolara</div>
       </div>

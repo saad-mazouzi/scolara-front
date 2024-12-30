@@ -8,7 +8,7 @@ import './Transports.css';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 
 
 const Transport = () => {
@@ -16,6 +16,7 @@ const Transport = () => {
     const [students, setStudents] = useState([]);
     const [drivers, setDrivers] = useState([]);
     const [stations, setStations] = useState([]);
+    const [loadingForm, setLoadingForm] = useState(false);
     const [editingTransportId, setEditingTransportId] = useState(null); // ID du transport en cours de modification
     const [newTransportData, setNewTransportData] = useState({
         name: '',
@@ -94,7 +95,7 @@ const Transport = () => {
             setError('ID de l\'école introuvable dans les cookies.');
             return;
         }
-
+        setLoadingForm(true);
         try {
             const transportData = {
                 ...newTransportData,
@@ -119,6 +120,8 @@ const Transport = () => {
             setStations([]);
         } catch (error) {
             console.error('Erreur lors de la création du transport:', error);
+        } finally {
+            setLoadingForm(false); 
         }
     };
 
@@ -190,6 +193,7 @@ const Transport = () => {
     };
     
     const handleDeleteTransport = async (transportId) => {
+        setLoadingForm(true);
         try {
             const transport = transports.find((t) => t.id === transportId);
     
@@ -213,6 +217,8 @@ const Transport = () => {
     
         } catch (error) {
             console.error('Erreur lors de la suppression du transport et de ses dépendances :', error);
+        } finally {
+            setLoadingForm(false);
         }
     };
     
@@ -398,9 +404,28 @@ const Transport = () => {
                     />
                 </div>
             ))}
+            <button type="submit" className="create-student-button" disabled={loadingForm}>
+              {loadingForm ? (
+                    <div className="overlay-loader">
+                        <div className="CRUD-loading-container">
+                            <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                        </div>
+                    </div>
+              ) : (
+                <>
+                    <i className="fas fa-plus"></i> Ajouter
+                </>
+            )}
+          </button>
 
-            <button type="submit" className="create-student-button"><i className="fas fa-plus"></i>Ajouter</button>
         </form>
+        {loadingForm && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+              </div>
+          </div>
+        )}
     </div>
 );
 };

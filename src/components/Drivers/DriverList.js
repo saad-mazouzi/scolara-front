@@ -7,11 +7,12 @@ import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } 
 import './Driver.css';
 import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader , MoonLoader} from 'react-spinners';
 
 const DriverList = () => {
     const [drivers, setDrivers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingForm, setLoadingForm] = useState(false);
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
     const itemsPerPage = 4; // Nombre d'étudiants par page
@@ -83,13 +84,17 @@ const DriverList = () => {
         }));
     };
 
-    const handleDeleteClick = async (driverId) => {
+    const handleDeleteClick = async (driverId,e) => {
+        e.stopPropagation(); // Empêche la propagation de l'événement
+        setLoadingForm(true);
         try {
             await deleteDriver(driverId);
             const updatedDrivers = drivers.filter(driver => driver.id !== driverId);
             setDrivers(updatedDrivers);
         } catch (error) {
             console.error('Erreur lors de la suppression du chauffeur:', error);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -113,7 +118,8 @@ const DriverList = () => {
         setCurrentPage(page);
     };
     
-    const handleEditClick = (driver) => {
+    const handleEditClick = (driver,e) => {
+        e.stopPropagation(); // Empêche la propagation de l'événement
         setEditDriverData(driver);
         setNewDriverData({
             first_name: driver.first_name,
@@ -181,6 +187,7 @@ const DriverList = () => {
 
       const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoadingForm(true);
         try {
             const schoolId = Cookies.get('SchoolId');
             if (!schoolId) {
@@ -226,6 +233,8 @@ const DriverList = () => {
             setEditDriverData(null);
         } catch (error) {
             console.error("Erreur lors de la création ou de la modification du chauffeur :", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
     
@@ -277,10 +286,16 @@ const DriverList = () => {
                             <td>{getPaymentStatus(driver.paid)}</td> {/* Statut de paiement */}
                             <td>
                                 <div className="action-buttons">
-                                    <button onClick={() => handleEditClick(driver)} className="edit-student-button">
+                                    <button 
+                                        onClick={(e) => handleEditClick(driver, e)} 
+                                        className="edit-student-button"
+                                    >
                                         Modifier
                                     </button>
-                                    <button onClick={() => handleDeleteClick(driver.id)} className="student-button-delete">
+                                    <button 
+                                        onClick={(e) => handleDeleteClick(driver.id, e)} 
+                                        className="student-button-delete"
+                                    >
                                         Supprimer
                                     </button>
                                 </div>
@@ -379,11 +394,28 @@ const DriverList = () => {
                         <FontAwesomeIcon icon={faRobot} className="icon" />
                         Générer un mot de passe
                     </button>
-                    <button type="submit" className="create-student-button">
-                        {editDriverData ? 'Modifier le Chauffeur' : 'Créer le Chauffeur'}
+                    <button type="submit" className="create-student-button" disabled={loadingForm}>
+                        {loadingForm ? (
+                                <div className="overlay-loader">
+                                    <div className="CRUD-loading-container">
+                                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                                    </div>
+                                </div>
+                        ) : (
+                            editDriverData ? 'Modifier le Chauffeur' : 'Créer le Chauffeur'
+                        )}
                     </button>
+
                 </form>
             )}
+             {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
             <div className='whitetext'>Scolara</div>
         </div>
     );

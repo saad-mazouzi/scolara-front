@@ -11,7 +11,7 @@ import {fetchTimeSlots,createTimeSlot,updateTimeSlot,deleteTimeSlot} from '../..
 import { MdOutlineSettings } from "react-icons/md";
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
 import { PuffLoader } from 'react-spinners';
-import {PulseLoader} from 'react-spinners';
+import {PulseLoader, MoonLoader} from 'react-spinners';
 
 
 
@@ -37,6 +37,9 @@ const Timetable = () => {
     const [newTimeSlot, setNewTimeSlot] = useState({ start: '', end: '' });
     const [editingTimeSlot, setEditingTimeSlot] = useState(null);
     const [timeSlots, setTimeSlots] = useState([]);
+    const [loadingaddtimeslot, setLoadingAddTimeSlot] = useState(false);
+    const [loadingeditimeslot, setLoadingEditTimeSlot] = useState(false);
+    const [loadingdeletetimeslot, setLoadingDeleteTimeSlot] = useState(false);
 
 
     const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
@@ -55,6 +58,7 @@ const Timetable = () => {
     ]);
 
     const handleDeleteAvailability = async (availabilityId) => {
+        setLoadingAddTimeSlot(true);
         try {
             await deleteTeacherAvailability(availabilityId);
             // Rafraîchir la liste des disponibilités après suppression
@@ -63,6 +67,8 @@ const Timetable = () => {
             );
         } catch (error) {
             console.error("Erreur lors de la suppression de la disponibilité:", error);
+        } finally {
+            setLoadingAddTimeSlot(false);
         }
     };
 
@@ -159,13 +165,15 @@ const Timetable = () => {
             alert('Veuillez saisir les heures de début et de fin.');
             return;
         }
-
+        setLoadingAddTimeSlot(true);
         try {
             const createdTimeSlot = await createTimeSlot(SchoolId, newTimeSlot.start, newTimeSlot.end);
             setTimeSlots([...timeSlots, createdTimeSlot]);
             setNewTimeSlot({ start: '', end: '' }); // Reset input fields
         } catch (error) {
             console.error('Erreur lors de l\'ajout du créneau horaire:', error);
+        } finally {
+            setLoadingAddTimeSlot(false);
         }
     };
 
@@ -187,24 +195,29 @@ const Timetable = () => {
 
     // Handle editing a timeslot
     const handleEditTimeSlot = async (id, start, end) => {
+        setLoadingEditTimeSlot (true);
         try {
             const updatedTimeSlot = await updateTimeSlot(id, start, end, SchoolId); // Inclure SchoolId
             setTimeSlots(timeSlots.map(ts => (ts.id === id ? updatedTimeSlot : ts)));
             setEditingTimeSlot(null); // Réinitialiser l'état d'édition
         } catch (error) {
             console.error('Erreur lors de la mise à jour du créneau horaire:', error.response?.data || error.message);
+        } finally {
+            setLoadingEditTimeSlot(false);
         }
     };
 
     // Handle deleting a timeslot
     const handleDeleteTimeSlot = async (id) => {
         if (!window.confirm('Voulez-vous vraiment supprimer ce créneau horaire ?')) return;
-
+        setLoadingDeleteTimeSlot(true);
         try {
             await deleteTimeSlot(id);
             setTimeSlots(timeSlots.filter(ts => ts.id !== id));
         } catch (error) {
             console.error('Erreur lors de la suppression du créneau horaire:', error);
+        } finally {
+            setLoadingDeleteTimeSlot(false);
         }
     };
     
@@ -247,7 +260,7 @@ const Timetable = () => {
         if (!selectedLevel) {
             return;
         }
-
+        setLoadingAddTimeSlot(true);
         try {
             const payload = { education_level: selectedLevel, school: parseInt(SchoolId, 10) };
             const response = await axios.post('https://scolara-backend.onrender.com/api/timetables/', payload);
@@ -257,6 +270,8 @@ const Timetable = () => {
             setShowTable(true);
         } catch (error) {
             console.error("Erreur lors de la création de l'emploi du temps:", error);
+        } finally {
+            setLoadingAddTimeSlot(false);
         }
     };
     
@@ -392,7 +407,7 @@ const Timetable = () => {
             alert("Veuillez remplir tous les champs avant de soumettre.");
             return;
         }
-    
+        setLoadingAddTimeSlot(true);
         try {
             const timetableId = Cookies.get('TimetableID');
             const sessionData = {
@@ -432,6 +447,8 @@ const Timetable = () => {
             handleCloseModal();
         } catch (error) {
             console.error("Erreur lors de l'ajout de la séance :", error.response?.data || error.message);
+        } finally {
+            setLoadingAddTimeSlot(false);
         }
     };
     
@@ -448,10 +465,6 @@ const Timetable = () => {
         fetchAllSubjects();
     }, [SchoolId]);
     
-    
-    const handleAddTimeslot = () => {
-        setCustomTimeslots([...customTimeslots, { start: '', end: '' }]);
-    };
     
     const handleTimeslotChange = (index, field, value) => {
         const updatedTimeslots = [...customTimeslots];
@@ -990,6 +1003,27 @@ const Timetable = () => {
             </div>
         <div className='whitetext'>Scolara</div>
         <div className='whitetext'>Scolara</div>
+        {loadingaddtimeslot && (
+            <div className="overlay-loader">
+                <div className="CRUD-loading-container">
+                    <MoonLoader size={50} color="#ffcc00" loading={loadingaddtimeslot} />
+                </div>
+            </div>
+        )}
+        {loadingeditimeslot && (
+            <div className="overlay-loader">
+                <div className="CRUD-loading-container">
+                    <MoonLoader size={50} color="#ffcc00" loading={loadingeditimeslot} />
+                </div>
+            </div>
+        )}
+        {loadingdeletetimeslot && (
+            <div className="overlay-loader">
+                <div className="CRUD-loading-container">
+                    <MoonLoader size={50} color="#ffcc00" loading={loadingdeletetimeslot} />
+                </div>
+            </div>
+        )}
         </div>
     );
 };

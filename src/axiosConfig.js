@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     baseURL: 'https://scolara-backend.onrender.com/api/',
     timeout: 20000,
     headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
         'Accept': 'application/json',
     },
     withCredentials: true,  

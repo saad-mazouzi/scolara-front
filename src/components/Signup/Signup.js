@@ -95,11 +95,13 @@ const Signup = () => {
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         if (type === 'file') {
+            console.log("Fichier sélectionné :", files[0]);
             setFormData(prevState => ({ ...prevState, [name]: files[0] }));
         } else {
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -130,15 +132,17 @@ const Signup = () => {
         }        
     
         if (formData.profilePicture) {
-            console.log("Fichier de la photo de profil : ", formData.profilePicture);
+            console.log("Photo de profil ajoutée à FormData :", formData.profilePicture.name);
             userData.append('profile_picture', formData.profilePicture);
         } else {
-            console.log("Aucune photo de profil n'a été sélectionnée.");
+            console.log("Aucune photo de profil sélectionnée.");
         }
         
+        // Log pour afficher tout le contenu de FormData
         for (let [key, value] of userData.entries()) {
-            console.log(`${key}:`, value); // Vérifiez toutes les données envoyées
+            console.log(`${key}:`, value);
         }
+        
         
         try {
             if (formData.role === '3') {

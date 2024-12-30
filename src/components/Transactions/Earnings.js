@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import './Transactions.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 
 const Earnings = () => {
     const [amount, setAmount] = useState('');
@@ -20,6 +20,7 @@ const Earnings = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Année par défaut : année actuelle
     const schoolId = Cookies.get('SchoolId');
     const [loading, setLoading] = useState(true);
+    const [loadingForm, setLoadingForm] = useState(false);
 
     useEffect(() => {
         const loadTransactions = async () => {
@@ -56,6 +57,8 @@ const Earnings = () => {
             school: parseInt(schoolId, 10),
         };
 
+        setLoadingForm(true);
+
         try {
             const newTransaction = await createEarning(transactionData);
             setTransactions([...transactions, newTransaction]);
@@ -64,15 +67,20 @@ const Earnings = () => {
             setDescription('');
         } catch (error) {
             console.error("Erreur lors de l'ajout du revenu :", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
     const handleDeleteTransaction = async (transactionId) => {
+        setLoadingForm(true);
         try {
             await deleteTransaction(schoolId, transactionId);
             setTransactions(transactions.filter((transaction) => transaction.id !== transactionId));
         } catch (error) {
             console.error("Erreur lors de la suppression du revenu :", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -95,6 +103,8 @@ const Earnings = () => {
             school: parseInt(schoolId, 10),
         };
 
+        setLoadingForm(true);
+
         try {
             const updatedTransaction = await updateTransaction(schoolId, editingTransaction.id, updatedData);
             setTransactions(transactions.map((transaction) =>
@@ -107,7 +117,9 @@ const Earnings = () => {
             setDescription('');
         } catch (error) {
             console.error("Erreur lors de la mise à jour du revenu :", error);
-        }
+        } finally {
+            setLoadingForm(false);
+        }   
     };
 
     const closeEditModal = () => {
@@ -327,6 +339,14 @@ const Earnings = () => {
                         <h2>Description complète</h2>
                         <p>{selectedDescription}</p>
                         <button onClick={closeDescriptionModal}>Fermer</button>
+                    </div>
+                </div>
+            )}
+
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
                     </div>
                 </div>
             )}

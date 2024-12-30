@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { fetchTeachers, fetchClassrooms, fetchSubjects, fetchTeacherAvailabilities, createTeacherAvailability, deleteTeacherAvailability, fetchTimeSlots  } from '../../APIServices';
 import axios from 'axios';
 import '../Timetable/Timetable.css';
-import { PulseLoader , PuffLoader} from 'react-spinners';
+import { PulseLoader , PuffLoader, MoonLoader} from 'react-spinners';
 
 const TimetableTeacher = () => {
     const [teachers, setTeachers] = useState([]);
@@ -19,6 +19,7 @@ const TimetableTeacher = () => {
     const [loadingEducationLevel, setLoadingEducationLevel] = useState(true); // Indicateur de chargement
     const [loadingTimetable, setLoadingTimetable] = useState(true); // Indicateur de chargement pour la table
     const [loadingAvailabilities, setLoadingAvailabilities] = useState(true); // Indicateur pour les disponibilités
+    const [loadingForm, setLoadingForm] = useState(false); // Indicateur pour le formulaire
     const [newAvailability, setNewAvailability] = useState({
         day: '',
         start_time: '',
@@ -67,6 +68,9 @@ const TimetableTeacher = () => {
 
     const handleAvailabilitySubmit = async (e) => {
         e.preventDefault();
+
+        setLoadingForm(true); // Commence le chargement
+
         try {
             const availabilityData = {
                 ...newAvailability,
@@ -78,15 +82,20 @@ const TimetableTeacher = () => {
             fetchTeacherAvailabilitiesData(); // Refresh the list
         } catch (error) {
             console.error('Erreur lors de l\'ajout de disponibilité:', error);
+        } finally {
+            setLoadingForm(false); // Fin du chargement
         }
     };
 
     const handleDeleteAvailability = async (id) => {
+        setLoadingForm(true); // Commence le chargement
         try {
             await deleteTeacherAvailability(id);
             fetchTeacherAvailabilitiesData(); // Refresh the list after deletion
         } catch (error) {
             console.error('Erreur lors de la suppression de la disponibilité:', error);
+        } finally {
+            setLoadingForm(false); // Fin du chargement
         }
     };
 
@@ -321,6 +330,13 @@ const TimetableTeacher = () => {
                 </form>
                 <div className='whitetext'>Scolara</div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

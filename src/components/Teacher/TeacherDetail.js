@@ -14,7 +14,7 @@ import {
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './TeacherProfile.css';
-import { ScaleLoader } from 'react-spinners';
+import { ScaleLoader, MoonLoader } from 'react-spinners';
 
 const TeacherProfile = () => {
   const { id } = useParams();
@@ -27,6 +27,7 @@ const TeacherProfile = () => {
   const [absenceCount, setAbsenceCount] = useState(0);
   const [monthlySalary, setMonthlySalary] = useState(null); // Changement de 'salary' en 'monthlySalary'
   const [profilePicture, setProfilePicture] = useState(null);
+  const [loadingform, setLoadingForm] = useState(false);
 
   useEffect(() => {
     const getTeacherData = async () => {
@@ -90,6 +91,7 @@ const TeacherProfile = () => {
   
   
   const handleSessionSalarySubmit = async () => {
+    setLoadingForm(true);
     try {
         const updatedTeacher = {
             ...teacher,
@@ -102,6 +104,8 @@ const TeacherProfile = () => {
         setTeacher(refreshedTeacher);
     } catch (err) {
         console.error("Erreur lors de la mise à jour du salaire par séance :", err);
+    } finally {
+        setLoadingForm(false);  
     }
   };
 
@@ -122,6 +126,7 @@ const TeacherProfile = () => {
   };
 
   const handleAbsenceSubmit = async () => {
+    setLoadingForm(true);
     try {
         const updatedTeacher = {
             ...teacher,
@@ -134,10 +139,13 @@ const TeacherProfile = () => {
         setTeacher(refreshedTeacher);
     } catch (err) {
         console.error('Erreur lors de la mise à jour du nombre d\'absences:', err);
+    } finally {
+        setLoadingForm(false);
     }
 };
 
   const handleSalarySubmit = async () => {
+    setLoadingForm(true);
     try {
         const updatedTeacher = {
             ...teacher,
@@ -150,28 +158,30 @@ const TeacherProfile = () => {
         setTeacher(refreshedTeacher);
     } catch (err) {
         console.error('Erreur lors de la mise à jour du salaire:', err);
+    } finally{
+        setLoadingForm(false);
     }
   };
 
   const handlePaymentStatusUpdate = async (isPaid) => {
-    try {
-        if (isPaid) {
-            await markTeacherAsPaid(teacher.id); // Appeler l'API pour marquer comme payé
-        } else {
-            const updatedTeacher = {
-                ...teacher,
-                paid: isPaid,
-            };
-            await updateTeacherSalary(teacher.id, updatedTeacher); // Si non payé, utiliser l'API de mise à jour
-        }
+      setLoadingForm(true);
+      try {
+          const updatedTeacher = {
+              ...teacher,
+              paid: isPaid, // Assurez-vous que `isPaid` est un booléen
+          };
 
-        // Rafraîchir les données après la mise à jour
-        const refreshedTeacher = await fetchTeacherById(teacher.id);
-        setTeacher(refreshedTeacher);
-    } catch (err) {
-        console.error("Erreur lors de la mise à jour du statut de paiement :", err);
-    }
+          await updateTeacher(id, updatedTeacher);
+
+          const refreshedTeacher = await fetchTeacherById(id);
+          setTeacher(refreshedTeacher);
+      } catch (err) {
+          console.error("Erreur lors de la mise à jour du statut de paiement :", err);
+      } finally {
+          setLoadingForm(false);
+      }
   };
+
   
 
   const handleProfilePictureSubmit = async () => {
@@ -183,6 +193,7 @@ const TeacherProfile = () => {
               formData.append(key, teacher[key]);
           }
       });
+      setLoadingForm(true);
   
       try {
           await updateTeacherProfilePicture(id, formData);
@@ -191,6 +202,8 @@ const TeacherProfile = () => {
           setTeacher(refreshedTeacher);
       } catch (err) {
           console.error("Erreur lors de la mise à jour de la photo de profil :", err);
+      } finally {
+          setLoadingForm(false);
       }
   };
 
@@ -210,6 +223,7 @@ const TeacherProfile = () => {
   };
 
   const handleUpdateTeacher = async () => {
+    setLoadingForm(true);
     try {
       const updatedTeacher = {
         ...teacher,
@@ -221,6 +235,8 @@ const TeacherProfile = () => {
       setTeacher(refreshedTeacher);
     } catch (err) {
       console.error("Erreur lors de la mise à jour de l'enseignant :", err);
+    } finally {
+      setLoadingForm(false);
     }
   };
   
@@ -241,6 +257,8 @@ const TeacherProfile = () => {
       teacher.monthly_salary - teacher.session_salary * absenceDifference,
       0 // Le salaire ne peut pas être négatif
     );
+
+    setLoadingForm(true);
   
     try {
       // Mettez à jour l'absence et le salaire dans l'API
@@ -259,6 +277,8 @@ const TeacherProfile = () => {
       setMonthlySalary(newMonthlySalary); // Mettez à jour le salaire localement
     } catch (err) {
       console.error("Erreur lors de la mise à jour des absences et du salaire :", err);
+    } finally {
+      setLoadingForm(false);
     }
   };
   
@@ -391,6 +411,14 @@ const TeacherProfile = () => {
           </div>
         </div>
       )}
+      {loadingform && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingform} />
+              </div>
+          </div>
+      )}
+
     </div>
   );
 };

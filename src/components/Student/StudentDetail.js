@@ -12,7 +12,7 @@ import {
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Student.css';
-import { ScaleLoader } from 'react-spinners';
+import { ScaleLoader,MoonLoader } from 'react-spinners';
 
 const StudentProfile = () => {
   const { id } = useParams();
@@ -23,6 +23,7 @@ const StudentProfile = () => {
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [educationLevels, setEducationLevels] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [loadingform, setLoadingForm] = useState(false);
 
   useEffect(() => {
     const getStudentData = async () => {
@@ -56,16 +57,20 @@ const StudentProfile = () => {
       }
     });
 
+    setLoadingForm(true);
     try {
       await updateStudentProfilePicture(id, formData);
       const refreshedStudent = await fetchStudentById(id);
       setStudent(refreshedStudent);
     } catch (err) {
       console.error('Erreur lors de la mise à jour de la photo de profil :', err);
-    }
+    } finally {
+      setLoadingForm(false);
+    } 
   };
 
   const handleAbsenceSubmit = async () => {
+    setLoadingForm(true);
     try {
       const updatedStudent = {
         ...student,
@@ -78,10 +83,13 @@ const StudentProfile = () => {
       setStudent(refreshedStudent);
     } catch (err) {
       console.error('Erreur lors de la mise à jour du nombre d\'absences:', err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
   const handlePaymentStatusUpdate = async (isPaid) => {
+    setLoadingForm(true);
     try {
         if (isPaid) {
             await markStudentAsPaid(student.id); // Appeler l'API pour marquer comme payé
@@ -98,10 +106,13 @@ const StudentProfile = () => {
         setStudent(refreshedStudent);
     } catch (err) {
         console.error("Erreur lors de la mise à jour du statut de paiement :", err);
+    } finally {
+        setLoadingForm(false);
     }
   };
 
   const handleToggleTransportation = async () => {
+    setLoadingForm(true);
     try {
       const updatedTransportation = !student.transportation_service;
       await updateStudent(id, { ...student, transportation_service: updatedTransportation });
@@ -111,11 +122,14 @@ const StudentProfile = () => {
       }));
     } catch (err) {
       console.error("Erreur lors de la mise à jour du service de transport :", err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
 
   const handleMonthlyPaymentSubmit = async () => {
+    setLoadingForm(true);
     try {
       const updatedStudent = {
         ...student,
@@ -127,10 +141,13 @@ const StudentProfile = () => {
       setStudent(refreshedStudent);
     } catch (err) {
       console.error('Erreur lors de la mise à jour du montant mensuel :', err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
   const handleFieldUpdate = async (field, value) => {
+    setLoadingForm(true);
     try {
       const updatedStudent = {
         ...student,
@@ -142,6 +159,8 @@ const StudentProfile = () => {
       setStudent(refreshedStudent);
     } catch (err) {
       console.error(`Erreur lors de la mise à jour du champ ${field} :`, err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
@@ -292,6 +311,13 @@ const StudentProfile = () => {
                 </p>
           </div>
         </div>
+      )}
+      {loadingform && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingform} />
+              </div>
+          </div>
       )}
     </div>
     

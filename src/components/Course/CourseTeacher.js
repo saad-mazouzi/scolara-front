@@ -9,7 +9,7 @@ import {
     fetchEducationLevels
 } from '../../APIServices';
 import './Course.css';
-import { PuffLoader, PulseLoader } from 'react-spinners';
+import { PuffLoader, PulseLoader, MoonLoader } from 'react-spinners';
 
 const CourseTeacher = () => {
     const [courseFiles, setCourseFiles] = useState([]);
@@ -21,6 +21,7 @@ const CourseTeacher = () => {
     const [educationLevelName, setEducationLevelName] = useState('');
     const [error, setError] = useState(null);
     const [loadingcourse, setLoadingCourse] = useState(true);
+    const [loadingUpload, setLoadingUpload] = useState(false); // État pour gérer le loader du téléversement
     const [loadingSubject, setLoadingSubject] = useState(true);
     const [loadingEducationlevel, setLoadingEducationlevel] = useState(true);
 
@@ -102,17 +103,21 @@ const CourseTeacher = () => {
     };
 
     const handleDeleteFile = async (fileId) => {
+        setLoadingUpload(true); // Activer le loader pour la suppression
         try {
             await deleteCourseFile(fileId);
             setCourseFiles(courseFiles.filter(file => file.id !== fileId)); // Mettre à jour la liste localement
         } catch (error) {
             console.error("Erreur lors de la suppression du fichier :", error);
+        } finally {
+            setLoadingUpload(false); // Désactiver le loader après la suppression
         }
     };
 
     // Téléverser un fichier
     const handleUploadFile = async (e) => {
         e.preventDefault();
+        setLoadingUpload(true); // Activer le loader pour le téléversement
         try {
             if (!currentCourse) {
                 setError("Aucun cours sélectionné.");
@@ -130,6 +135,8 @@ const CourseTeacher = () => {
             setFileType(''); // Réinitialiser le champ de type
         } catch (error) {
             console.error("Erreur lors du téléversement du fichier :", error);
+        } finally {
+            setLoadingUpload(false); // Désactiver le loader après le téléversement
         }
     };
 
@@ -197,6 +204,7 @@ const CourseTeacher = () => {
                                 />
                             </label>
                             <button type="submit">Téléverser</button>
+ 
                         </form>
                         {loadingcoursefiles ? (
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
@@ -241,6 +249,14 @@ const CourseTeacher = () => {
                     </p>
                 )}
             </div>
+            {loadingUpload && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingUpload} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

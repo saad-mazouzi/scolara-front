@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchMessages, sendMessage } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Chat.css';
-import { ScaleLoader } from 'react-spinners';
+import { ScaleLoader , MoonLoader} from 'react-spinners';
 
 const ChatPage = () => {
     const { chatRoomId } = useParams();
@@ -12,6 +12,7 @@ const ChatPage = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [loadingForm, setLoadingForm] = useState(false);
 
     const currentUserId = parseInt(Cookies.get('TeacherId'), 10);
 
@@ -33,6 +34,8 @@ const ChatPage = () => {
     }, [chatRoomId]);
 
     const handleSendMessage = async () => {
+        setLoadingForm(true);
+
         if (!newMessage.trim() && !selectedFile) {
             return;
         }
@@ -45,6 +48,8 @@ const ChatPage = () => {
         } catch (err) {
             console.error('Erreur lors de l\'envoi du message :', err);
             setError('Impossible d\'envoyer le message.');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -118,6 +123,14 @@ const ChatPage = () => {
                     Envoyer
                 </button>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

@@ -70,16 +70,22 @@ const Navbar = () => {
         setShowNotifications(!showNotifications); // Alterner l'affichage de la liste
     };
 
-    const handleNotificationItemClick = async (chatRoomId, notificationId) => {
-        try {
-            // Supprimer la notification de la base de données
-            await axiosInstance.delete(`/notifications/${notificationId}/`);
-            // Rediriger vers la page de chat
-            navigate(`/chat/${chatRoomId}`);
-        } catch (error) {
-            console.error("Erreur lors de la gestion de la notification :", error);
+    const handleNotificationItemClick = () => {
+        if (userRole === 1) {
+            navigate("/chat");
+        } else if (userRole === 2) {
+            navigate("/chat-student");
+        }else if (userRole === 3) {
+            navigate("/chat-teacher");
+        }else if (userRole === 4) {
+            navigate("/chat-parent");
+        }else if (userRole === 5) {
+            navigate("/chat-driver");
+        }else {
+            console.warn("Rôle inconnu ou utilisateur non authentifié");
         }
     };
+    
     
     
 
@@ -142,7 +148,11 @@ const Navbar = () => {
                         <div className="notification-dropdown">
                             {notifications.length > 0 ? (
                                 notifications.map((notif, index) => (
-                                    <div key={index} className="notification-item">
+                                    <div
+                                        key={index}
+                                        className="notification-item"
+                                        onClick={handleNotificationItemClick} // Redirige directement sans ID
+                                    >
                                         {notif.message}
                                     </div>
                                 ))
@@ -151,6 +161,7 @@ const Navbar = () => {
                             )}
                         </div>
                     )}
+
                 </div>
                 {userFirstName ? (
                     <button className="navbar-link logout-button" onClick={handleLogout}>

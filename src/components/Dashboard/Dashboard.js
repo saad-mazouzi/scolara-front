@@ -12,7 +12,7 @@ import MonthlyExpensesChart from './MonthlyExpensesChart';
 import MonthlyEarningsChart from './MonthlyEarningsChart';
 import { deleteEvent } from '../../APIServices';
 import Cookies from 'js-cookie';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader} from 'react-spinners';
 
 
 const Dashboard = () => {
@@ -28,6 +28,7 @@ const Dashboard = () => {
     const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
     const eventsPerPage = 2; // Nombre maximum d'événements par page
     const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
+    const [loadingForm, setLoadingForm] = useState(false);
 
     
     useEffect(() => {
@@ -67,6 +68,7 @@ const Dashboard = () => {
 
     const handleEventSubmit = async (e) => {
         e.preventDefault();
+        setLoadingForm(true);
     
         const formattedDate = selectedDate.toLocaleDateString('fr-CA');
         const eventData = {
@@ -85,12 +87,15 @@ const Dashboard = () => {
             setShowForm(false);
         } catch (error) {
             console.error("Erreur lors de la création de l'événement :", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
     
     
 
     const handleDeleteEvent = async (eventId) => {
+        setLoadingForm(true);
         try {
             const schoolId = Cookies.get('SchoolId'); // Récupère le schoolId depuis les cookies
             if (!schoolId) {
@@ -103,6 +108,8 @@ const Dashboard = () => {
             console.log(`Événement ${eventId} supprimé avec succès.`);
         } catch (error) {
             console.error("Erreur lors de la suppression de l'événement:", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -271,6 +278,13 @@ const Dashboard = () => {
                         ></textarea>
                         <button className="create-student-button" type="submit"><i className="fas fa-plus"></i>Ajouter</button>
                     </form>
+                </div>
+            )}
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
                 </div>
             )}
         </div>

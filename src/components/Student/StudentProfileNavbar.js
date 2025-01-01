@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateStudentProfilePicture, updateStudentPassword } from '../../APIServices'; // Import des fonctions spécifiques aux étudiants
 import axiosInstance from '../../axiosConfig';
 import '../Teacher/TeacherProfile.css';
-import { HashLoader } from 'react-spinners';
+import { HashLoader,MoonLoader } from 'react-spinners';
 
 const StudentProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -23,6 +23,7 @@ const StudentProfileNavbar = () => {
     const studentId = cookies.TeacherId; // ID de l'étudiant
     const schoolId = cookies.SchoolId;
     const [loading, setLoading] = useState(true);
+    const [loadingForm, setLoadingForm] = useState(false);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -67,6 +68,8 @@ const StudentProfileNavbar = () => {
         const formData = new FormData();
         formData.append('profile_picture', newProfilePicture);
 
+        setLoadingForm(true);
+
         try {
             const updatedData = await updateStudentProfilePicture(studentId, formData);
             const newProfilePicturePath = updatedData.profile_picture;
@@ -78,6 +81,8 @@ const StudentProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour de la photo de profil.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -87,6 +92,8 @@ const StudentProfileNavbar = () => {
             setAlertType('error');
             return;
         }
+
+        setLoadingForm(true);
 
         try {
             const updatedData = { password: newPassword };
@@ -98,6 +105,8 @@ const StudentProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour du mot de passe.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -202,6 +211,14 @@ const StudentProfileNavbar = () => {
                 <div className="left-text"><strong>Nombre d'absences : </strong>{absencesNumber !== null ? absencesNumber : 0}</div>
                 <div className="secret-key-text"><strong>Clé secrète des parents :</strong> {parentKey}</div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

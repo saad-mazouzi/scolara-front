@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa'; // Icones pour l'éd
 import { updateAdminProfilePicture, updateAdminPassword,updateSchoolLogo } from '../../APIServices'; // Import des fonctions
 import axiosInstance from '../../axiosConfig';
 import './AdminProfile.css';
-import { HashLoader } from 'react-spinners';
+import { HashLoader,MoonLoader } from 'react-spinners';
 
 const AdminProfile = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -29,6 +29,7 @@ const AdminProfile = () => {
     const [alertType, setAlertType] = useState('');
     const TeacherId = cookies.TeacherId;
     const schoolId = cookies.SchoolId; // Récupération de SchoolId
+    const [loadingForm, setLoadingForm] = useState(false);  // État pour le chargement du formulaire    
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -107,7 +108,7 @@ const AdminProfile = () => {
             setAlertType('error');
             return;
         }
-
+        setLoadingForm(true);
         const formData = new FormData();
         formData.append('profile_picture', newProfilePicture);
 
@@ -122,6 +123,8 @@ const AdminProfile = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour de la photo de profil.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -137,7 +140,7 @@ const AdminProfile = () => {
             setAlertType('error');
             return;
         }
-    
+        setLoadingForm(true);
         const formData = new FormData();
         formData.append('logo', newSchoolLogo);
     
@@ -154,6 +157,8 @@ const AdminProfile = () => {
             console.error('Erreur lors de la mise à jour du logo de l\'école :', error);
             setAlertMessage('Erreur lors de la mise à jour du logo de l\'école.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
     
@@ -164,6 +169,7 @@ const AdminProfile = () => {
             setAlertType('error');
             return;
         }
+        setLoadingForm(true);
 
         try {
             const updatedData = { password: newPassword };
@@ -175,6 +181,8 @@ const AdminProfile = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour du mot de passe.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -198,6 +206,7 @@ const AdminProfile = () => {
             setAlertType('error');
             return;
         }
+        setLoadingForm(true);
 
         try {
             await axiosInstance.put(`school/${schoolId}/`, {
@@ -214,6 +223,8 @@ const AdminProfile = () => {
             console.error('Error updating school address:', error);
             setAlertMessage('Failed to update school address.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -222,7 +233,8 @@ const AdminProfile = () => {
             setAlertMessage('Please enter a valid phone number.');
             setAlertType('error');
             return;
-        }
+        } 
+        setLoadingForm(true);
 
         try {
             await axiosInstance.put(`school/${schoolId}/`, {
@@ -239,6 +251,8 @@ const AdminProfile = () => {
             console.error('Error updating school phone number:', error);
             setAlertMessage('Failed to update school phone number.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -248,6 +262,7 @@ const AdminProfile = () => {
             setAlertType('error');
             return;
         }
+        setLoadingForm(true);
 
         try {
             await axiosInstance.put(`school/${schoolId}/`, {
@@ -265,7 +280,9 @@ const AdminProfile = () => {
             console.error('Erreur lors de la mise à jour du semestre:', error);
             setAlertMessage('Erreur lors de la mise à jour du semestre.');
             setAlertType('error');
-        }
+        } finally {
+            setLoadingForm(false);
+        }   
     };
 
 
@@ -434,6 +451,14 @@ const AdminProfile = () => {
                     </div>
                 </div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateDriverProfilePicture, updateDriverpassword } from '../../APIServices';
 import axiosInstance from '../../axiosConfig';
 import '../Teacher/TeacherProfile.css';
-import { HashLoader } from 'react-spinners';
+import { HashLoader, MoonLoader } from 'react-spinners';
 
 const DriverProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -23,6 +23,7 @@ const DriverProfileNavbar = () => {
     const [profilePictureLoading, setProfilePictureLoading] = useState(false); // Indicateur de chargement pour la mise à jour de la photo
     const TeacherId = cookies.TeacherId;
     const schoolId = cookies.SchoolId;
+    const [loadingform, setLoadingForm] = useState(false);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -64,6 +65,8 @@ const DriverProfileNavbar = () => {
             return;
         }
 
+        setLoadingForm(true);
+
         const formData = new FormData();
         formData.append('profile_picture', newProfilePicture);
 
@@ -81,6 +84,7 @@ const DriverProfileNavbar = () => {
             setAlertType('error');
         } finally {
             setProfilePictureLoading(false); // Fin du chargement
+            setLoadingForm(false);
         }
     };
 
@@ -90,7 +94,7 @@ const DriverProfileNavbar = () => {
             setAlertType('error');
             return;
         }
-
+        setLoadingForm(true);
         try {
             const updatedData = { password: newPassword };
             await updateDriverpassword(TeacherId, updatedData);
@@ -101,6 +105,8 @@ const DriverProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour du mot de passe.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -206,6 +212,14 @@ const DriverProfileNavbar = () => {
                     </div>
                 </div>
             </div>
+            {loadingform && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingform} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

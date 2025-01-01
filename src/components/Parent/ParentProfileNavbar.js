@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateParentProfilePicture, updateParentPassword } from '../../APIServices'; // Import des fonctions spécifiques aux étudiants
 import axiosInstance from '../../axiosConfig';
 import '../Teacher/TeacherProfile.css';
-import { HashLoader } from 'react-spinners';
+import { HashLoader,MoonLoader } from 'react-spinners';
 
 const ParentProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId', 'absences']); // Inclure absences dans les cookies
@@ -23,6 +23,7 @@ const ParentProfileNavbar = () => {
     const studentId = cookies.TeacherId; // ID de l'étudiant
     const schoolId = cookies.SchoolId;
     const [loading, setLoading] = useState(true);
+    const [loadingform, setLoadingForm] = useState(false);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -58,6 +59,7 @@ const ParentProfileNavbar = () => {
     }, [studentId, schoolId, cookies.absences]);
 
     const handleProfilePictureSubmit = async () => {
+        setLoadingForm(true);
         if (!newProfilePicture) {
             setAlertMessage('Veuillez sélectionner une nouvelle photo de profil.');
             setAlertType('error');
@@ -78,6 +80,8 @@ const ParentProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour de la photo de profil.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -87,6 +91,7 @@ const ParentProfileNavbar = () => {
             setAlertType('error');
             return;
         }
+        setLoadingForm(true);
 
         try {
             const updatedData = { password: newPassword };
@@ -98,6 +103,8 @@ const ParentProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour du mot de passe.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -200,6 +207,13 @@ const ParentProfileNavbar = () => {
                 </div>
                 <div className="parent-left-text"><strong>Nombre d'absences de votre enfant : </strong>{absencesNumber !== null ? absencesNumber : 0}</div>
             </div>
+            {loadingform && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingform} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

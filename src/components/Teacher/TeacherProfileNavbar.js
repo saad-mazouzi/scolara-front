@@ -4,7 +4,7 @@ import { FaEdit, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { updateTeacherProfilePicture, updateTeacherpassword } from '../../APIServices';
 import axiosInstance from '../../axiosConfig';
 import './TeacherProfile.css';
-import { HashLoader } from 'react-spinners';
+import { HashLoader ,MoonLoader} from 'react-spinners';
 
 const TeacherProfileNavbar = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -23,6 +23,7 @@ const TeacherProfileNavbar = () => {
     const [profilePictureLoading, setProfilePictureLoading] = useState(false); // Indicateur de chargement pour la mise à jour de la photo
     const TeacherId = cookies.TeacherId;
     const schoolId = cookies.SchoolId;
+    const [loadingForm, setLoadingForm] = useState(false);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -63,7 +64,7 @@ const TeacherProfileNavbar = () => {
             setAlertType('error');
             return;
         }
-
+        setLoadingForm(true);
         const formData = new FormData();
         formData.append('profile_picture', newProfilePicture);
 
@@ -81,6 +82,7 @@ const TeacherProfileNavbar = () => {
             setAlertType('error');
         } finally {
             setProfilePictureLoading(false); // Fin du chargement
+            setLoadingForm(false);
         }
     };
 
@@ -90,6 +92,8 @@ const TeacherProfileNavbar = () => {
             setAlertType('error');
             return;
         }
+
+        setLoadingForm(true);
 
         try {
             const updatedData = { password: newPassword };
@@ -101,6 +105,8 @@ const TeacherProfileNavbar = () => {
         } catch (error) {
             setAlertMessage('Erreur lors de la mise à jour du mot de passe.');
             setAlertType('error');
+        } finally {
+            setLoadingForm(false);  
         }
     };
 
@@ -207,6 +213,14 @@ const TeacherProfileNavbar = () => {
                 </div>
                 <div className='left-text'><strong>Nombre d'absences : {absencesNumber !== null ? absencesNumber : 0}</strong></div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

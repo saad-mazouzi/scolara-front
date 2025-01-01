@@ -6,7 +6,7 @@ import './StudentTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as XLSX from 'xlsx'; // Import XLSX
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader,MoonLoader } from 'react-spinners';
 
 
 const StudentsTable = () => {
@@ -18,6 +18,7 @@ const StudentsTable = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState(''); // Terme de recherche
+    const [loadingForm, setLoadingForm] = useState(false);
 
 
     const teacherEducationLevel = cookies.TeacherEducationLevel; // Niveau d'éducation de l'enseignant
@@ -141,6 +142,7 @@ const StudentsTable = () => {
     };
 
     const handleSaveGrades = async () => {
+        setLoadingForm(true);
         try {
             for (const [key, score] of Object.entries(modifiedGrades)) {
                 const [studentId, controlId] = key.split('-');
@@ -171,11 +173,14 @@ const StudentsTable = () => {
             setGrades(updatedGrades);
         } catch (error) {
             console.error("Erreur lors de l'enregistrement des notes :", error);
+        } finally {
+            setLoadingForm(false);
         }
     };
     
     const handleControlSubmit = async (e) => {
         e.preventDefault();
+        setLoadingForm(true);
         try {
             if (!newControl.control_type || !newControl.coefficient || !newControl.control_number) {
                 return;
@@ -196,15 +201,20 @@ const StudentsTable = () => {
             setNewControl({ control_type: '', coefficient: '', control_number: '' });
         } catch (err) {
             console.error("Erreur lors de l'ajout du contrôle :", err);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
     const handleDeleteControl = async (id) => {
+        setLoadingForm(true);
         try {
             await deleteControl(id);
             setControls((prevControls) => prevControls.filter((control) => control.id !== id)); // Mettre à jour la liste locale
         } catch (err) {
             console.error(`Erreur lors de la suppression du contrôle ID ${id} :`, err);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -373,6 +383,14 @@ const StudentsTable = () => {
                 </form>
                 <div className='whitetext'> Scolara</div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

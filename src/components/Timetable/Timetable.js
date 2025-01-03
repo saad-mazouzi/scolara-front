@@ -350,7 +350,7 @@ const Timetable = () => {
 
     const printTimetable = (levelId) => {
         const levelName = educationLevels.find(level => level.id === parseInt(levelId))?.name || "Niveau inconnu";
-        const printContents = document.getElementById(`table-${levelId}`).outerHTML; // Table cible à imprimer
+        const printContents = document.getElementById(`table-${levelId}`).outerHTML;
     
         const newWindow = window.open('', '_blank', 'width=800,height=600');
         if (newWindow) {
@@ -360,30 +360,50 @@ const Timetable = () => {
                     <head>
                         <title>Emploi du Temps - ${levelName}</title>
                         <style>
+                            @page {
+                                size: landscape; /* Format paysage */
+                                margin: 20mm; /* Marges */
+                            }
                             body {
                                 font-family: Arial, sans-serif;
-                                margin: 20px;
-                                font-size: 12px;
+                                margin: 0;
+                                padding: 0;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: flex-start; /* Aligne tout vers le haut */
+                                height: calc(100vh - 40mm); /* Ajuste la hauteur en fonction des marges */
+                                box-sizing: border-box;
+                                color: black; /* Texte noir */
+                                background-color: white; /* Arrière-plan blanc */
+                            }
+                            h4 {
+                                margin: 10px 0 20px 0; /* Ajoute un espace de 20px en bas du titre */
+                                text-align: center;
+                                font-size: 24px; /* Taille pour le titre */
+                                font-weight: bold;
+                                color: black; /* Titre en noir */
                             }
                             table {
                                 width: 100%;
+                                flex-grow: 1;
                                 border-collapse: collapse;
+                                background-color: white; /* Arrière-plan blanc */
                             }
                             th, td {
-                                border: 1px solid #ddd;
-                                padding: 8px;
+                                border: 1px solid black; /* Bordures en noir */
+                                padding: 10px;
                                 text-align: center;
-                                font-size: 11px;
+                                font-size: 14px;
                                 vertical-align: middle;
+                                color: black; /* Texte en noir */
                             }
                             th {
-                                color: black;
+                                background-color: white; /* En-têtes en blanc */
                                 font-weight: bold;
                             }
-                            h4 {
-                                text-align: center;
-                                font-size: 16px;
-                                margin-bottom: 20px;
+                            td {
+                                height: auto;
                             }
                         </style>
                     </head>
@@ -397,9 +417,10 @@ const Timetable = () => {
             newWindow.print();
             newWindow.close();
         }
-    };
-    
+    };    
+        
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
     

@@ -66,17 +66,23 @@ const StudentBulletins = () => {
             <div className="student-list-title">
                 <h3>Niveaux d'Éducation</h3>
             </div>
-            <div className="education-level-cards">
-                {educationLevels.map((level) => (
-                    <div
-                        key={level.id}
-                        className={`education-card ${selectedEducationLevel === level.id ? 'selected' : ''}`}
-                        onClick={() => handleEducationLevelClick(level.id)}
-                    >
-                        <h4>{level.name}</h4>
-                    </div>
-                ))}
-            </div>
+            {educationLevels.length === 0 ? (
+                <p style={{ textAlign: 'center', fontSize: '16px', color: '#666' }}>
+                    Aucun niveau d'éducation disponible.
+                </p>
+            ) : (
+                <div className="education-level-cards">
+                    {educationLevels.map((level) => (
+                        <div
+                            key={level.id}
+                            className={`education-card ${selectedEducationLevel === level.id ? 'selected' : ''}`}
+                            onClick={() => handleEducationLevelClick(level.id)}
+                        >
+                            <h4>{level.name}</h4>
+                        </div>
+                    ))}
+                </div>
+            )}
             <div className='whitetext'>Scolara</div>
             {selectedEducationLevel && (
                 <div className="selected-education-level">
@@ -128,7 +134,9 @@ const StudentBulletins = () => {
                             </table>
                         </div>
                     ) : (
-                        <p>Aucun étudiant trouvé pour ce niveau d'éducation.</p>
+                        <div style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }} >
+                            Aucun étudiant trouvé pour ce niveau d'éducation.
+                        </div>
                     )}
                 </div>
             )}

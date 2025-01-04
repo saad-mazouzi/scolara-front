@@ -216,18 +216,27 @@ const ParentList = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedParents.map(parent => (
-            <tr key={parent.id}>
-              <td>{parent.last_name}</td>
-              <td>{parent.first_name}</td>
-              <td>{parent.email}</td>
-              <td>{parent.phone_number}</td>
-              <td>
-                <button onClick={() => handleDeleteClick(parent.id)} className="student-button-delete">Supprimer</button>
+          {paginatedParents.length === 0 ? (
+            <tr>
+              <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                Aucun parent disponible.
               </td>
             </tr>
-          ))}
+          ) : (
+            paginatedParents.map(parent => (
+              <tr key={parent.id}>
+                <td>{parent.last_name}</td>
+                <td>{parent.first_name}</td>
+                <td>{parent.email}</td>
+                <td>{parent.phone_number}</td>
+                <td>
+                  <button onClick={() => handleDeleteClick(parent.id)} className="student-button-delete">Supprimer</button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
+
       </table>
 
       {loadingDelete && (

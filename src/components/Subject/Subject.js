@@ -176,26 +176,43 @@ const Subject = () => {
                 />
             </div>
             <ul className="education-level-list">
-                {currentItems.map(subject => (
+                {currentItems.length === 0 ? (
+                    <li 
+                    style={{ 
+                        textAlign: 'center', 
+                        padding: '20px', 
+                        fontSize: '16px', 
+                        color: '#666', 
+                        listStyle: 'none',
+                        marginTop: '20px',
+                        marginBottom: '30px'
+                    }}
+                    >
+                    Aucune matière disponible.
+                    </li>
+                ) : (
+                    currentItems.map(subject => (
                     <li className="education-level-item" key={subject.id}>
                         {subject.name} - Niveau: {getEducationLevelName(subject.education_level)} - Coefficient: {subject.coefficient || 'Non spécifié'}
                         <div>
-                            <button 
-                                className="education-level-button" 
-                                onClick={() => handleUpdate(subject.id, subject.name, subject.education_level, subject.coefficient)}
-                            >
-                                Modifier
-                            </button>
-                            <button 
-                                className="education-level-button education-level-button-delete" 
-                                onClick={() => handleDelete(subject.id)}
-                            >
-                                Supprimer
-                            </button>
+                        <button 
+                            className="education-level-button" 
+                            onClick={() => handleUpdate(subject.id, subject.name, subject.education_level, subject.coefficient)}
+                        >
+                            Modifier
+                        </button>
+                        <button 
+                            className="education-level-button education-level-button-delete" 
+                            onClick={() => handleDelete(subject.id)}
+                        >
+                            Supprimer
+                        </button>
                         </div>
                     </li>
-                ))}
-            </ul>
+                    ))
+                )}
+                </ul>
+
 
             <div className="add-subject-gaps">
                 <input 

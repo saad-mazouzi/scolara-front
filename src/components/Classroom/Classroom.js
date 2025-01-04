@@ -145,26 +145,43 @@ const Classroom = () => {
                 />
             </div>
             <ul className="education-level-list">
-                {currentItems.map(level => (
-                    <li className="education-level-item" key={level.id}>
-                        {level.name}
-                        <div>
-                            <button 
-                                className="education-level-button" 
-                                onClick={() => handleUpdate(level.id, level.name)}
-                            >
-                                Modifier
-                            </button>
-                            <button 
-                                className="education-level-button education-level-button-delete" 
-                                onClick={() => handleDelete(level.id)}
-                            >
-                                Supprimer
-                            </button>
-                        </div>
+                {currentItems.length === 0 ? (
+                    <li 
+                        style={{ 
+                            textAlign: 'center', 
+                            padding: '20px', 
+                            fontSize: '16px', 
+                            color: '#666', 
+                            listStyle: 'none',
+                            marginTop: '20px',
+                            marginBottom: '30px'
+                        }}
+                    >
+                        Aucune salle disponible.
                     </li>
-                ))}
+                ) : (
+                    currentItems.map(level => (
+                        <li className="education-level-item" key={level.id}>
+                            {level.name}
+                            <div>
+                                <button 
+                                    className="education-level-button" 
+                                    onClick={() => handleUpdate(level.id, level.name)}
+                                >
+                                    Modifier
+                                </button>
+                                <button 
+                                    className="education-level-button education-level-button-delete" 
+                                    onClick={() => handleDelete(level.id)}
+                                >
+                                    Supprimer
+                                </button>
+                            </div>
+                        </li>
+                    ))
+                )}
             </ul>
+
     
             <div>
                 <input 

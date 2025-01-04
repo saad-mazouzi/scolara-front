@@ -370,38 +370,59 @@ const downloadXLSX = () => {
           </tr>
         </thead>
         <tbody>
-           {paginatedTeachers.map((teacher) => (
-           <tr key={teacher.id} onClick={() => handleRowClick(teacher.id)} style={{ cursor: 'pointer' }}>
-              <td>
-                {teacher.profile_picture ? (
-                  <img
-                    src={`${teacher.profile_picture}`}
-                    alt={`${teacher.first_name} ${teacher.last_name}`}
-                    style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                  />
-                ) : (
-                  <span>Aucune photo</span>
-                )}
-              </td>
-              <td>{teacher.first_name}</td>
-              <td>{teacher.last_name}</td>
-              <td>{getEducationLevelName(teacher.education_level)}</td>
-              <td>{getSubjectName(teacher.subject)}</td>
-              <td>{teacher.phone_number}</td>
-              <td>{getPaymentStatus(teacher.paid)}</td> {/* Statut de paiement */}
-              <td>
-                <div className="action-buttons">
-                  <button onClick={(e) => { e.stopPropagation(); handleEditClick(teacher); }} className="edit-student-button">
-                    Modifier
-                  </button>
-                  <button onClick={(e) => { e.stopPropagation(); handleDeleteClick(teacher.id); }} className="student-button-delete">
-                    Supprimer
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {paginatedTeachers.length === 0 ? (
+    <tr>
+      <td colSpan="8" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+        Aucun enseignant disponible.
+      </td>
+    </tr>
+      ) : (
+        paginatedTeachers.map((teacher) => (
+          <tr key={teacher.id} onClick={() => handleRowClick(teacher.id)} style={{ cursor: 'pointer' }}>
+            <td>
+              {teacher.profile_picture ? (
+                <img
+                  src={`${teacher.profile_picture}`}
+                  alt={`${teacher.first_name} ${teacher.last_name}`}
+                  style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                />
+              ) : (
+                <span>Aucune photo</span>
+              )}
+            </td>
+            <td>{teacher.first_name}</td>
+            <td>{teacher.last_name}</td>
+            <td>{getEducationLevelName(teacher.education_level)}</td>
+            <td>{getSubjectName(teacher.subject)}</td>
+            <td>{teacher.phone_number}</td>
+            <td>{getPaymentStatus(teacher.paid)}</td> {/* Statut de paiement */}
+            <td>
+              <div className="action-buttons">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditClick(teacher);
+                  }}
+                  className="edit-student-button"
+                >
+                  Modifier
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(teacher.id);
+                  }}
+                  className="student-button-delete"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+
       </table>
       <div className='whitetext'>Scolara</div>
       <div className="pagination-controls-student">

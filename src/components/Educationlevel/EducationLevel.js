@@ -152,7 +152,15 @@ const EducationLevel = () => {
                 />
             </div>
             <ul className="education-level-list">
-                {currentItems.map(level => (
+                {currentItems.length === 0 ? (
+                    <li 
+                    style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666', listStyle: 'none' ,marginBottom:'30px', marginTop:'20px'}}
+                    className='li-education-level'
+                    >
+                    Aucun niveau d'éducation disponible.
+                    </li>
+                ) : (
+                    currentItems.map(level => (
                     <li 
                         className="education-level-item" 
                         key={level.id} 
@@ -161,22 +169,24 @@ const EducationLevel = () => {
                     >
                         {level.name}
                         <div>
-                            <button 
-                                className="education-level-button" 
-                                onClick={(e) => { e.stopPropagation(); handleUpdate(level.id, level.name); }}
-                            >
-                                Modifier
-                            </button>
-                            <button 
-                                className="education-level-button education-level-button-delete" 
-                                onClick={(e) => { e.stopPropagation(); handleDelete(level.id); }}
-                            >
-                                Supprimer
-                            </button>
+                        <button 
+                            className="education-level-button" 
+                            onClick={(e) => { e.stopPropagation(); handleUpdate(level.id, level.name); }}
+                        >
+                            Modifier
+                        </button>
+                        <button 
+                            className="education-level-button education-level-button-delete" 
+                            onClick={(e) => { e.stopPropagation(); handleDelete(level.id); }}
+                        >
+                            Supprimer
+                        </button>
                         </div>
                     </li>
-                ))}
-            </ul>
+                    ))
+                )}
+                </ul>
+
             <div>
                 <input 
                     className="education-level-input"

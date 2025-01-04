@@ -183,36 +183,52 @@ const UsersPage = () => {
             </div>
             <div className='whitetext'>Scolara</div>
             <div className="users-list">
-                {paginatedUsers.map((user) => (
-                    <div
-                        key={user.id}
-                        className="user-item"
-                        onClick={() => handleUserClick(user.id)}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img
-                                src={user.profile_picture || '/default-profile.png'}
-                                alt={`${user.first_name} ${user.last_name}`}
-                                className="user-profile-picture"
-                            />
-                            <div className="user-info">
-                                <h3>{`${user.first_name} ${user.last_name}`}</h3>
-                                {user.lastMessage && (
-                                    <p className="last-message-preview">
-                                        {user.lastMessage.content || 'Fichier envoyé 📎'}
-                                    </p>
-                                )}
+                {paginatedUsers.length > 0 ? (
+                    paginatedUsers.map((user) => (
+                        <div
+                            key={user.id}
+                            className="user-item"
+                            onClick={() => handleUserClick(user.id)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <img
+                                    src={user.profile_picture || '/default-profile.png'}
+                                    alt={`${user.first_name} ${user.last_name}`}
+                                    className="user-profile-picture"
+                                />
+                                <div className="user-info">
+                                    <h3>{`${user.first_name} ${user.last_name}`}</h3>
+                                    {user.lastMessage && (
+                                        <p className="last-message-preview">
+                                            {user.lastMessage.content || 'Fichier envoyé 📎'}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
+                            {user.lastMessage && (
+                                <div className="message-time">
+                                    {formatTime(user.lastMessage.created_at)}
+                                </div>
+                            )}
                         </div>
-                        {user.lastMessage && (
-                            <div className="message-time">
-                                {formatTime(user.lastMessage.created_at)}
-                            </div>
-                        )}
+                    ))
+                ) : (
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '50vh',
+                        textAlign: 'center',
+                        fontSize: '18px',
+                        color: '#666',
+                        fontWeight: 'bold',
+                    }}>
+                        Aucun utilisateur trouvé.
                     </div>
-                ))}
+                )}
             </div>
+
             <div className='whitetext'>Scolara</div>
             <div className="pagination-controls">
                 <button

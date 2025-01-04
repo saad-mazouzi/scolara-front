@@ -5,6 +5,7 @@ import { updateAdminProfilePicture, updateAdminPassword,updateSchoolLogo } from 
 import axiosInstance from '../../axiosConfig';
 import './AdminProfile.css';
 import { HashLoader,MoonLoader } from 'react-spinners';
+import schoollogo from '../../images/schoollogo.png';
 
 const AdminProfile = () => {
     const [cookies, setCookie] = useCookies(['userFirstName', 'profilePicture', 'TeacherId']);
@@ -376,14 +377,19 @@ const AdminProfile = () => {
                     <div className="school-logo-container">
                         {schoolLogo ? (
                             <img
-                                src={schoolLogo}
-                                alt="Logo de l'école"
-                                className="school-logo"
-                            />
+                            src={schoolLogo || schoollogo}
+                            alt="Logo de l'école"
+                            className="school-logo"
+                            onError={(e) => { e.target.src = schoollogo; }}
+                        />
+                        
                         ) : (
-                            <div className="loading-container">
-                                <HashLoader size={60} color="#ffcc00" loading={isLoading} />
-                            </div>
+                            <img
+                                src={schoollogo} // Chemin de l'image par défaut
+                                alt="Pas de logo disponible"
+                                className="school-logo"
+                                style={{ width: '150px', height: '150px', objectFit: 'cover' }} // Styles pour une bonne présentation
+                            />
                         )}
                         <FaEdit
                             className="edit-icon-admin-logo"
@@ -402,6 +408,7 @@ const AdminProfile = () => {
                             </button>
                         )}
                     </div>
+
 
                     <div className="change-logo-title">
                         <div>

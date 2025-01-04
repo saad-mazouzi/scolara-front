@@ -278,7 +278,14 @@ const DriverList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredDrivers.map((driver) => (
+                    {filteredDrivers.length === 0 ? (
+                        <tr>
+                        <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                            Aucun chauffeur disponible.
+                        </td>
+                        </tr>
+                    ) : (
+                    filteredDrivers.map((driver) => (
                         <tr key={driver.id} onClick={() => handleRowClick(driver.id)} style={{ cursor: 'pointer' }}>
                             <td>{driver.first_name}</td>
                             <td>{driver.last_name}</td>
@@ -301,7 +308,7 @@ const DriverList = () => {
                                 </div>
                             </td>
                         </tr>
-                    ))}
+                    )))}      
                 </tbody>
             </table>
 

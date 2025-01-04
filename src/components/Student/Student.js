@@ -300,56 +300,62 @@ const StudentList = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedStudents.map(student => (
-            <tr 
-              key={student.id} 
-              onClick={() => handleRowClick(student.id)} // Ligne cliquable
-              style={{ cursor: 'pointer' }} // Curseur pointeur pour indiquer que c'est cliquable
-            >
-              <td>
-                {student.profile_picture ? (
-                  <img
-                    className="student-img"
-                    src={`${student.profile_picture}`}
-                    alt={`${student.first_name} ${student.last_name}`}
-                    style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                  />
-                ) : (
-                  <span>Aucune image</span>
-                )}
-              </td>
-              <td>{student.first_name}</td>
-              <td>{student.last_name}</td>
-              <td>{getEducationLevelName(student.education_level)}</td>
-              <td>{student.email}</td>
-              <td>{student.phone_number}</td>
-              <td>{getPaymentStatus(student.paid)}</td> {/* Statut de paiement */}
-              <td>
-                <div className="action-buttons">
-                  {/* Bouton Modifier */}
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation(); // Empêche la propagation du clic
-                      handleEditClick(student);
-                    }} 
-                    className="edit-student-button"
-                  >
-                    Modifier
-                  </button>
-                  {/* Bouton Supprimer */}
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation(); // Empêche la propagation du clic
-                      handleDeleteClick(student.id);
-                    }} 
-                    className="student-button-delete"
-                  >
-                    Supprimer
-                  </button>
-                </div>
+          {paginatedStudents.length === 0 ? (
+            <tr>
+              <td colSpan="8" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                Aucun étudiant disponible.
               </td>
             </tr>
-          ))}
+          ) : (
+            paginatedStudents.map(student => (
+              <tr
+                key={student.id}
+                onClick={() => handleRowClick(student.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <td>
+                  {student.profile_picture ? (
+                    <img
+                      className="student-img"
+                      src={`${student.profile_picture}`}
+                      alt={`${student.first_name} ${student.last_name}`}
+                      style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                    />
+                  ) : (
+                    <span>Aucune image</span>
+                  )}
+                </td>
+                <td>{student.first_name}</td>
+                <td>{student.last_name}</td>
+                <td>{getEducationLevelName(student.education_level)}</td>
+                <td>{student.email}</td>
+                <td>{student.phone_number}</td>
+                <td>{getPaymentStatus(student.paid)}</td>
+                <td>
+                  <div className="action-buttons">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditClick(student);
+                      }}
+                      className="edit-student-button"
+                    >
+                      Modifier
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(student.id);
+                      }}
+                      className="student-button-delete"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
 
       </table>

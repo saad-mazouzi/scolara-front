@@ -842,74 +842,86 @@ const Timetable = () => {
                 <h3>Emploi du Temps par Niveau d'Éducation</h3>
             </div>
 
-            {Object.entries(sessionsByLevel).map(([levelId, schedule]) => {
-                const levelName = educationLevels.find(level => level.id === parseInt(levelId))?.name || "Niveau inconnu";
+            {educationLevels.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                    Aucun niveau d'éducation disponible.
+                </div>
+            ) : (
+                Object.entries(sessionsByLevel).map(([levelId, schedule]) => {
+                    const levelName = educationLevels.find(level => level.id === parseInt(levelId))?.name || "Niveau inconnu";
 
-                return (
-                    <div key={levelId} style={{ marginBottom: '20px' }}>
-                        <div className='timetable-action-buttons'>
-                        <h4>{levelName}</h4>
-                        <button
-                            onClick={() => exportTimetableToXLSX(levelName, schedule)}
-                            className="timetable-xlsx-download-button"
-                            style={{ marginBottom: '10px' }}
-                        >
-                            Exporter en XLSX
-                        </button>
-                        <button
-                            onClick={() => printTimetable(levelId)}
-                            className="timetable-print-button"
-                        >
-                            <FontAwesomeIcon icon={faPrint} /> Imprimer
-                        </button>
-                        </div>
-
-                        {loading ? (
-                            // Affiche le loader pendant le chargement des données
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-                                <PuffLoader color="#007bff" size={60} />
+                    return (
+                        <div key={levelId} style={{ marginBottom: '20px' }}>
+                            <div className='timetable-action-buttons'>
+                                <h4>{levelName}</h4>
+                                <button
+                                    onClick={() => exportTimetableToXLSX(levelName, schedule)}
+                                    className="timetable-xlsx-download-button"
+                                    style={{ marginBottom: '10px' }}
+                                >
+                                    Exporter en XLSX
+                                </button>
+                                <button
+                                    onClick={() => printTimetable(levelId)}
+                                    className="timetable-print-button"
+                                >
+                                    <FontAwesomeIcon icon={faPrint} /> Imprimer
+                                </button>
                             </div>
-                        ) : (
-                            // Affiche la table une fois les données chargées
-                            <table
-                                id={`table-${levelId}`}
-                                border="1"
-                                style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>Heure/Jour</th>
-                                        {days.map(day => (
-                                            <th key={day}>{day}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {timeSlots.map(slot => (
-                                        <tr key={slot.start_time}>
-                                            <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
+
+                            {loading ? (
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                                    <PuffLoader color="#007bff" size={60} />
+                                </div>
+                            ) : (
+                                <table
+                                    id={`table-${levelId}`}
+                                    border="1"
+                                    style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Heure/Jour</th>
                                             {days.map(day => (
-                                                <td key={day}>
-                                                    {schedule[day][slot.start_time] ? (
-                                                        <>
-                                                            <div><strong>{schedule[day][slot.start_time].subject}</strong></div>
-                                                            <div>{schedule[day][slot.start_time].teacherName}</div>
-                                                            <div><i>{schedule[day][slot.start_time].classroom}</i></div>
-                                                        </>
-                                                    ) : (
-                                                        "Pas de session"
-                                                    )}
-                                                </td>
+                                                <th key={day}>{day}</th>
                                             ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
+                                    </thead>
+                                    <tbody>
+                                        {timeSlots.length === 0 || Object.keys(schedule).length === 0 ? (
+                                            <tr>
+                                                <td colSpan={days.length + 1} style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                                                    Aucune session disponible.
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            timeSlots.map(slot => (
+                                                <tr key={slot.start_time}>
+                                                    <td>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</td>
+                                                    {days.map(day => (
+                                                        <td key={day}>
+                                                            {schedule[day][slot.start_time] ? (
+                                                                <>
+                                                                    <div><strong>{schedule[day][slot.start_time].subject}</strong></div>
+                                                                    <div>{schedule[day][slot.start_time].teacherName}</div>
+                                                                    <div><i>{schedule[day][slot.start_time].classroom}</i></div>
+                                                                </>
+                                                            ) : (
+                                                                "Pas de session"
+                                                            )}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                    );
+                })
+            )}
 
-                    </div>
-                );
-            })}
 
             
             {showModal && modalData && (
@@ -1014,14 +1026,16 @@ const Timetable = () => {
                                 );
                             })
                         ) : (
-                                <div className='dispo-spinner'><PulseLoader color="#ffcc00" size={15} /></div>
-
+                            <tr>
+                                <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                                    Aucune disponibilité trouvée.
+                                </td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
-
-
             </div>
+
         <div className='whitetext'>Scolara</div>
         <div className='whitetext'>Scolara</div>
         {loadingaddtimeslot && (

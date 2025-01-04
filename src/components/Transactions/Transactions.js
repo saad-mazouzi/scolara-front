@@ -249,26 +249,32 @@ const Transactions = () => {
                 </div>
 
                 <div id="transactions-list">
-                    <ul>
-                        {filteredTransactions.map((transaction) => (
-                            <li key={transaction.id}>
-                                <span>{transaction.date}</span>
-                                <span style={{ color: 'red', fontWeight: 'bold' }}>
-                                    - {transaction.amount} DH
-                                </span>
-                                <span
-                                    onClick={() => handleShowDescription(transaction.description)}
-                                    style={{ cursor: 'pointer', color: '#4e7dad' }}
-                                >
-                                    {getShortDescription(transaction.description)}
-                                </span>
-                                <div className="button-group">
-                                    <button onClick={() => handleEditTransaction(transaction)}>Modifier</button>
-                                    <button onClick={() => handleDeleteTransaction(transaction.id)}>Supprimer</button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    {filteredTransactions.length > 0 ? (
+                        <ul>
+                            {filteredTransactions.map((transaction) => (
+                                <li key={transaction.id}>
+                                    <span>{transaction.date}</span>
+                                    <span style={{ color: 'red', fontWeight: 'bold' }}>
+                                        - {transaction.amount} DH
+                                    </span>
+                                    <span
+                                        onClick={() => handleShowDescription(transaction.description)}
+                                        style={{ cursor: 'pointer', color: '#4e7dad' }}
+                                    >
+                                        {getShortDescription(transaction.description)}
+                                    </span>
+                                    <div className="button-group">
+                                        <button onClick={() => handleEditTransaction(transaction)}>Modifier</button>
+                                        <button onClick={() => handleDeleteTransaction(transaction.id)}>Supprimer</button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                            Pas de dépense pour ce mois.
+                        </div>
+                    )}
                 </div>
 
                 <div id="transactions-printable" style={{ display: 'none' }}>

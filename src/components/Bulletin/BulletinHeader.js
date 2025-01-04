@@ -91,7 +91,7 @@ const BulletinHeader = React.forwardRef((props, ref) => {
                 }
             } catch (err) {
                 console.error("Error fetching student data:", err);
-                setError("Unable to load student information.");
+                setError("Toutes les notes ne sont pas encore prêtes. Veuillez vérifier ultérieurement.");
             }
         };
 
@@ -473,8 +473,23 @@ const BulletinHeader = React.forwardRef((props, ref) => {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                textAlign: 'center',
+                fontSize: '18px',
+                color: '#666',
+                fontWeight: 'bold',
+                backgroundColor: '#f9f9f9',
+            }}>
+                {error}
+            </div>
+        );
     }
+    
 
     return (
         <div ref={ref}>

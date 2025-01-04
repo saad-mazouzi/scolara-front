@@ -120,19 +120,28 @@ const Course = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {paginatedCourses.map((course) => (
-                        <tr 
-                            key={course.id}
-                            onClick={() => handleRowClick(course.id)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <td>{getSubjectName(course.subject)}</td>
-                            <td>{getTeacherName(course.teacher)}</td>
-                            <td>{getEducationLevelName(course.education_level)}</td>
+                    {paginatedCourses.length === 0 ? (
+                        <tr>
+                            <td colSpan="3" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                                Aucun cours disponible.
+                            </td>
                         </tr>
-                    ))}
+                    ) : (
+                        paginatedCourses.map((course) => (
+                            <tr 
+                                key={course.id}
+                                onClick={() => handleRowClick(course.id)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <td>{getSubjectName(course.subject)}</td>
+                                <td>{getTeacherName(course.teacher)}</td>
+                                <td>{getEducationLevelName(course.education_level)}</td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
+
             <div className='whitetext'>Scolara</div>
             <div className="pagination-controls-student">
                 <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>

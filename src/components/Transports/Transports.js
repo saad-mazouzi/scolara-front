@@ -291,24 +291,35 @@ const Transport = () => {
                     </tr>
                 </thead>
                 <tbody className='Transportation-tr'>
-                    {filteredTransports.map((transport) => (
-                        <tr key={transport.id} onClick={() => handleRowClick(transport.id)}>
-                            <td>{transport.name}</td>
-                            <td>{transport.registration}</td>
-                            <td>{getDriverName(transport.driver)}</td>
-                            <td>{getDriverPhone(transport.driver)}</td>
-                            <td>
-                                <div className='action-buttons'>
-                                    {/* <button className='edit-student-button' onClick={(e) => { e.stopPropagation(); handleEditTransport(transport.id); }}>
-                                        Modifier
-                                    </button> */}
-                                    <button className="student-button-delete" onClick={(e) => { e.stopPropagation(); handleDeleteTransport(transport.id); }}>
-                                        Supprimer
-                                    </button>
-                                </div>
+                    {filteredTransports.length > 0 ? (
+                        filteredTransports.map((transport) => (
+                            <tr key={transport.id} onClick={() => handleRowClick(transport.id)}>
+                                <td>{transport.name}</td>
+                                <td>{transport.registration}</td>
+                                <td>{getDriverName(transport.driver)}</td>
+                                <td>{getDriverPhone(transport.driver)}</td>
+                                <td>
+                                    <div className='action-buttons'>
+                                        <button
+                                            className="student-button-delete"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDeleteTransport(transport.id);
+                                            }}
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                                Pas de transport disponible.
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
         </table>
 
@@ -359,19 +370,26 @@ const Transport = () => {
         </div>
         <div className="transport-student-checkboxes">
             <label>Étudiants :</label>
-            <div className="transport-student-grid">
-                {students.map((student) => (
-                    <label key={student.id} className="transport-student-label">
-                        <input
-                            type="checkbox"
-                            checked={newTransportData.students.includes(student.id)}
-                            onChange={() => handleStudentCheckboxChange(student.id)}
-                        />
-                        {student.first_name} {student.last_name}
-                    </label>
-                ))}
-            </div>
+            {students.length > 0 ? (
+                <div className="transport-student-grid">
+                    {students.map((student) => (
+                        <label key={student.id} className="transport-student-label">
+                            <input
+                                type="checkbox"
+                                checked={newTransportData.students.includes(student.id)}
+                                onChange={() => handleStudentCheckboxChange(student.id)}
+                            />
+                            {student.first_name} {student.last_name}
+                        </label>
+                    ))}
+                </div>
+            ) : (
+                <div style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                    Pas d'étudiants disponible.
+                </div>
+            )}
         </div>
+
 
 
             <h3 className="transport-stations-title">Sélectionnez les stations</h3>

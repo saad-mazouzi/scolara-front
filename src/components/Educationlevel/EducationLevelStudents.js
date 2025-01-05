@@ -139,7 +139,19 @@ const EducationLevelStudents = () => {
                 </div>
                 <div className='middle-text'>{currentDate}</div>
                 {students.length === 0 ? (
-                    <p>Aucun étudiant trouvé pour ce niveau d'éducation.</p>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100vh',
+                        textAlign: 'center',
+                        fontSize: '18px',
+                        color: '#666',
+                        fontWeight: 'bold',
+                        backgroundColor: '#f9f9f9',
+                    }}>
+                        Aucun étudiant trouvé pour ce niveau d'éducation.
+                    </div>
                 ) : (
                     <table className="students-table">
                         <thead>

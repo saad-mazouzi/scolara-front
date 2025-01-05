@@ -121,7 +121,19 @@ const StudentGrades = () => {
                     </div>
                 </>
             ) : (
-                <p>Aucune note disponible pour cette matière.</p>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    textAlign: 'center',
+                    fontSize: '18px',
+                    color: '#666',
+                    fontWeight: 'bold',
+                    backgroundColor: '#f9f9f9',
+                }}>
+                    Aucune note disponible pour cette matière.
+                </div>
             )}
         </div>
     );

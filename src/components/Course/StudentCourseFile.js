@@ -106,7 +106,19 @@ const StudentCourseFiles = () => {
                     ))}
                 </div>
             ) : (
-                <p>Aucun fichier disponible pour ce cours.</p>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    textAlign: 'center',
+                    fontSize: '18px',
+                    color: '#666',
+                    fontWeight: 'bold',
+                    backgroundColor: '#f9f9f9',
+                }}>
+                Aucun fichier disponible pour ce cours.
+                </div>
             )}
 
             {/* Modal d'aperçu du fichier */}

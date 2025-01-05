@@ -145,7 +145,7 @@ function Router() {
                     <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
                     <Route path="/reset-password" element={<ResetPasswordForm/>} />
                     <Route path="/navbarsignup" element={<NavbarSignup/>} />
-                    <Route path="/admin-signup" element={<AdminSignupPage/>}/>
+                    <Route path="/admin-signup-19-05-2002-91-58-18-13" element={<AdminSignupPage/>}/>
                 </Routes>
             </BrowserRouter>
         </CookiesProvider>

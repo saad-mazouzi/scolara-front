@@ -209,6 +209,10 @@ const TimetableTeacher = () => {
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                         <PuffLoader color="#007bff" size={60} />
                     </div>
+                ) : timetableSessions.length === 0 ? (
+                    <div style={{ textAlign: 'center', margin: '20px 0', fontSize: '18px', color: '#666' }}>
+                        Pas d'emploi du temps disponible.
+                    </div>
                 ) : (
                     <table border="1" style={{ width: '100%', textAlign: 'center', marginTop: '10px' }}>
                         <thead>

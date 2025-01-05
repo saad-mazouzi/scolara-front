@@ -21,25 +21,15 @@ const CourseTeacher = () => {
     const [educationLevelName, setEducationLevelName] = useState('');
     const [error, setError] = useState(null);
     const [loadingcourse, setLoadingCourse] = useState(true);
-    const [loadingUpload, setLoadingUpload] = useState(false); // État pour gérer le loader du téléversement
+    const [loadingUpload, setLoadingUpload] = useState(false);
     const [loadingSubject, setLoadingSubject] = useState(true);
     const [loadingEducationlevel, setLoadingEducationlevel] = useState(true);
 
-    // Données automatiques des cookies
     const teacherId = parseInt(Cookies.get('TeacherId'), 10);
     const schoolId = parseInt(Cookies.get('SchoolId'), 10);
     const teacherEducationLevel = parseInt(Cookies.get('TeacherEducationLevel'), 10);
     const teacherSubject = parseInt(Cookies.get('TeacherSubject'), 10);
 
-    // Debugging logs
-    useEffect(() => {
-        console.log("TeacherId:", teacherId);
-        console.log("SchoolId:", schoolId);
-        console.log("TeacherEducationLevel:", teacherEducationLevel);
-        console.log("TeacherSubject:", teacherSubject);
-    }, [teacherId, schoolId, teacherEducationLevel, teacherSubject]);
-
-    // Obtenir le nom de la matière
     const getSubjectName = async () => {
         try {
             const subjects = await fetchSubjects(schoolId);
@@ -51,7 +41,6 @@ const CourseTeacher = () => {
         }
     };
 
-    // Obtenir le nom du niveau d'éducation
     const getEducationLevelName = async () => {
         try {
             const educationLevels = await fetchEducationLevels(schoolId);
@@ -63,7 +52,6 @@ const CourseTeacher = () => {
         }
     };
 
-    // Charger les cours pour cet enseignant
     const fetchTeacherCourse = async () => {
         try {
             if (!teacherEducationLevel || isNaN(teacherEducationLevel)) {
@@ -71,7 +59,7 @@ const CourseTeacher = () => {
                 return;
             }
 
-            const data = await fetchCourses(schoolId, teacherEducationLevel); // Transmettez `teacherEducationLevel` dans la requête
+            const data = await fetchCourses(schoolId, teacherEducationLevel);
             setLoadingCourse(false);
             const teacherCourse = data.find(
                 course =>
@@ -91,7 +79,6 @@ const CourseTeacher = () => {
         }
     };
 
-    // Charger les fichiers associés à un cours
     const fetchFilesForCourse = async (courseId) => {
         try {
             const files = await fetchCourseFiles(courseId);
@@ -103,21 +90,20 @@ const CourseTeacher = () => {
     };
 
     const handleDeleteFile = async (fileId) => {
-        setLoadingUpload(true); // Activer le loader pour la suppression
+        setLoadingUpload(true);
         try {
             await deleteCourseFile(fileId);
-            setCourseFiles(courseFiles.filter(file => file.id !== fileId)); // Mettre à jour la liste localement
+            setCourseFiles(courseFiles.filter(file => file.id !== fileId));
         } catch (error) {
             console.error("Erreur lors de la suppression du fichier :", error);
         } finally {
-            setLoadingUpload(false); // Désactiver le loader après la suppression
+            setLoadingUpload(false);
         }
     };
 
-    // Téléverser un fichier
     const handleUploadFile = async (e) => {
         e.preventDefault();
-        setLoadingUpload(true); // Activer le loader pour le téléversement
+        setLoadingUpload(true);
         try {
             if (!currentCourse) {
                 setError("Aucun cours sélectionné.");
@@ -127,16 +113,16 @@ const CourseTeacher = () => {
             const formData = new FormData();
             formData.append('file', newFile);
             formData.append('course', currentCourse.id);
-            formData.append('file_type', fileType); // Ajout du type de fichier
+            formData.append('file_type', fileType);
 
             await uploadCourseFile(formData);
-            fetchFilesForCourse(currentCourse.id); // Rafraîchir les fichiers
-            setNewFile(null); // Réinitialiser le champ de fichier
-            setFileType(''); // Réinitialiser le champ de type
+            fetchFilesForCourse(currentCourse.id);
+            setNewFile(null);
+            setFileType('');
         } catch (error) {
             console.error("Erreur lors du téléversement du fichier :", error);
         } finally {
-            setLoadingUpload(false); // Désactiver le loader après le téléversement
+            setLoadingUpload(false);
         }
     };
 
@@ -204,13 +190,12 @@ const CourseTeacher = () => {
                                 />
                             </label>
                             <button type="submit">Téléverser</button>
- 
                         </form>
                         {loadingcoursefiles ? (
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                                 <PuffLoader color="#007bff" size={60} />
                             </div>
-                        ) : (
+                        ) : courseFiles.length > 0 ? (
                             <table className="course-teacher-table">
                                 <thead>
                                     <tr>
@@ -241,6 +226,10 @@ const CourseTeacher = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        ) : (
+                            <p className="course-teacher-empty-message">
+                                Aucun fichier de cours disponible.
+                            </p>
                         )}
                     </>
                 ) : (
@@ -256,7 +245,6 @@ const CourseTeacher = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

@@ -285,36 +285,45 @@ const StudentsTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredStudents.map((student) => (
-                            <tr key={student.id}>
-                                <td>{student.last_name}</td>
-                                <td>{student.first_name}</td>
-                                {controls.map((control) => {
-                                    const grade = grades.find(
-                                        (g) => g.student === student.id && g.control === control.id
-                                    );
-                                    return (
-                                        <td key={control.id}>
-                                            <input
-                                                type="number"
-                                                step="0.1"
-                                                value={
-                                                    modifiedGrades[`${student.id}-${control.id}`] ??
-                                                    (grade ? grade.score : '')
-                                                }
-                                                onChange={(e) =>
-                                                    handleGradeChange(student.id, control.id, e.target.value)
-                                                }
-                                                className="grade-input"
-                                            />
-                                        </td>
-                                    );
-                                })}
-                                <td>{calculateFinalGrade(student.id)}</td>
+                        {filteredStudents.length > 0 ? (
+                            filteredStudents.map((student) => (
+                                <tr key={student.id}>
+                                    <td>{student.last_name}</td>
+                                    <td>{student.first_name}</td>
+                                    {controls.map((control) => {
+                                        const grade = grades.find(
+                                            (g) => g.student === student.id && g.control === control.id
+                                        );
+                                        return (
+                                            <td key={control.id}>
+                                                <input
+                                                    type="number"
+                                                    step="0.1"
+                                                    value={
+                                                        modifiedGrades[`${student.id}-${control.id}`] ??
+                                                        (grade ? grade.score : '')
+                                                    }
+                                                    onChange={(e) =>
+                                                        handleGradeChange(student.id, control.id, e.target.value)
+                                                    }
+                                                    className="grade-input"
+                                                />
+                                            </td>
+                                        );
+                                    })}
+                                    <td>{calculateFinalGrade(student.id)}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={controls.length + 3} style={{ textAlign: 'center', color: 'gray' }}>
+                                    Pas d'étudiant disponible.
+                                </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
+
                 <div className='whitetext'>Scolara</div>
                 <button className="create-student-student-button" onClick={handleSaveGrades}>
                     Enregistrer les notes
@@ -352,7 +361,7 @@ const StudentsTable = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <div>Aucun contrôle trouvé.</div>
+                    <div style={{ textAlign: 'center', color: 'gray' }}>Aucun contrôle trouvé.</div>
                 )}
 
                 <form onSubmit={handleControlSubmit} className="control-form">

@@ -1685,3 +1685,13 @@ export const deleteTimeSlot = async (id) => {
         throw error;
     }
 };
+
+export const fetchDriverTransports = async () => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/driver-transports/`);
+        return response.data; // Renvoie la liste des noms des transports
+    } catch (error) {
+        console.error('Erreur lors de la récupération des transports du chauffeur :', error);
+        throw error; // Propager l'erreur pour qu'elle soit gérée dans le frontend
+    }
+};

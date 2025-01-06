@@ -62,6 +62,7 @@ import UsersPage from './components/Chat/UserPage';
 import StudentBulletins from './components/Bulletin/StudentBulletins';
 import BulletinHeader from './components/Bulletin/BulletinHeader';
 import DriverProfileNavbar from './components/Drivers/DriverProfile';
+import DriverTransports from './components/Transports/TransportCards';
 
 function Router() {
     return (
@@ -146,6 +147,8 @@ function Router() {
                     <Route path="/reset-password" element={<ResetPasswordForm/>} />
                     <Route path="/navbarsignup" element={<NavbarSignup/>} />
                     <Route path="/admin-signup-19-05-2002-91-58-18-13" element={<AdminSignupPage/>}/>
+                    <Route path="/transport-driver" element={<DriverTransports/>} />
+
                 </Routes>
             </BrowserRouter>
         </CookiesProvider>

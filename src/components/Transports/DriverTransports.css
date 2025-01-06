@@ -1,0 +1,86 @@
+/* DriverTransports.css */
+
+.driver-transports-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.transports-grid {
+    display: flex;
+    flex-direction: column; /* Les cartes s'empilent verticalement */
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 500px; /* Largeur maximale des cartes */
+    gap: 20px; /* Espace entre les cartes */
+}
+
+.transport-card {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Les cartes occupent toute la largeur disponible */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur */
+}
+
+.transport-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.transport-card h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.transport-card h3:hover {
+    margin: 0;
+    font-size: 20px;
+    color : #ffcc00;
+}
+
+.no-transports {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Requête pour appareils mobiles (écrans < 768px) */
+@media (max-width: 768px) {
+    .transport-card {
+        padding: 15px; /* Réduction du padding */
+        font-size: 16px; /* Texte légèrement plus petit */
+    }
+
+    .transports-grid {
+        gap: 15px; /* Réduction de l'espacement entre les cartes */
+    }
+
+    h2 {
+        font-size: 20px; /* Taille de titre adaptée au mobile */
+    }
+}
+
+/* Requête pour très petits écrans (écrans < 480px) */
+@media (max-width: 480px) {
+    .transport-card {
+        padding: 10px; /* Réduction supplémentaire du padding */
+    }
+
+    h2 {
+        font-size: 18px; /* Taille de titre plus petite pour très petits écrans */
+    }
+}

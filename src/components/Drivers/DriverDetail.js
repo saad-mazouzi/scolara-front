@@ -9,7 +9,7 @@ import {
   updateDriver,
 } from '../../APIServices';
 import './Driver.css';
-import { PuffLoader } from 'react-spinners';
+import { PuffLoader,MoonLoader } from 'react-spinners';
 
 const DriverProfile = () => {
   const { id } = useParams();
@@ -18,6 +18,7 @@ const DriverProfile = () => {
   const [error, setError] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
   const [monthlySalary, setMonthlySalary] = useState(null);
+  const [loadingform, setLoadingForm] = useState(false);
 
   useEffect(() => {
     const getDriverData = async () => {
@@ -40,6 +41,7 @@ const DriverProfile = () => {
   const handleProfilePictureSubmit = async () => {
     const formData = new FormData();
     formData.append('profile_picture', profilePicture);
+    setLoadingForm(true);
 
     try {
       await updateDriverProfilePicture(id, formData);
@@ -47,10 +49,13 @@ const DriverProfile = () => {
       setDriver(refreshedDriver);
     } catch (err) {
       console.error('Erreur lors de la mise à jour de la photo de profil :', err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
   const handleUpdateDriver = async () => {
+    setLoadingForm(true);
     try {
       const updatedDriver = {
         ...driver,
@@ -62,23 +67,29 @@ const DriverProfile = () => {
       setDriver(refreshedDriver);
     } catch (err) {
       console.error("Erreur lors de la mise à jour du chauffeur :", err);
+    } finally {
+      setLoadingForm(false);
     }
   };
 
 
     const handlePaymentStatusUpdate = async (isPaid) => {
         console.log("Button clicked, updating payment status to:", isPaid);
+        setLoadingForm(true);
         try {
             await markDriverAsPaid(driver.id, { paid: isPaid });
             const refreshedDriver = await fetchDriverById(id);
             setDriver(refreshedDriver); // Update the local state
         } catch (err) {
             console.error('Erreur lors de la mise à jour du statut de paiement :', err);
+        } finally {
+            setLoadingForm(false);
         }
     };
 
   
   const handleSalarySubmit = async () => {
+    setLoadingForm(true);
     try {
         const updatedDriver = {
             ...driver,
@@ -91,6 +102,8 @@ const DriverProfile = () => {
         setDriver(refreshedDriver);
     } catch (err) {
         console.error('Erreur lors de la mise à jour du salaire:', err);
+    } finally {
+        setLoadingForm(false);
     }
   };
 
@@ -203,6 +216,13 @@ const DriverProfile = () => {
             </p>
           </div>
         </div>
+      )}
+      {loadingform && (
+          <div className="overlay-loader">
+              <div className="CRUD-loading-container">
+                  <MoonLoader size={50} color="#ffcc00" loading={loadingform} />
+              </div>
+          </div>
       )}
     </div>
   );

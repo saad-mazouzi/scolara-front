@@ -10,9 +10,11 @@ const LoginForm = () => {
     const [, setCookie] = useCookies([
         'jwtToken', 'refreshToken', 'userFirstName', 
         'profilePicture', 'SchoolName', 'SchoolId', 
-        'education_level', 'TeacherId', 'UserRole'
+        'education_level', 'TeacherId', 'UserRole' // Ajout de 'UserRole' ici
     ]);
     const [formData, setFormData] = useState({ email: '', password: '' });
+    const [isParent, setIsParent] = useState(false);
+    const [isTeacher, setIsTeacher] = useState(false);
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
@@ -25,7 +27,7 @@ const LoginForm = () => {
         try {
             const response = await axiosInstance.post('users/login/', formData);
             const { access, refresh, first_name, school, school_id, user } = response.data;
-
+    
             setCookie('jwtToken', access, { path: '/', sameSite: 'None', secure: true });
             setCookie('refreshToken', refresh, { path: '/', sameSite: 'None', secure: true });
             setCookie('userFirstName', first_name, { path: '/', sameSite: 'None', secure: true });
@@ -34,19 +36,40 @@ const LoginForm = () => {
             setCookie('SchoolId', school_id, { path: '/', sameSite: 'None', secure: true });
             setCookie('TeacherId', user.id, { path: '/', sameSite: 'None', secure: true });
             setCookie('UserRole', user.role, { path: '/', sameSite: 'None', secure: true });
-
+            
             if (user.role === 5) { // Chauffeur
-                navigate('/transport-driver'); // Redirige vers la page des transports
+                // Récupérer l'ID du transport en fonction de l'ID du chauffeur
+                try {
+                    const transportResponse = await axiosInstance.get(
+                        `https://scolara-backend.onrender.com/api/stations-by-driver-id/${user.id}/`
+                    );
+                    const { transport_id } = transportResponse.data;
+    
+                    if (transport_id) {
+                        // Rediriger vers l'URL dynamique
+                        navigate(`/transport-driver/${transport_id}`);
+                    } else {
+                        throw new Error("ID du transport introuvable.");
+                    }
+                } catch (transportError) {
+                    console.error("Erreur lors de la récupération du transport :", transportError);
+                    setMessage(
+                        <span style={{ color: 'red' }}>
+                            Erreur lors de la récupération des informations de transport.
+                        </span>
+                    );
+                }
             } else if (user.role === 3) { // Enseignant
                 if (user.education_level) {
                     setCookie('TeacherEducationLevel', user.education_level, { path: '/' });
                 }
                 if (user.subject) {
                     setCookie('TeacherSubject', user.subject, { path: '/' });
+                    console.log('Cookies set for TeacherSubject:', document.cookie);
                 }
-                navigate('/timetable-teacher');
+                setIsTeacher(true);
             } else if (user.role === 4) { // Parent
-                navigate('/enter-secret-key');
+                setIsParent(true);
             } else if (user.role === 1) { // Administrateur
                 navigate('/dashboard');
             } else if (user.role === 2) { // Étudiant
@@ -55,7 +78,7 @@ const LoginForm = () => {
                 }
                 navigate('/student-timetable');
             } else {
-                navigate('/'); // Par défaut
+                navigate('/'); // Autres utilisateurs
             }
         } catch (error) {
             console.error('Erreur lors de la connexion:', error);
@@ -68,6 +91,19 @@ const LoginForm = () => {
             );
         }
     };
+    
+    
+    useEffect(() => {
+        if (isParent) {
+            navigate('/enter-secret-key'); // Remplacez '/enter-secret-key' par le chemin réel de votre composant de saisie de la clé secrète
+        }
+    }, [isParent, navigate]);
+
+    useEffect(() => {
+        if (isTeacher) {
+            navigate('/timetable-teacher');
+        }
+    }, [isTeacher, navigate]);
 
     return (
         <div className="signupbody">

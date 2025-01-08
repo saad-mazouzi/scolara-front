@@ -412,7 +412,7 @@ const AdminProfile = () => {
 
                     <div className="change-logo-title">
                         <div>
-                            <strong>Adresse:</strong> {schoolAddress || 'Not specified'}
+                            <strong>Adresse:</strong> {schoolAddress || 'Non spécifié'}
                         </div>
                         <input
                             type="text"
@@ -428,7 +428,7 @@ const AdminProfile = () => {
 
                     <div className="change-logo-title">
                         <div>
-                            <strong>Numéro de téléphone:</strong> {schoolPhone || 'Not specified'}
+                            <strong>Numéro de téléphone:</strong> {schoolPhone || 'Non spécifié'}
                         </div>
                         <input
                             type="text"

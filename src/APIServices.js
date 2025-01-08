@@ -1350,9 +1350,10 @@ export const markTeacherAsPaid = async (teacherId) => {
     try {
         console.log(`Appel API pour marquer comme payé : ${API_URL}/users/${teacherId}/mark-paid/`);
         const response = await axiosInstance.patch(`${API_URL}/users/${teacherId}/mark-paid/`);
+        console.log("Réponse de l'API :", response.data);
         return response.data;
     } catch (error) {
-        console.error("Erreur lors de la mise à jour du statut de paiement :", error.response.data);
+        console.error("Erreur lors de la mise à jour du statut de paiement :", error.response?.data || error.message);
         throw error;
     }
 };

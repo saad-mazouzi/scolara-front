@@ -164,23 +164,31 @@ const TeacherProfile = () => {
   };
 
   const handlePaymentStatusUpdate = async (isPaid) => {
-      setLoadingForm(true);
-      try {
-          const updatedTeacher = {
-              ...teacher,
-              paid: isPaid, // Assurez-vous que `isPaid` est un booléen
-          };
+  setLoadingForm(true);
+  try {
+    // Mettez à jour le statut de paiement de l'enseignant
+    const updatedTeacher = {
+      ...teacher,
+      paid: isPaid,
+    };
 
-          await updateTeacher(id, updatedTeacher);
+    await updateTeacher(id, updatedTeacher);
 
-          const refreshedTeacher = await fetchTeacherById(id);
-          setTeacher(refreshedTeacher);
-      } catch (err) {
-          console.error("Erreur lors de la mise à jour du statut de paiement :", err);
-      } finally {
-          setLoadingForm(false);
-      }
-  };
+    // Si le statut est marqué comme payé, créez une transaction
+    if (isPaid) {
+      await markTeacherAsPaid(id, teacher.monthly_salary || 0);
+    }
+
+    // Rafraîchissez les données après la mise à jour
+    const refreshedTeacher = await fetchTeacherById(id);
+    setTeacher(refreshedTeacher);
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du statut de paiement ou de la transaction :', err);
+  } finally {
+    setLoadingForm(false);
+  }
+};
+
 
   
 

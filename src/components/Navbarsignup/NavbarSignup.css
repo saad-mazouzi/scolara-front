@@ -2,24 +2,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 30px; /* Augmente le padding pour un meilleur espacement */
-    background-color: #ffffff; /* Couleur de fond */
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Ombre plus subtile et élégante */
-    border-radius: 8px; /* Coins légèrement arrondis pour plus de style */
+    padding: 5px 20px; /* Ajustement du padding */
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     position: relative;
     top: 0;
-    z-index: 1000; /* La navbar reste au-dessus du contenu */
+    z-index: 1000;
 }
 
 .navbar-logo img {
-    height: 60px;
-    width:100px;
-    margin: 0;
-    object-fit: contain; /* Assure que le logo garde ses proportions */
+    height: 50px; /* Réduction de la taille sur mobile */
+    object-fit: contain;
 }
 
 .navbar-text {
-    font-size: 18px; /* Légèrement plus grand pour une meilleure lisibilité */
+    font-size: 18px;
     font-weight: bold;
     color: #4e7dad;
     text-align: center;
@@ -29,16 +27,16 @@
 
 .navbar-buttons {
     display: flex;
-    gap: 12px; /* Un peu plus d’espace entre les boutons */
+    gap: 12px;
 }
 
 .navbar-button-login,
 .navbar-button-signup {
-    padding: 12px 20px; /* Augmente légèrement le padding pour un meilleur confort */
+    padding: 10px 16px;
     border: none;
-    border-radius: 25px; /* Coins arrondis pour un look moderne */
+    border-radius: 25px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s ease; /* Animation douce */
+    transition: background-color 0.3s, transform 0.2s ease;
     font-weight: bold;
 }
 
@@ -54,8 +52,50 @@
 
 .navbar-button-login:hover,
 .navbar-button-signup:hover {
-    background-color: #355a85; /* Couleur plus sombre au survol */
-    transform: scale(1.05); /* Agrandissement léger au survol */
+    background-color: #355a85;
+    transform: scale(1.05);
 }
 
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column; /* La navbar passe en colonne */
+        align-items: center;
+        text-align: center;
+    }
 
+    .navbar-logo img {
+        height: 40px; /* Taille réduite sur mobile */
+    }
+
+    .navbar-text {
+        font-size: 16px;
+        margin: 10px 0; /* Ajoute de l'espacement vertical */
+    }
+
+    .navbar-buttons {
+        flex-direction: row; /* Garde les boutons côte à côte */
+        justify-content: center; /* Centre les boutons horizontalement */
+        gap: 8px; /* Réduit l'écart entre les boutons */
+        width: auto; /* Pas de largeur spécifique */
+    }
+
+    .navbar-button-login,
+    .navbar-button-signup {
+        width: auto; /* Les boutons ajustent leur taille */
+        padding: 8px 12px; /* Réduit le padding pour les petits écrans */
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-text {
+        font-size: 14px; /* Texte encore plus petit sur les petits écrans */
+    }
+
+    .navbar-button-login,
+    .navbar-button-signup {
+        padding: 8px 10px; /* Moins de padding pour s'adapter aux petits écrans */
+        font-size: 12px; /* Taille de police plus petite */
+    }
+}

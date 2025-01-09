@@ -12,11 +12,8 @@ const SignupPage = () => {
             <div className='whitetext'>Scolara</div>
 
             <Signup />
-            <div className='whitetext'> saad </div>
-            <div className='whitetext'> saad </div>
-            <div className='whitetext'> saad </div>
 
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

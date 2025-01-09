@@ -1,34 +1,23 @@
-.signupbody {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff; /* Couleur de fond de secours */
-    background-image: url('../../../images/ecoole.jpg'), url('../../../images/ecole3.jpg'), url('../../../images/ecole5.jpg'); /* Ajoutez plusieurs images ici */
-    background-size: 65%; /* Ajuste la largeur automatiquement et la hauteur à 100% */
-    background-position: left bottom; /* Aligne l'image à gauche et en bas */
-    background-repeat: no-repeat; /* Pas de répétition de l'image */
-    height: 95vh; /* Utilise toute la hauteur de la fenêtre */
-    animation: slide 15s infinite; /* Appelle l'animation */
-    margin-top: 50px;
-    margin-left: 10px;
-}
 
 
-/* Animation pour changer d'image de fond */
+/* Supprimer l'animation car elle dépend des images */
 @keyframes slide {
     0% {
-        background-image: url('../../../images/ecoole.jpg');
+        background-color: #ffffff; /* Maintient une couleur de fond */
     }
     33% {
-        background-image: url('../../../images/ecole3.jpg');
+        background-color: #f7f7f7; /* Variation légère de couleur */
     }
     66% {
-        background-image: url('../../../images/ecole5.jpg');
+        background-color: #eaeaea; /* Variation légère de couleur */
     }
 }
+
 
 /* Ajoutez ces règles pour le conteneur */
 .container {
-    margin-top:0px;
-    margin-right:50px;
+    /* margin-top:0px;
+    margin-right:50px; */
     display: flex; /* Utiliser flexbox pour la disposition */
     height: 80vh; /* Utilise toute la hauteur de la fenêtre */
     justify-content: flex-end; /* Aligner le formulaire à droite */

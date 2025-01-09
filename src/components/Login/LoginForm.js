@@ -4,6 +4,7 @@ import axiosInstance from '../../axiosConfig';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../components/Signup/Signup.css';
 import '../Admin/Adminsignup/AdminSignup.css';
+import './LoginForm.css';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ const LoginForm = () => {
     return (
         <div className="signupbody">
             <div className="zoom-container">
-                <div className="container">
+                <div className="login-container">
                     <div className="form-section">
                         <h2>Connexion</h2>
                         <form onSubmit={handleSubmit}>

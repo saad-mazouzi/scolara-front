@@ -12,3 +12,12 @@
 .login-button:hover {
     background-color: #005599; /* Couleur de fond au survol */
 }
+
+.login-container{
+    display: flex; /* Flexbox pour centrer */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: auto; /* Ajuste la hauteur automatiquement */
+    padding: 20px; /* Ajoute de l'espacement intérieur */
+    margin-top: 150px;
+}

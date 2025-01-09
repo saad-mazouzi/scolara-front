@@ -131,3 +131,12 @@ label {
     outline: none;
     border-color: #ffcc00; /* Couleur de la bordure au focus */
 }
+
+@media (max-width: 768px) {
+    .admin-container {
+        margin-top: 100px !important; 
+        margin-bottom: 50px; /* Ajuste la marge inférieure */
+        height: auto; /* Permet d'ajuster la hauteur automatiquement */
+    }
+
+}

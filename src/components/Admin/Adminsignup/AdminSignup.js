@@ -75,7 +75,7 @@ const AdminSignup = () => {
     return (
         <div className="signupbody">
             <div className="zoom-container"> 
-                <div className="container">
+                <div className="admin-container">
                     <div className="form-section">
                         <h2>Inscription Admin</h2>
                         <form onSubmit={handleSubmit} encType="multipart/form-data">

@@ -8,14 +8,7 @@ const ForgotPasswordPage = () => {
     return (
         <div>
             <NavbarSignup />
-            {/* <div className='whitetext'> saad </div>
-            <div className='whitetext'> saad </div>
-            <div className='whitetext'> saad </div> */}
-
-            {/* <div></div> */}
             <ForgotPassword/>
-            <div className='whitetext'> saad </div>
-            <Footer /> {/* Ajoutez le footer ici */}
         </div>
     );
 };

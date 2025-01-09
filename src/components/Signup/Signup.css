@@ -45,4 +45,13 @@
     margin-bottom: 150px;
 }
 
+/* --- Media Queries pour Mobile --- */
+@media (max-width: 768px) {
+    .signupbody {
+        margin-top: -100px !important; 
+        margin-bottom: 50px; /* Ajuste la marge inférieure */
+        height: auto; /* Permet d'ajuster la hauteur automatiquement */
+    }
+}
+
 

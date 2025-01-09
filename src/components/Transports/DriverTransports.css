@@ -80,7 +80,7 @@ h2 {
         padding: 10px; /* Réduction supplémentaire du padding */
     }
 
-    h2 {
-        font-size: 18px; /* Taille de titre plus petite pour très petits écrans */
+    .h2 {
+        font-size: 18px;
     }
 }

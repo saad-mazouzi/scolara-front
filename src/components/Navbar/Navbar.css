@@ -8,7 +8,7 @@
     top: 0;
     z-index: 1000;
     padding: 5px 15px; /* Réduction du padding pour la rendre plus fine */
-    margin-left: 1px;
+    margin-left: 0px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
     transition: all 0.3s ease; /* Transition douce pour les changements */
 }
@@ -199,3 +199,31 @@
     border-bottom: none;
 }
 
+/* Masquer les éléments non essentiels sur les écrans inférieurs à 768px */
+@media (max-width: 768px) {
+    .navbar-center, /* Masquer le nom de l'école */
+    .navbar-right { /* Masquer la section de droite */
+        display: none;
+    }
+
+    .navbar-user { /* Réduire l'espace entre les éléments */
+        font-size: 16px;
+        gap: 5px;
+    }
+
+    .navbar-profile-picture {
+        width: 40px; /* Réduction de la taille de la photo de profil */
+        height: 40px;
+    }
+
+    .navbar {
+        padding: 5px 10px; /* Ajuster le padding */
+        justify-content: flex-start; /* Aligner les éléments à gauche */
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        box-shadow: none !important; /* Supprime l'ombre */
+    }
+}

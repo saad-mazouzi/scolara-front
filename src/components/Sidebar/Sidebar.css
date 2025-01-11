@@ -128,3 +128,132 @@
 .whitetext{
     color: white;
 }
+
+.sidebar-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Bouton pour afficher/masquer la barre latérale */
+/* Bouton pour afficher/masquer la barre latérale */
+.toggle-button {
+    position: fixed;
+    top: 70px; /* Augmentez cette valeur pour descendre le bouton */
+    left: 10px;
+    background-color: #4e7dad;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Barre latérale */
+.sidebar {
+    background-color: #ffffff;
+    color: #333333;
+    width: 250px;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Lorsque la barre latérale est fermée */
+.sidebar-container.closed .sidebar {
+    transform: translateX(-100%); /* Cache la barre latérale */
+}
+
+/* Lorsque la barre latérale est ouverte */
+.sidebar-container.open .sidebar {
+    transform: translateX(0); /* Affiche la barre latérale */
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Réduit la largeur sur mobile */
+    }
+
+    .toggle-button {
+        top: 15px; /* Ajuste la position du bouton sur mobile */
+        left: 15px;
+    }
+}
+
+/* Cible uniquement le faArrowRight lorsque la Sidebar est fermée */
+.sidebar-container.closed .toggle-button {
+    top: 50px; /* Ajustez la position pour déplacer vers le bas */
+}
+
+/* Bouton général pour afficher/masquer la barre latérale */
+.toggle-button {
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    background-color: #4e7dad;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Appliquer uniquement pour faArrowRight lorsque la Sidebar est fermée */
+.sidebar-container.closed .toggle-button {
+    top: 380px; /* Descend le bouton uniquement lorsque fermé */
+}
+
+/* Lorsque la Sidebar est ouverte */
+.sidebar-container.open .sidebar {
+    transform: translateX(0); /* La Sidebar est visible */
+}
+
+/* Lorsque la Sidebar est fermée */
+.sidebar-container.closed .sidebar {
+    transform: translateX(-100%); /* Cache complètement la Sidebar */
+}
+
+/* Responsive pour les écrans mobiles */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Largeur réduite pour les mobiles */
+        transition: transform 0.3s ease, width 0.3s ease;
+    }
+
+    .sidebar-container.closed .sidebar {
+        transform: translateX(-200px); /* Cache complètement la Sidebar sur mobile */
+    }
+
+    .toggle-button {
+        top: 15px; /* Positionne le bouton correctement */
+        left: 10px;
+    }
+    .sidebar-container.closed .toggle-button {
+        top: 80px; /* Descend le bouton uniquement lorsque fermé */
+    }
+}
+
+/* Très petits écrans (smartphones) */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 180px; /* Encore plus réduite */
+    }
+
+    .sidebar-container.closed .sidebar {
+        transform: translateX(-180px); /* Cache complètement la Sidebar */
+    }
+}
+

@@ -18,13 +18,15 @@ import driverIcon from '../../images/icons/driver_icon.png'
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { LuNewspaper } from "react-icons/lu";
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
 
 
 // import Navbar from '../Navbar/Navbar';
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation(); // Utiliser useLocation pour obtenir le chemin actuel
     const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
-
+   
     const isDashboardActive = () => {
         const paths = [
             '/dashboard', // Chemin principal
@@ -145,6 +147,10 @@ const Sidebar = () => {
     };
 
     return (
+        <div className={`sidebar-container ${isOpen ? 'open' : 'closed'}`}>
+            <div className="toggle-button" onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={isOpen ? faArrowLeft : faArrowRight} />
+            </div>
         <div className="sidebar">
             {/* <Navbar/> */}
             <div className="logo">
@@ -316,6 +322,7 @@ const Sidebar = () => {
                 </ul>
             </nav>
             <div className='whitetext'>Scolara</div>
+        </div>
         </div>
     );
 };

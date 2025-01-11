@@ -6,7 +6,7 @@ import './Navbar.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
-const Navbar = () => {
+const Navbar = ({ isSidebarOpen }) => {
     const [cookies, , removeCookie] = useCookies([
         'userFirstName', 'jwtToken', 'refreshToken',
         'profilePicture', 'SchoolName', 'TeacherId', 'UserRole'
@@ -15,6 +15,12 @@ const Navbar = () => {
     const teacherId = cookies.TeacherId;
     const userRole = cookies.UserRole;
     const SchoolName = cookies.SchoolName;
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
 
     const [profilePicture, setProfilePicture] = useState('');
     const [notifications, setNotifications] = useState([]); // Stocker les notifications
@@ -35,7 +41,7 @@ const Navbar = () => {
                 console.error("Erreur lors de la récupération des notifications :", error);
             }
         };
-
+        
         fetchNotifications();
     }, [cookies.profilePicture]);
 
@@ -136,7 +142,10 @@ const Navbar = () => {
                     </div>
                 )}
             </div>
-            <div className="navbar-right">
+            <div 
+                className="navbar-right" 
+                style={{ marginRight: isSidebarOpen ? '320px' : '50px' }}
+            >
                 <div className="notification-container">
                     <div className="notification-icon" onClick={handleNotificationClick}>
                         <i className={`fas fa-bell ${notifications.length > 0 && !showNotifications ? 'has-events' : ''}`}></i>

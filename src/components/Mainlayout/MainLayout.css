@@ -1,8 +1,99 @@
 .main-layout {
-    display: flex; /* Utilise Flexbox pour la mise en page */
+    display: flex;
+    flex-direction: row; /* Disposition en ligne par défaut */
+    height: 100vh; /* Hauteur totale de la fenêtre */
 }
 
+/* Pour le contenu principal */
 .content {
-    flex: 1; /* Prend tout l'espace restant à droite de la barre latérale */
-    padding: 20px; /* Ajoute un peu de padding autour du contenu */
+    flex: 1; /* Prend tout l'espace disponible */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Transition fluide pour les changements */
+}
+
+/* Styles pour mobile (écrans ≤ 768px) */
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column; /* Disposition en colonne */
+    }
+
+    .sidebar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 120px;
+        background-color: #fff;
+        box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+        transform: translateX(-100%); /* Masquer la barre latérale par défaut */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* Affiche la barre latérale */
+    }
+
+    .content {
+        margin-left: 0; /* Supprime la marge liée à la barre latérale */
+        padding: 10px; /* Réduit le padding pour les petits écrans */
+    }
+
+    .navbar {
+        padding: 10px; /* Réduction du padding global */
+        justify-content: flex-start; /* Alignement à gauche */
+    }
+
+
+    .navbar-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-center,
+    .navbar-right { /* Masquer les éléments non essentiels */
+        display: none;
+    }
+
+    .navbar-user {
+        font-size: 16px; /* Réduction de la taille du texte */
+        gap: 5px; /* Espacement réduit */
+    }
+
+    .navbar-profile-picture {
+        width: 40px; /* Réduction de la taille de l'image */
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 120px; /* Largeur réduite pour mobile */
+        background-color: #fff;
+        box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .navbar {
+        margin-left: 0px !important; /* Pas de marge par défaut */
+        transition: margin-left 0.3s ease-in-out; /* Transition fluide */
+    }
+
+    .content {
+        margin-left: 0 !important; /* Supprime les marges pour le contenu */
+        padding: 10px; /* Ajuste le padding pour petits écrans */
+    }
 }

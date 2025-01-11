@@ -242,7 +242,7 @@
         left: 10px;
     }
     .sidebar-container.closed .toggle-button {
-        top: 80px; /* Descend le bouton uniquement lorsque fermé */
+        top: 420px; /* Descend le bouton uniquement lorsque fermé */
     }
 }
 
@@ -257,3 +257,15 @@
     }
 }
 
+@media (min-width: 1024px) {
+    .toggle-button {
+        display: none; /* Cache le bouton pour les écrans plus larges */
+    }
+}
+
+/* Afficher le bouton de bascule uniquement pour les écrans plus petits */
+@media (max-width: 1024px) {
+    .toggle-button {
+        display: flex; /* Affiche le bouton pour les écrans mobiles/tablettes */
+    }
+}

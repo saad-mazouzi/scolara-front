@@ -62,6 +62,7 @@
     .navbar-profile-picture {
         width: 40px; /* Réduction de la taille de l'image */
         height: 40px;
+        margin-left: -20px;
     }
 }
 

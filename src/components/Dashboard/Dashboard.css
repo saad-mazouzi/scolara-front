@@ -81,7 +81,7 @@
     /* margin-top: 30px; */
     width: 250px;
     text-align: center;
-    /* margin-left: 800px; */
+    /* margin-left: 30px !important; */
 }
 
 .donut-chart-container h4 {
@@ -122,6 +122,7 @@
     flex: 1;
     max-width: 250px;
     margin-right: 0; /* Supprimez la marge à droite */
+    margin-left: 10px !important;
 }
 
 .calendar-container {
@@ -143,7 +144,7 @@
 .monthly-expenses-chart {
     display: flex; /* Utilise Flexbox pour disposer les éléments horizontalement */
     justify-content: space-between; /* Ajoute de l'espace entre les graphiques */
-    gap: 20px; /* Espace entre les graphiques */
+    gap: 50px; /* Espace entre les graphiques */
 }
 
 .event-modal-overlay {
@@ -216,6 +217,7 @@
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Add a margin to separate it from the calendar */
 }
 
 .event-form {
@@ -326,8 +328,9 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* margin: 20px auto; */
-    width: 500px;
+    width: 600px;
     margin-top: 20px;
+    
 }
 
 .earnings-chart-container {
@@ -336,7 +339,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* margin: 20px auto; */
-    width: 500px;
+    width: 600px;
     margin-top: 20px;
 }
 
@@ -386,4 +389,96 @@
     position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
     top: 0;
     left: 0;
+}
+
+/* General container for charts and calendar */
+.chart-calendar-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    align-items: flex-start;
+    justify-content: center; /* Center items on smaller screens */
+    gap: 20px; /* Space between elements */
+    margin-top: 30px;
+}
+
+/* Donut chart styling */
+.donut-chart-container {
+    flex: 1 1 300px; /* Allow flexibility with a minimum size */
+    max-width: 300px; /* Set a maximum width */
+    margin: 0 auto; /* Center the element */
+    text-align: center;
+    margin-left: 30px !important;
+}
+
+/* Calendar and reminders container */
+.calendar-reminders-container {
+    display: flex;
+    flex-wrap: wrap; /* Enable wrapping for responsiveness */
+    gap: 20px; /* Space between items */
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+}
+
+/* Calendar container */
+.calendar-container {
+    flex: 1 1 300px; /* Adjust to screen size with a minimum width */
+    max-width: 400px;
+    text-align: center;
+    margin-left: 50px;
+}
+
+/* Event reminders styling */
+.event-reminders {
+    flex: 1 1 300px; /* Adjust to screen size with a minimum width */
+    max-width: 350px; /* Set a maximum width */
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Event reminder item */
+.event-reminder {
+    background: #e0f7fa;
+    border-left: 5px solid #4e7dad;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    position: relative;
+}
+
+/* Pagination buttons */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+.pagination-controls button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4e7dad;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: #ffcc00;
+}
+
+
+@media (max-width: 768px) {
+    .loading-container {
+        margin-left: 0;
+    }
 }

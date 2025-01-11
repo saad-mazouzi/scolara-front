@@ -209,6 +209,7 @@
     .navbar-user { /* Réduire l'espace entre les éléments */
         font-size: 16px;
         gap: 5px;
+        margin-left: 0px !important;
     }
 
     .navbar-profile-picture {
@@ -219,6 +220,7 @@
     .navbar {
         padding: 5px 10px; /* Ajuster le padding */
         justify-content: flex-start; /* Aligner les éléments à gauche */
+        margin-left: 0px !important;
     }
 }
 

@@ -45,10 +45,10 @@ const MainLayout = () => {
                     }}
                 >
                     <Navbar isSidebarOpen={isSidebarOpen} />
-                    <div style={{ marginTop: '70px', padding: '20px' }}>
+                    <div style={{ marginTop: '70px', padding: '20px', marginLeft:'20px' }}>
                         <Outlet isSidebarOpen={isSidebarOpen} />
                     </div>
-                </div>
+                </div>  
             ) : null}
         </div>
     );

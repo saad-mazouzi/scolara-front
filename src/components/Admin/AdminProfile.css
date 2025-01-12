@@ -18,7 +18,7 @@
 .modify-profile-picture-admin{
     position: absolute;
     top: 320px;
-    left: 890px;
+    left: 810px;
     background-color: #5c7fa1;
     color: white;
     border: none;
@@ -113,7 +113,7 @@
     overflow: hidden; /* Cache tout ce qui dépasse du rond */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f0f0f0; /* Optionnel, pour une couleur de fond en cas d'absence d'image */
-    margin-left: 80px;
+    margin-left: 50px;
 }   
 
 
@@ -141,7 +141,6 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-top:0px;
-    margin-left: 40px;
 }
 
 .admin-profile-details {
@@ -235,13 +234,13 @@
 
 .edit-icon-admin{
     top: 290px;
-    left: 1070px;
+    left: 970px;
     color: #4e7dad;
 }
 
 .edit-icon-admin-logo{
     margin-top: 170px;
-    margin-left: 95px;
+    margin-left: 25px;
     color: #4e7dad;
 }
 

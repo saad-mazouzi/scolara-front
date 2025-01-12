@@ -24,9 +24,9 @@
     margin-left: 0px;
 }
 
-.navbar-right {
+/* .navbar-right {
     margin-right: 320px;
-}
+} */
 
 .navbar-center {
     flex-grow: 1;
@@ -229,3 +229,5 @@
         box-shadow: none !important; /* Supprime l'ombre */
     }
 }
+
+

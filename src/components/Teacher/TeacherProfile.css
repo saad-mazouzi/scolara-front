@@ -427,3 +427,9 @@ position: relative;
     margin-left: -145px;
     margin-top: 40px;
 }
+
+@media (max-width: 768px) {
+    .CRUD-loading-container{
+        margin-left: 0px;
+    }
+}

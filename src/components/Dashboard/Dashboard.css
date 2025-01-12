@@ -387,3 +387,9 @@
     top: 0;
     left: 0;
 }
+
+@media (max-width: 768px) {
+    .loading-container {
+        margin-left: 0;
+    }
+}

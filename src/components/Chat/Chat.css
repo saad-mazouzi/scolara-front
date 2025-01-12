@@ -328,3 +328,236 @@
     color: #888;
     text-align: right; /* Aligne l'heure à droite */
 }
+
+.roles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px;
+}
+
+.role-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 800px; /* Largeur par défaut pour les écrans larges */
+    transition: transform 0.3s ease;
+}
+
+.role-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.role-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Responsiveness for tablets */
+@media (max-width: 1024px) {
+    .role-card {
+        width: 600px; /* Réduire la largeur pour les tablettes */
+    }
+}
+
+/* Responsiveness for mobile phones */
+@media (max-width: 768px) {
+    .roles-container {
+        flex-direction: column; /* Empilez les cartes verticalement */
+        align-items: center;
+    }
+
+    .role-card {
+        width: 90%; /* Utilisez 90% de la largeur de l'écran */
+        padding: 15px; /* Réduisez le padding */
+    }
+
+    .role-card h3 {
+        font-size: 16px; /* Réduisez la taille du texte */
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .role-card {
+        width: 100%; /* Utilisez toute la largeur */
+        padding: 10px; /* Ajustez le padding */
+    }
+
+    .role-card h3 {
+        font-size: 14px; /* Ajustez la taille du texte */
+    }
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 100%; /* S'adapte à la largeur de l'écran */
+    max-width: 1000px; /* Largeur maximale pour les écrans larges */
+    margin: 0 auto; /* Centre horizontalement */
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.messages-container {
+    flex: 1; /* Prend tout l'espace disponible */
+    padding: 10px;
+    overflow-y: auto; /* Permet le défilement vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espace entre les messages */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer */
+}
+
+.messages-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari et Edge */
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.message-wrapper.sent {
+    align-items: flex-end;
+}
+
+.message {
+    max-width: 80%; /* Limite la largeur à 80% */
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message.sent {
+    align-self: flex-end;
+    background-color: #4e7dad;
+    color: #fff;
+}
+
+.message.received {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    color: #333;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px; /* Espacement avec la bulle du message */
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.message-input {
+    flex: 1; /* Remplit tout l'espace disponible */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin-top: 10px;
+}
+
+.message-input:focus {
+    border-color: #4e7dad;
+}
+
+.send-button {
+    padding: 10px 20px;
+    background-color: #4e7dad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.send-button:hover {
+    background-color: #40668d;
+    color: #ffcc00;
+}
+
+.file-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #4e7dad;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+/* Responsiveness for tablets */
+@media (max-width: 1024px) {
+    .chat-container {
+        width: 90%; /* Réduit la largeur pour les tablettes */
+    }
+
+    .message {
+        font-size: 13px; /* Réduit la taille du texte */
+    }
+}
+
+/* Responsiveness for mobile phones */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 100%; /* Utilise toute la largeur */
+        height: 100vh; /* S'adapte à la hauteur de l'écran */
+    }
+
+    .message {
+        max-width: 95%; /* Étend les bulles à 95% de largeur */
+    }
+
+    .message-input-container {
+        flex-direction: column; /* Réorganise les éléments en colonne */
+        gap: 5px; /* Réduit l'espacement */
+    }
+
+    .send-button {
+        width: 100%; /* Étend le bouton à 100% */
+    }
+
+    .file-icon {
+        font-size: 20px; /* Réduit la taille de l'icône */
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .message {
+        font-size: 12px; /* Réduit davantage la taille du texte */
+    }
+
+    .message-input {
+        font-size: 12px; /* Réduit la taille de l'entrée */
+    }
+
+    .send-button {
+        font-size: 12px; /* Réduit la taille du bouton */
+    }
+}

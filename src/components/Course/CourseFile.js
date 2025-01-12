@@ -100,7 +100,7 @@ const CourseFile = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No files available for this course.</p>
+                    <p>Aucun fichier disponible pour ce cours.</p>
                 )}
             </div>
 

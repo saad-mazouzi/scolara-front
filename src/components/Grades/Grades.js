@@ -246,7 +246,7 @@ const Grades = () => {
                                                 );
                                                 return <td key={control.id}>{grade ? grade.score : '-'}</td>;
                                             })}
-                                            <td>{student.totalGrade}</td>
+                                            <td><strong>{student.totalGrade}</strong></td>
                                         </tr>
                                     ))}
                                 </tbody>

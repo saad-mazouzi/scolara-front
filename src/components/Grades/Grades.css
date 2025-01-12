@@ -69,3 +69,31 @@
     top: 0;
     left: 0;
 }
+
+@media (max-width: 768px) {
+    .subjects-loading-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top : 200px;
+        margin-left: 1px;
+        height: 100vh;  /* Remplir la hauteur de la fenêtre */
+        width: 100%;
+        position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+        top: 0;
+        left: 0;
+    }
+    
+    .grades-loading-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top : 500px;
+        margin-left: 1px;
+        height: 100vh;  /* Remplir la hauteur de la fenêtre */
+        width: 100%;
+        position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+        top: 0;
+        left: 0;
+    }
+}

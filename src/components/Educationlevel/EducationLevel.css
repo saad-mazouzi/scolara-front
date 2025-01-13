@@ -226,3 +226,22 @@
     text-align: right;
     margin-bottom: 100px;
 }
+@media (max-width: 768px) {
+    .education-level-button {
+        margin-left:100px;
+        margin-top:10px;
+    }
+    .education-level-add-button {
+        width: 150px;
+        padding: 12px;
+        background-color: #4e7dad;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.2s ease;
+        margin-left: 70px;
+        margin-top:10px;
+    }
+
+}

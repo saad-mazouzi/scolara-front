@@ -200,7 +200,7 @@ const StudentProfile = () => {
               <span>Aucune photo de profil</span>
             )}
             <FaEdit
-              className="edit-icon"
+              className="student-edit-icon"
               onClick={() => document.getElementById('fileInput').click()}
               style={{ cursor: 'pointer', position: 'absolute', bottom: '10px', right: '10px', fontSize: '20px' }}
             />
@@ -211,7 +211,7 @@ const StudentProfile = () => {
             style={{ display: 'none' }}
             onChange={(e) => setProfilePicture(e.target.files[0])}
           />
-          <button className="modify-profile-picture" onClick={handleProfilePictureSubmit}>
+          <button className="student-modify-profile-picture" onClick={handleProfilePictureSubmit}>
             Mettre à jour la photo de profil
           </button>
           <div className="student-details">

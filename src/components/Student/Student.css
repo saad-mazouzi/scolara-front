@@ -523,14 +523,14 @@ tr:hover {
     font-weight: bold;
 }
 
-.edit-icon {
+.student-edit-icon {
     position: absolute;
     top: 350px;
     left: 570px;
     color: #4e7dad;
 }
 
-.modify-profile-picture {
+.student-modify-profile-picture {
     position: absolute;
     top: 390px;
     left: 410px;
@@ -643,4 +643,25 @@ input:checked+.slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .student-edit-icon {
+        position: absolute;
+        top: 390px;
+        left: 300px;
+        color: #4e7dad;
+    }
+    .student-modify-profile-picture {
+        position: absolute;
+        top: 430px;
+        left: 130px;
+        background-color: #5c7fa1;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 0px;
+        transition: background-color 0.5s ease;
+    }
 }

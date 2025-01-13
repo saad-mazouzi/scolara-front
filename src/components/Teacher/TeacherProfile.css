@@ -432,4 +432,44 @@ position: relative;
     .CRUD-loading-container{
         margin-left: 0px;
     }
+    .edit-icon {
+        position: absolute;
+        top: 350px;
+        left: 300px;
+        color: #4e7dad;
+    }
+    .modify-profile-picture {
+        position: absolute;
+        top: 380px;
+        left: 130px;
+        background-color: #5c7fa1;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 0px;
+        transition: background-color 0.5s ease;
+    }
+    .update-salary-button {
+        margin-top: 10px;
+    }
+    .update-button {
+        background-color: #4e7dad;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-top:10px;
+    }
+    
+    .update-button:hover {
+        background-color: #3c6396;
+        color: #ffcc00;
+    }
+    
+    .update-button:active {
+        background-color: #305079;
+    }
 }

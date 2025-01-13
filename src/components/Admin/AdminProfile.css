@@ -256,3 +256,81 @@
     margin-left: 300px;
     margin-top: 10px;
 }
+
+@media (max-width:768px){
+    .edit-icon-admin{
+        top: 280px;
+        left: 270px;
+        color: #4e7dad;
+    }
+    .modify-profile-picture-admin{
+        position: absolute;
+        top: 320px;
+        left: 110px;
+        background-color: #5c7fa1;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 0px;
+        transition: background-color 0.5s ease;
+    }
+    .edit-icon-admin-logo{
+        margin-top: 170px;
+        margin-left: 5px;
+        color: #4e7dad;
+    }
+    .change-password-title{
+        color:black;
+        margin-left:290px;
+        margin-top:20px;
+    }
+    .admin-input-modify-password{
+        width: 110%;
+        padding: 11px ;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        margin-left: 10px;
+    }
+
+    .change-logo-title{
+        color:black;
+        margin-left:290px !important;
+        top:40;   
+    }
+    .modify-address-button{
+        background-color: #4e7dad;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s;
+        margin-left: 150px;
+        margin-top: 10px;
+    }
+    .password-fields-container {
+
+        gap: 5px; /* Espacement entre les champs */
+        margin-top: 20px;
+        margin-left: 250px;
+    }
+    .modify-password-button {
+        background-color: #4e7dad;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 10px; /* Taille de police réduite */
+        transition: background-color 0.3s;
+        flex-shrink: 0; /* Empêche le bouton de se réduire */
+        margin-right:-100px;
+    }
+    
+}
+

@@ -230,4 +230,14 @@
     }
 }
 
+.navbar-center-alt{
+    margin-left:-500px;
+}
 
+/* Supprimer cette règle qui masque les éléments */
+@media (max-width: 768px) {
+    .navbar-center,
+    .navbar-right {
+        display: none;
+    }
+}

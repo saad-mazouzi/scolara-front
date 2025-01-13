@@ -428,6 +428,22 @@ position: relative;
     margin-top: 40px;
 }
 
+.teacher-profile-picture{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    /* margin-right: 810px; */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+    margin-left: 15px !important;
+}
+
 @media (max-width: 768px) {
     .CRUD-loading-container{
         margin-left: 0px;

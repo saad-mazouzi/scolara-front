@@ -168,7 +168,7 @@ const EducationLevel = () => {
                         style={{ cursor: 'pointer' }}
                     >
                         {level.name}
-                        <div>
+                        <div className='for-mobile'>
                         <button 
                             className="education-level-button" 
                             onClick={(e) => { e.stopPropagation(); handleUpdate(level.id, level.name); }}

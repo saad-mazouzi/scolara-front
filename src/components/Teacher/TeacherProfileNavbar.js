@@ -141,7 +141,7 @@ const TeacherProfileNavbar = () => {
                 </div>
             )}
             <div className="admin-profile-content">
-                <div className="admin-profile-picture-container">
+                <div >
                     <div className="admin-name">
                         {userName || 'Nom Inconnu'}
                     </div>
@@ -151,7 +151,7 @@ const TeacherProfileNavbar = () => {
                         <img
                             src={profilePicture}
                             alt={`Photo de profil de ${userName}`}
-                            className="admin-profile-picture"
+                            className="teacher-profile-picture"
                         />
                     ) : (
                         <div className="admin-placeholder">

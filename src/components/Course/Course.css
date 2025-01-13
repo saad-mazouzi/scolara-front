@@ -305,3 +305,9 @@
     color: #f00;
 }
 
+@media (max-width: 768px) {
+    .course-teacher-delete-btn {
+        margin-top:10px; /* Ajout de l'espace entre les deux éléments */
+        margin-right:15px;
+    }
+}

@@ -142,7 +142,7 @@ const DriverProfileNavbar = () => {
             )}
             <div className="admin-profile-content">
                 <div className="admin-profile-picture-container">
-                    <div className="admin-name">
+                    <div className="driver-name">
                         {userName || 'Nom Inconnu'}
                     </div>
                     {profilePictureLoading ? (
@@ -151,7 +151,7 @@ const DriverProfileNavbar = () => {
                         <img
                             src={profilePicture}
                             alt={`Photo de profil de ${userName}`}
-                            className="admin-profile-picture"
+                            className="driver-profile-picture"
                         />
                     ) : (
                         <div className="admin-placeholder">

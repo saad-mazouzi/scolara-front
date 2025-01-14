@@ -10,11 +10,13 @@
     gap: 10px;
 }
 
+
 .driver-name{
     color: #4e7dad;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-top: -50px;
+    margin-top: 5px;
+    margin-left:25px;
 }
 
 .edit-driver-button, .delete-driver-button, .create-driver-button, .save-driver-button, .cancel-driver-button {
@@ -82,18 +84,36 @@
 }
 
 .driver-profile-picture {
-    margin-left: 100px;
-    flex-shrink: 0;
-    margin-top: 100px;
+    margin-left: 10px;
+    margin-top: 10px;
+    width:150px;
+    height:150px;
 }
 
-.driver-profile-picture img {
+.driver-profile-picture img{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+    margin-left: 50px;
+}
+
+
+
+/* .driver-profile-picture img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .driver-details {
     display: flex;

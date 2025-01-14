@@ -43,7 +43,7 @@ const DriverTransports = () => {
     if (loading) {
         return (
             <div className="loading-container">
-                <PuffLoader color="#007bff" size={60} />
+                <PuffLoader color="#ffcc00" size={60} />
             </div>
         );
     }

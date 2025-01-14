@@ -7,8 +7,10 @@ import { BsFileEarmarkSpreadsheet } from "react-icons/bs";
 import { GrTableAdd } from "react-icons/gr";
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-const ParentSidebar = () => {
+const ParentSidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation(); // Utiliser useLocation pour obtenir le chemin actuel
     const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
 
@@ -39,6 +41,10 @@ const ParentSidebar = () => {
     };
     
     return (
+        <div className={`sidebar-container ${isOpen ? 'open' : 'closed'}`}>
+            <div className="toggle-button" onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={isOpen ? faArrowLeft : faArrowRight} />
+            </div>
         <div className="sidebar">
             <div className="logo">
                 <img src={logo} alt="Logo" />
@@ -78,6 +84,7 @@ const ParentSidebar = () => {
                 </ul>
             </nav>
             <div className="whitetext">Scolara</div>
+        </div>
         </div>
     );
 };

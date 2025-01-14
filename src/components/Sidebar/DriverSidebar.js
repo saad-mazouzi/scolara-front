@@ -5,8 +5,10 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BsTruckFront } from "react-icons/bs";
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-const DriverSidebar = () => {
+const DriverSidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(location.pathname);
     const [transportId, setTransportId] = useState(Cookies.get('SelectedTransportId')); // Récupérer l'ID des cookies
@@ -29,6 +31,10 @@ const DriverSidebar = () => {
     }, []);
 
     return (
+        <div className={`sidebar-container ${isOpen ? 'open' : 'closed'}`}>
+            <div className="toggle-button" onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={isOpen ? faArrowLeft : faArrowRight} />
+            </div>
         <div className="sidebar">
             <div className="logo">
                 <img src={logo} alt="Logo" />
@@ -58,6 +64,7 @@ const DriverSidebar = () => {
                 </ul>
             </nav>
             <div className="whitetext">Scolara</div>
+        </div>
         </div>
     );
 };

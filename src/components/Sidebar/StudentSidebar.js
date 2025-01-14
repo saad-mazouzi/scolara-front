@@ -6,8 +6,10 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { BsFileEarmarkSpreadsheet } from "react-icons/bs";
 import { GrTableAdd } from "react-icons/gr";
 import { Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-const StudentSidebar = () => {
+const StudentSidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation(); // Utilise useLocation pour obtenir le chemin actuel
 
     // Fonction utilitaire pour vérifier les chemins
@@ -36,6 +38,10 @@ const StudentSidebar = () => {
     };
 
     return (
+        <div className={`sidebar-container ${isOpen ? 'open' : 'closed'}`}>
+            <div className="toggle-button" onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={isOpen ? faArrowLeft : faArrowRight} />
+            </div>
         <div className="sidebar">
             <div className="logo">
                 <img src={logo} alt="Logo" />
@@ -81,6 +87,7 @@ const StudentSidebar = () => {
                 </ul>
             </nav>
             <div className="whitetext">Scolara</div>
+        </div>
         </div>
     );
 };

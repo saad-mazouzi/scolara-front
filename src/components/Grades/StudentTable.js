@@ -311,7 +311,7 @@ const StudentsTable = () => {
                                             </td>
                                         );
                                     })}
-                                    <td>{calculateFinalGrade(student.id)}</td>
+                                    <td><strong>{calculateFinalGrade(student.id)}</strong></td>
                                 </tr>
                             ))
                         ) : (

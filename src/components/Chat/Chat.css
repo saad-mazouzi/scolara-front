@@ -536,6 +536,9 @@
     .message-input-container {
         flex-direction: column; /* Réorganise les éléments en colonne */
         gap: 5px; /* Réduit l'espacement */
+        position:fixed;
+        margin-top:550px;
+        margin-left:20px;
     }
 
     .send-button {
@@ -555,6 +558,7 @@
 
     .message-input {
         font-size: 12px; /* Réduit la taille de l'entrée */
+        width: 150%; /* Réduit la largeur de l'entrée */
     }
 
     .send-button {

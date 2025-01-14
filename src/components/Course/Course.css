@@ -310,4 +310,19 @@
         margin-top:10px; /* Ajout de l'espace entre les deux éléments */
         margin-right:15px;
     }
+    .subjects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        margin-left:30px;
+    }
+    .file-card {
+        width:200px;
+        height:310px;
+    }
+    .card-image{
+        height: 100px;
+    }
+    
 }

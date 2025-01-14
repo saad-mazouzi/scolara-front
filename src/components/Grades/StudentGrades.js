@@ -110,7 +110,7 @@ const StudentGrades = () => {
                                     <tr key={grade.id}>
                                         <td>{controlType !== 'N/A' ? controlType : 'Contrôle manquant'}</td>
                                         <td>{controlCoefficient !== 0 ? controlCoefficient : '-'}</td>
-                                        <td>{grade.score || 'N/A'}</td>
+                                        <td><strong>{grade.score || 'N/A'}</strong></td>
                                     </tr>
                                 );
                             })}

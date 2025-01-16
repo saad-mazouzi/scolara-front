@@ -512,8 +512,8 @@ const BulletinHeader = React.forwardRef((props, ref) => {
                         <p><strong>{school.phone_number ? `Téléphone : ${school.phone_number}` : 'Téléphone non spécifié'}</strong></p>
                     </div>
                     <div className="bulletin-header-right">
-                        <div className="bulletin-student-name">
-                            <p>
+                        <div>
+                            <p className="bulletin-student-name">
                                 {/* <strong>Nom et Prénom :</strong>{' '} */}
                                 {student ? `${student.last_name} ${student.first_name}` : 'N/A'}
                             </p>

@@ -55,6 +55,7 @@ export const deleteStudent = async (studentId) => {
     }
 };
 
+
 export const deleteParent = async (parentId) => {
     try {
         const response = await axiosInstance.delete(`${API_URL}/users/${parentId}/delete_parent/`);
@@ -1227,6 +1228,31 @@ export const deleteEvent = async (eventId, schoolId) => {
         throw error;
     }
 };
+
+export const deletetodaysEvents = async (eventId, schoolId) => {
+    try {
+        await axiosInstance.delete(`/events/delete-today/`, {
+            params: { school_id: schoolId },
+        });
+        console.log(`Événement ${eventId} supprimé avec succès.`);
+    } catch (error) {
+        console.error("Erreur lors de la suppression de l'événement:", error);
+        throw error;
+    }
+};
+
+export const deleteEventsByDate = async (schoolId, date) => {
+    try {
+        await axios.delete(`https://scolara-backend.onrender.com/events/delete-by-date/`, {
+            params: { school_id: schoolId, date },
+        });
+        console.log(`Événements supprimés pour la date ${date}.`);
+    } catch (error) {
+        console.error("Erreur lors de la suppression des événements:", error);
+        throw error;
+    }
+};
+
 
 export const fetchTransactions = async (schoolId) => {
     try {

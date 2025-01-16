@@ -13,6 +13,7 @@ import MonthlyEarningsChart from './MonthlyEarningsChart';
 import { deleteEvent } from '../../APIServices';
 import Cookies from 'js-cookie';
 import { PuffLoader, MoonLoader} from 'react-spinners';
+import { deleteEventsByDate } from '../../APIServices';
 
 
 const Dashboard = () => {
@@ -30,6 +31,30 @@ const Dashboard = () => {
     const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
     const [loadingForm, setLoadingForm] = useState(false);
 
+    const handleDeleteEventsByDate = async () => {
+        setLoadingForm(true);
+        try {
+            const schoolId = Cookies.get('SchoolId'); // Récupère le schoolId depuis les cookies
+            if (!schoolId) {
+                console.error("Erreur : L'ID de l'école (schoolId) est introuvable dans les cookies.");
+                return;
+            }
+    
+            const formattedDate = selectedDate.toISOString().split('T')[0]; // Convertit la date sélectionnée en 'YYYY-MM-DD'
+            await deleteEventsByDate(schoolId, formattedDate); // Supprime les événements pour cette date
+            setEvents(events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.toDateString() !== selectedDate.toDateString();
+            }));
+            console.log(`Tous les événements pour la date ${formattedDate} ont été supprimés.`);
+        } catch (error) {
+            console.error("Erreur lors de la suppression des événements :", error);
+        } finally {
+            setLoadingForm(false);
+        }
+    };
+    
+    
     
     useEffect(() => {
         const fetchData = async () => {
@@ -220,6 +245,14 @@ const Dashboard = () => {
                 
                 <div className="event-reminders">
                     <h4>Rappels d'Événements</h4>
+                    {currentEvents.length > 0 && (
+                        <button
+                            className="delete-all-events-button"
+                            onClick={handleDeleteEventsByDate}
+                        >
+                            Supprimer tout les Événements du {selectedDate.toLocaleDateString()}
+                        </button>
+                    )}
                     {currentEvents.length > 0 ? (
                         currentEvents.map((event) => (
                             <div key={event.id} className="event-reminder">
@@ -250,6 +283,7 @@ const Dashboard = () => {
                         </div>
                     )}
                 </div>
+
                 </div>
             </div>
             <div className="monthly-expenses-chart">

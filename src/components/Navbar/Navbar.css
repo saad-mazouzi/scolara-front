@@ -20,6 +20,8 @@
     align-items: center;
 }
 
+
+
 .navbar-left {
     margin-left: 0px;
 }
@@ -201,8 +203,7 @@
 
 /* Masquer les éléments non essentiels sur les écrans inférieurs à 768px */
 @media (max-width: 768px) {
-    .navbar-center, /* Masquer le nom de l'école */
-    .navbar-right { /* Masquer la section de droite */
+    .navbar-center{ /* Masquer la section de droite */
         display: none;
     }
 
@@ -228,6 +229,7 @@
     .navbar {
         box-shadow: none !important; /* Supprime l'ombre */
     }
+
 }
 
 .navbar-center-alt{
@@ -236,8 +238,34 @@
 
 /* Supprimer cette règle qui masque les éléments */
 @media (max-width: 768px) {
-    .navbar-center,
-    .navbar-right {
+    .navbar-center {
         display: none;
+    }
+}
+
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Assure l'alignement à droite */
+    margin-right: 15px; /* Espacement par rapport au bord droit */
+    gap: 10px; /* Espacement entre les éléments */
+}
+
+@media (max-width: 768px) {
+    .navbar-right {
+        margin-right: 40px !important; /* Réduire la marge pour mobile */
+        flex-direction: row; /* Assure une disposition horizontale */
+        justify-content: flex-end; /* Toujours aligné à droite */
+        margin-left:100px;
+    }
+
+    .logout-button {
+        padding: 5px 10px; /* Adapter la taille du bouton pour mobile */
+        font-size: 14px; /* Réduction de la taille de la police */
+    }
+
+    .notification-container {
+        position: relative; /* Maintenir la position pour les notifications */
     }
 }

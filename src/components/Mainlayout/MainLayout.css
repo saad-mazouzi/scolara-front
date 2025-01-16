@@ -49,8 +49,7 @@
         align-items: center;
     }
 
-    .navbar-center,
-    .navbar-right { /* Masquer les éléments non essentiels */
+    .navbar-center{ /* Masquer les éléments non essentiels */
         display: none;
     }
 

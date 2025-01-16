@@ -277,8 +277,8 @@
     }
     .edit-icon-admin-logo{
         margin-top: 170px;
-        margin-left: 5px;
         color: #4e7dad;
+        margin-left:-680px !important;
     }
     .change-password-title{
         color:black;

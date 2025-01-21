@@ -538,7 +538,7 @@
         flex-direction: column; /* Réorganise les éléments en colonne */
         gap: 5px; /* Réduit l'espacement */
         position:fixed;
-        margin-top:550px;
+        margin-top:520px;
         margin-left:20px;
     }
 

@@ -552,7 +552,10 @@
 
     .message-wrapper.sent {
         align-items: flex-end;
-        margin-bottom: 100px;
+    }
+
+    .messages-container {
+        margin-bottom: 150px;
     }
 }
 

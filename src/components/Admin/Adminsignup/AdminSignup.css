@@ -43,9 +43,7 @@ form {
     margin-left: 0; /* Enlever les marges par défaut */
 }
 
-div {
-    margin-bottom: 6px; /* Espacement entre les éléments du formulaire */
-}
+
 
 label {
     display: block; /* Étiquettes en bloc pour les aligner avec les champs */

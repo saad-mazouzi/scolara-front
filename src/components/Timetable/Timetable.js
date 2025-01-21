@@ -424,10 +424,11 @@ const Timetable = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        if (!modalData.subject || !modalData.teacher || !modalData.classroom) {
-            alert("Veuillez remplir tous les champs avant de soumettre.");
+        if (!modalData.subject || !modalData.teacher) {
+            alert("Veuillez remplir tous les champs obligatoires avant de soumettre.");
             return;
         }
+    
         setLoadingAddTimeSlot(true);
         try {
             const timetableId = Cookies.get('TimetableID');
@@ -435,7 +436,7 @@ const Timetable = () => {
                 timetable: timetableId,
                 subject: modalData.subject,
                 teacher: modalData.teacher,
-                classroom: modalData.classroom,
+                classroom: modalData.classroom || null, // Permet une valeur null si aucune salle n'est sélectionnée
                 education_level: selectedLevel,
                 day: modalData.day,
                 start_time: modalData.start_time,
@@ -472,6 +473,7 @@ const Timetable = () => {
             setLoadingAddTimeSlot(false);
         }
     };
+    
     
     useEffect(() => {
         const fetchAllSubjects = async () => {

@@ -482,7 +482,7 @@ const downloadXLSX = () => {
                   <td>
                   {educationLevels.length > 0
                     ? educationLevels.map((level) => level.education_level__name).join(', ')
-                    : <PulseLoader size={8} color='#ffcc00' />}
+                    : <div><PulseLoader size={8} color='#ffcc00' /></div>}
                   </td>
                   <td>
                     {subjects.length > 0 ? (
@@ -492,7 +492,7 @@ const downloadXLSX = () => {
                         ))}
                       </ul>
                     ) : (
-                      <PulseLoader   color="#4e7dad" size={8}/>
+                      <div><PulseLoader   color="#4e7dad" size={8}/></div>
                     )}
                   </td>
                   <td>{teacher.phone_number}</td>

@@ -1722,3 +1722,18 @@ export const fetchDriverTransports = async () => {
         throw error; // Propager l'erreur pour qu'elle soit gérée dans le frontend
     }
 };
+
+export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) => {
+    try {
+      const response = await axios.get(`/api/duplicate-teacher-education-levels/`, {
+        params: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des niveaux d\'éducation des enseignants dupliqués:', error);
+      throw error;
+    }
+  };

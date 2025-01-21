@@ -10,6 +10,7 @@ import { ClockLoader } from 'react-spinners';
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import {PuffLoader ,PulseLoader, MoonLoader} from 'react-spinners';
+import axios from 'axios';
 
 
 const TeacherList = () => {
@@ -22,6 +23,8 @@ const TeacherList = () => {
   const [error, setError] = useState(null);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [duplicateEducationLevels, setDuplicateEducationLevels] = useState({});
+  const [duplicateSubjects, setDuplicateSubjects] = useState({});
   const [shouldRefresh, setShouldRefresh] = useState(false); // Nouvel état pour rafraîchir les données
   const [newTeacherData, setNewTeacherData] = useState({
     first_name: '',
@@ -109,6 +112,85 @@ const TeacherList = () => {
 
     fetchSubjectsForLevel();
   }, [newTeacherData.education_level]);
+
+  useEffect(() => {
+    const getTeachersAndData = async () => {
+      try {
+        setLoading(true);
+        const teachersData = await fetchTeachers();
+        setTeachers(teachersData);
+
+        const schoolId = Cookies.get('SchoolId');
+        if (schoolId) {
+          const levelsData = await fetchEducationLevelsBySchool(schoolId);
+          setEducationLevels(levelsData);
+
+          const subjectsData = await fetchSubjects(schoolId);
+          setSubjects(subjectsData);
+        }
+
+        // Charger les doublons pour les niveaux d'éducation
+        const educationLevelPromises = teachersData.map((teacher) =>
+          fetchDuplicateEducationLevels(teacher.first_name, teacher.last_name)
+        );
+        const educationLevelData = await Promise.all(educationLevelPromises);
+
+        const educationLevelMap = {};
+        educationLevelData.forEach((data, index) => {
+          const teacher = teachersData[index];
+          const duplicateKey = `${teacher.first_name}_${teacher.last_name}`;
+          educationLevelMap[duplicateKey] = data;
+        });
+        setDuplicateEducationLevels(educationLevelMap);
+
+        // Charger les doublons pour les sujets
+        const subjectPromises = teachersData.map((teacher) =>
+          fetchDuplicateSubjects(teacher.first_name, teacher.last_name)
+        );
+        const subjectData = await Promise.all(subjectPromises);
+
+        const subjectMap = {};
+        subjectData.forEach((data, index) => {
+          const teacher = teachersData[index];
+          const duplicateKey = `${teacher.first_name}_${teacher.last_name}`;
+          subjectMap[duplicateKey] = data;
+        });
+        setDuplicateSubjects(subjectMap);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getTeachersAndData();
+  }, []);
+
+  const fetchDuplicateEducationLevels = async (firstName, lastName) => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/duplicate-teacher-education-levels/', {
+        params: { first_name: firstName, last_name: lastName },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des doublons des niveaux d\'éducation:', error);
+      return [];
+    }
+  };
+
+  // Fonction pour récupérer les doublons des sujets
+  const fetchDuplicateSubjects = async (firstName, lastName) => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/duplicate-teacher-subjects/', {
+        params: { first_name: firstName, last_name: lastName },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des doublons des sujets:', error);
+      return [];
+    }
+  };
+
 
 
   const filteredTeachers = teachers.filter(teacher => {
@@ -362,7 +444,7 @@ const downloadXLSX = () => {
             <th>Photo de Profil</th>
             <th>Nom</th>
             <th>Prénom</th>
-            <th>Niveau d'éducation</th>
+            <th>Niveaux d'éducation</th>
             <th>Matière</th>
             <th>Téléphone</th>
             <th>Statut de Paiement</th>
@@ -370,58 +452,78 @@ const downloadXLSX = () => {
           </tr>
         </thead>
         <tbody>
-  {paginatedTeachers.length === 0 ? (
-    <tr>
-      <td colSpan="8" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
-        Aucun enseignant disponible.
-      </td>
-    </tr>
-      ) : (
-        paginatedTeachers.map((teacher) => (
-          <tr key={teacher.id} onClick={() => handleRowClick(teacher.id)} style={{ cursor: 'pointer' }}>
-            <td>
-              {teacher.profile_picture ? (
-                <img
-                  src={`${teacher.profile_picture}`}
-                  alt={`${teacher.first_name} ${teacher.last_name}`}
-                  style={{ width: '50px', height: '50px', borderRadius: '50%' }}
-                />
-              ) : (
-                <span>Aucune photo</span>
-              )}
-            </td>
-            <td>{teacher.first_name}</td>
-            <td>{teacher.last_name}</td>
-            <td>{getEducationLevelName(teacher.education_level)}</td>
-            <td>{getSubjectName(teacher.subject)}</td>
-            <td>{teacher.phone_number}</td>
-            <td>{getPaymentStatus(teacher.paid)}</td> {/* Statut de paiement */}
-            <td>
-              <div className="action-buttons">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditClick(teacher);
-                  }}
-                  className="edit-student-button"
-                >
-                  Modifier
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClick(teacher.id);
-                  }}
-                  className="student-button-delete"
-                >
-                  Supprimer
-                </button>
-              </div>
-            </td>
-          </tr>
-        ))
-      )}
-    </tbody>
+          {paginatedTeachers.length === 0 ? (
+            <tr>
+              <td colSpan="8" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+                Aucun enseignant disponible.
+              </td>
+            </tr>
+          ) : (
+            paginatedTeachers.map((teacher) => {
+              const duplicateKey = `${teacher.first_name}_${teacher.last_name}`;
+              const educationLevels = duplicateEducationLevels[duplicateKey] || [];
+              const subjects = duplicateSubjects[duplicateKey] || [];
+
+              return (
+                <tr key={teacher.id} onClick={() => handleRowClick(teacher.id)} style={{ cursor: 'pointer' }}>
+                  <td>
+                    {teacher.profile_picture ? (
+                      <img
+                        src={`${teacher.profile_picture}`}
+                        alt={`${teacher.first_name} ${teacher.last_name}`}
+                        style={{ width: '50px', height: '50px', borderRadius: '50%' }}
+                      />
+                    ) : (
+                      <span>Aucune photo</span>
+                    )}
+                  </td>
+                  <td>{teacher.first_name}</td>
+                  <td>{teacher.last_name}</td>
+                  <td>
+                  {educationLevels.length > 0
+                    ? educationLevels.map((level) => level.education_level__name).join(', ')
+                    : <PulseLoader size={8} color='#ffcc00' />}
+                  </td>
+                  <td>
+                    {subjects.length > 0 ? (
+                      <ul>
+                        {subjects.map((subject) => (
+                          <div key={subject.subject__id}>{subject.subject__name}</div>
+                        ))}
+                      </ul>
+                    ) : (
+                      <PulseLoader   color="#4e7dad" size={8}/>
+                    )}
+                  </td>
+                  <td>{teacher.phone_number}</td>
+                  <td>{getPaymentStatus(teacher.paid)}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(teacher);
+                        }}
+                        className="edit-student-button"
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteClick(teacher.id);
+                        }}
+                        className="student-button-delete"
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
+          )}
+        </tbody>
 
       </table>
       <div className='whitetext'>Scolara</div>

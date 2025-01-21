@@ -15,6 +15,7 @@ import {
 import Cookies from 'js-cookie';
 import './TeacherProfile.css';
 import { ScaleLoader, MoonLoader } from 'react-spinners';
+import axios from 'axios';
 
 const TeacherProfile = () => {
   const { id } = useParams();
@@ -23,6 +24,8 @@ const TeacherProfile = () => {
   const [educationLevels, setEducationLevels] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [duplicateEducationLevels, setDuplicateEducationLevels] = useState([]);
+  const [duplicateSubjects, setDuplicateSubjects] = useState([]);
   const [error, setError] = useState(null);
   const [absenceCount, setAbsenceCount] = useState(0);
   const [monthlySalary, setMonthlySalary] = useState(null); // Changement de 'salary' en 'monthlySalary'
@@ -32,20 +35,13 @@ const TeacherProfile = () => {
   useEffect(() => {
     const getTeacherData = async () => {
       try {
+        setLoading(true);
         const teacherData = await fetchTeacherById(id);
-        console.log("Données de l'enseignant récupérées :", teacherData); // Débogage
         setTeacher(teacherData);
-        setAbsenceCount(teacherData.absences_number || 0);
-        setMonthlySalary(teacherData.monthly_salary || 0);
-        setProfilePicture(teacherData.profile_picture);
-  
+
         const schoolId = Cookies.get('SchoolId');
         if (schoolId) {
-          const levelsData = await fetchEducationLevelsBySchool(schoolId);
-          const subjectsData = await fetchSubjects(schoolId);
-          console.log("Niveaux et matières récupérés :", levelsData, subjectsData);
-          setEducationLevels(levelsData);
-          setSubjects(subjectsData);
+          await fetchDuplicateData(teacherData.first_name, teacherData.last_name);
         } else {
           setError("Aucun ID d'école trouvé dans les cookies.");
         }
@@ -53,12 +49,31 @@ const TeacherProfile = () => {
         console.error('Erreur lors de la récupération des données de l\'enseignant:', err);
         setError('Impossible de récupérer les données.');
       } finally {
-        setLoading(false); // Assurez-vous que le chargement est désactivé
+        setLoading(false);
       }
     };
-  
+
     getTeacherData();
   }, [id]);
+
+  const fetchDuplicateData = async (firstName, lastName) => {
+    try {
+      // Appel pour récupérer les niveaux d'éducation
+      const educationResponse = await axios.get('https://scolara-backend.onrender.com/api/duplicate-teacher-education-levels/', {
+        params: { first_name: firstName, last_name: lastName },
+      });
+      setDuplicateEducationLevels(educationResponse.data);
+
+      // Appel pour récupérer les matières
+      const subjectResponse = await axios.get('https://scolara-backend.onrender.com/api/duplicate-teacher-subjects/', {
+        params: { first_name: firstName, last_name: lastName },
+      });
+      setDuplicateSubjects(subjectResponse.data);
+    } catch (err) {
+      console.error('Erreur lors de la récupération des doublons :', err);
+    }
+  };
+
 
   useEffect(() => {
     const checkAndResetPaymentStatus = async () => {
@@ -318,17 +333,25 @@ const TeacherProfile = () => {
                     onChange={(e) => setProfilePicture(e.target.files[0])}
                     />
                     <button className='modify-profile-picture' onClick={handleProfilePictureSubmit}>Mettre à jour la photo de profil</button>
-          <div className="teacher-details">
-            <p className="teacher-name">{teacher.last_name} {teacher.first_name}</p>
-            <p className="teacher-description">
-              <strong>{teacher.first_name} {teacher.last_name}</strong> est un(e) enseignant(e) à l'école. 
-              Le niveau d'éducation enseigné est <strong>{getEducationLevelName(teacher.education_level)}</strong>.
-              Avec un nombre d'absences de <strong>{absenceCount}</strong>, 
-              {teacher.first_name} enseigne la matière <strong>{getSubjectName(teacher.subject)}</strong>, 
-              et le statut de paiement est <strong style={paymentStatusStyle}>{teacher.paid ? 'Payé' : 'Non payé'}</strong>.
-              Le salaire mensuel est de <strong>{monthlySalary !== null ? `${monthlySalary} DH` : 'Non spécifié'}</strong>.
-              Le salaire par séance est de <strong>{teacher.session_salary !== null ? `${teacher.session_salary} DH` : 'Non spécifié'}</strong>.
-            </p>
+                    <div className="teacher-details">
+                      <p className="teacher-name">{teacher.last_name} {teacher.first_name}</p>
+                      <p className="teacher-description">
+                        <strong>{teacher.first_name} {teacher.last_name}</strong> est un(e) enseignant(e) à l'école. 
+                        Le(s) niveau(x) d'éducation enseigné(s) est (sont) <strong>
+                          {duplicateEducationLevels.length > 0
+                            ? duplicateEducationLevels.map((level) => level.education_level__name).join(', ')
+                            : 'Aucun niveau trouvé'}
+                        </strong>.
+                        Avec un nombre d'absences de <strong>{absenceCount}</strong>, 
+                        {teacher.first_name} enseigne la (les) matière(s) <strong>
+                          {duplicateSubjects.length > 0
+                            ? duplicateSubjects.map((subject) => subject.subject__name).join(', ')
+                            : 'Aucune matière trouvée'}
+                        </strong>, 
+                        et le statut de paiement est <strong style={paymentStatusStyle}>{teacher.paid ? 'Payé' : 'Non payé'}</strong>.
+                        Le salaire mensuel est de <strong>{monthlySalary !== null ? `${monthlySalary} DH` : 'Non spécifié'}</strong>.
+                        Le salaire par séance est de <strong>{teacher.session_salary !== null ? `${teacher.session_salary} DH` : 'Non spécifié'}</strong>.
+                      </p>
             <p>
               <strong>Nombre d'absences :</strong>
               <input
@@ -349,7 +372,12 @@ const TeacherProfile = () => {
               />
             <button className="update-button update-salary-button" onClick={handleSalarySubmit} style={{ marginLeft: '10px' }}>Mettre à jour</button>
             </p>
-            <p><strong>Matière enseignée :</strong> {getSubjectName(teacher.subject)}</p>
+            <p><strong>Matière(s) enseignée(s) :</strong> <strong><p>
+                  {duplicateSubjects.length > 0
+                    ? duplicateSubjects.map((subject) => subject.subject__name).join(', ')
+                    : 'Aucune matière trouvée'}
+                </p>
+                </strong> </p>
             <p>
               <strong>Statut de paiement :</strong>
               <button

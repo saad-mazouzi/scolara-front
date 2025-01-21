@@ -388,6 +388,7 @@
     .role-card {
         width: 100%; /* Utilisez toute la largeur */
         padding: 10px; /* Ajustez le padding */
+        margin-left:-10px;
     }
 
     .role-card h3 {
@@ -547,6 +548,11 @@
 
     .file-icon {
         font-size: 20px; /* Réduit la taille de l'icône */
+    }
+
+    .message-wrapper.sent {
+        align-items: flex-end;
+        margin-bottom: 100px;
     }
 }
 

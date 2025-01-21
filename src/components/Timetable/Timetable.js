@@ -653,7 +653,7 @@ const Timetable = () => {
             const subject = subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader   color="#4e7dad" size={8} />;
             const teacher = teachers.find(teach => teach.id === session.teacher);
             const teacherName = teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader   color="#ffcc00" size={8} />;
-            const classroom = classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader   color="#4e7dad" size={8} />;
+            const classroom = classrooms.find(room => room.id === session.classroom)?.name ;
     
             // Associer la session à l'heure et au jour appropriés
             levelSchedule[session.day][session.start_time] = {

@@ -30,6 +30,8 @@ const Dashboard = () => {
     const eventsPerPage = 2; // Nombre maximum d'événements par page
     const schoolId = Cookies.get('SchoolId'); // Récupère SchoolId des cookies
     const [loadingForm, setLoadingForm] = useState(false);
+    const [teachers, setTeachers] = useState([]); // Ajout d'état pour les enseignants
+
 
     const handleDeleteEventsByDate = async () => {
         setLoadingForm(true);
@@ -58,16 +60,21 @@ const Dashboard = () => {
     
     useEffect(() => {
         const fetchData = async () => {
-
             try {
                 const response = await axiosInstance.get(`/dashboard/?school_id=${schoolId}`);
                 setData(response.data);
+
+                // Récupérer les enseignants pour supprimer les doublons
+                const teachersResponse = await axiosInstance.get(`users/get_teacher/?school_id=${schoolId}`);
+                const uniqueTeachers = filterDuplicateTeachers(teachersResponse.data);
+                setTeachers(uniqueTeachers); // Met à jour les enseignants uniques
             } catch (err) {
                 setError("Erreur lors de la récupération des données.");
             } finally {
                 setLoading(false);
             }
         };
+
         fetchData();
 
         const fetchEvents = async () => {
@@ -138,6 +145,17 @@ const Dashboard = () => {
         }
     };
 
+    const filterDuplicateTeachers = (teachers) => {
+        const uniqueTeachers = {};
+        teachers.forEach((teacher) => {
+            const key = `${teacher.first_name.trim().toLowerCase()}_${teacher.last_name.trim().toLowerCase()}`;
+            if (!uniqueTeachers[key] || uniqueTeachers[key].id > teacher.id) {
+                uniqueTeachers[key] = teacher;
+            }
+        });
+        return Object.values(uniqueTeachers);
+    };
+
     const handleCloseForm = () => {
         setShowForm(false);
     };
@@ -198,8 +216,9 @@ const Dashboard = () => {
                     </div>
                     <div className="card-content">
                         <h3>Enseignants</h3>
-                        <p>{data.teachers_count}</p>
+                        <p>{teachers.length}</p> {/* Nombre d'enseignants uniques */}
                     </div>
+
                 </div>
                 <div className="dashboard-card" onClick={() => navigate('/drivers')}>
                     <div className="icon-container driver-icon">

@@ -19,13 +19,12 @@ const TeacherList = () => {
   const [subjects, setSubjects] = useState([]); // Nouvel état pour les matières
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); // Page actuelle pour la pagination
-  const itemsPerPage = 4; // Nombre d'étudiants par page
+  const itemsPerPage = 5; // Nombre d'étudiants par page
   const [error, setError] = useState(null);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [duplicateEducationLevels, setDuplicateEducationLevels] = useState({});
   const [duplicateSubjects, setDuplicateSubjects] = useState({});
-  const [shouldRefresh, setShouldRefresh] = useState(false); // Nouvel état pour rafraîchir les données
   const [newTeacherData, setNewTeacherData] = useState({
     first_name: '',
     last_name: '',
@@ -46,31 +45,33 @@ const TeacherList = () => {
 
   useEffect(() => {
     const getTeachersAndEducationLevelsAndSubjects = async () => {
-        try {
-            setLoading(true);
-            const teachersData = await fetchTeachers();
-            setTeachers(teachersData);
-
-            const schoolId = Cookies.get('SchoolId');
-            if (schoolId) {
-                const levelsData = await fetchEducationLevelsBySchool(schoolId);
-                setEducationLevels(levelsData);
-
-                const subjectsData = await fetchSubjects(schoolId);
-                setSubjects(subjectsData);
-            } else {
-                setError('Aucun ID d\'école trouvé dans les cookies.');
-            }
-        } catch (err) {
-            console.error(err);
-            setError('Une erreur est survenue lors de la récupération des enseignants.');
-        } finally {
-            setLoading(false);
+      try {
+        setLoading(true);
+        const teachersData = await fetchTeachers();
+        const filteredTeachers = filterDuplicateTeachers(teachersData);
+        setTeachers(filteredTeachers);
+  
+        const schoolId = Cookies.get('SchoolId');
+        if (schoolId) {
+          const levelsData = await fetchEducationLevelsBySchool(schoolId);
+          setEducationLevels(levelsData);
+  
+          const subjectsData = await fetchSubjects(schoolId);
+          setSubjects(subjectsData);
+        } else {
+          setError('Aucun ID d\'école trouvé dans les cookies.');
         }
+      } catch (err) {
+        console.error(err);
+        setError('Une erreur est survenue lors de la récupération des enseignants.');
+      } finally {
+        setLoading(false);
+      }
     };
-
+  
     getTeachersAndEducationLevelsAndSubjects();
-}, [shouldRefresh]);
+  }, []);
+    
 
   useEffect(() => {
     const fetchData = async () => {
@@ -195,25 +196,42 @@ const TeacherList = () => {
 
   const filteredTeachers = teachers.filter(teacher => {
     const fullName = `${teacher.first_name} ${teacher.last_name}`.toLowerCase();
-    return fullName.includes(searchTerm.toLowerCase());
+    const subjectName = subjects.find(subject => subject.id === teacher.subject)?.name?.toLowerCase() || '';
+    const educationLevelName = educationLevels.find(level => level.id === teacher.education_level)?.name?.toLowerCase() || '';
+  
+    return (
+      fullName.includes(searchTerm.toLowerCase()) ||
+      subjectName.includes(searchTerm.toLowerCase()) ||
+      educationLevelName.includes(searchTerm.toLowerCase())
+    );
   });
+  
 
-
-  const getEducationLevelName = (levelId) => {
-      if (loading) {
-          return <PulseLoader   color="#4e7dad" size={8}/>;
+  const filterDuplicateTeachers = (teachers) => {
+    const uniqueTeachers = {};
+  
+    teachers.forEach((teacher) => {
+      // Nettoyer et normaliser la clé
+      const normalizedFirstName = teacher.first_name.trim().toLowerCase();
+      const normalizedLastName = teacher.last_name.trim().toLowerCase();
+      const key = `${normalizedFirstName}_${normalizedLastName}`;
+  
+      // Si l'entrée n'existe pas ou si l'enseignant actuel a un ID plus petit (plus ancien)
+      if (!uniqueTeachers[key] || uniqueTeachers[key].id > teacher.id) {
+        uniqueTeachers[key] = teacher;
       }
-      if (levelId === null) {
-          return <PulseLoader   color="#4e7dad" size={8}/>;
-      }
-      const level = educationLevels.find((lvl) => lvl.id === levelId);
-      return level ? level.name : <PulseLoader   color="#4e7dad" size={8}/>;
+    });
+  
+    return Object.values(uniqueTeachers);
   };
+  
+  
 
-  const paginatedTeachers = filteredTeachers.slice(
+  const paginatedTeachers = filterDuplicateTeachers(filteredTeachers).slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
   
 
   const totalPages = Math.ceil(filteredTeachers.length / itemsPerPage);
@@ -230,17 +248,6 @@ const TeacherList = () => {
     );
 }
 
-
-  const getSubjectName = (subjectId) => {
-    if (loading) {
-        return <PulseLoader   color="#ffcc00" size={8}/>;
-    }
-    if (!subjectId) {
-        return <PulseLoader   color="#ffcc00" size={8}/>;
-    }
-    const subject = subjects.find((subj) => subj.id === subjectId);
-    return subject ? subject.name : <PulseLoader   color="#ffcc00" size={8}/>;
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -270,10 +277,18 @@ const TeacherList = () => {
   
 
   const downloadCSV = () => {
-    const csvHeader = "Prénom,Nom,Email,Téléphone,Statut de Paiement,Niveau d'Éducation,Matière\n"; // Ajouter l'en-tête pour le statut de paiement
-    const csvContent = csvHeader + teachers.map(teacher => 
-        `${teacher.first_name},${teacher.last_name},${teacher.email},${teacher.phone_number},${teacher.paid ? 'Payé' : 'Non Payé'},${getEducationLevelName(teacher.education_level)},${getSubjectName(teacher.subject)}`
-    ).join("\n");
+    const csvHeader = "Prénom,Nom,Email,Téléphone,Statut de Paiement,Niveaux d'Éducation,Matières\n";
+    
+    const csvContent = csvHeader + teachers.map((teacher) => {
+        const duplicateKey = `${teacher.first_name}_${teacher.last_name}`;
+        const educationLevels = duplicateEducationLevels[duplicateKey] || [];
+        const subjects = duplicateSubjects[duplicateKey] || [];
+        
+        const educationLevelsString = educationLevels.map((level) => level.education_level__name).join(", ");
+        const subjectsString = subjects.map((subject) => subject.subject__name).join(", ");
+        
+        return `${teacher.first_name},${teacher.last_name},${teacher.email},${teacher.phone_number},${teacher.paid ? 'Payé' : 'Non Payé'},"${educationLevelsString}","${subjectsString}"`;
+    }).join("\n");
 
     const encodedUri = encodeURI(`data:text/csv;charset=utf-8,${csvContent}`);
     const link = document.createElement("a");
@@ -284,28 +299,45 @@ const TeacherList = () => {
 };
 
 const downloadXLSX = () => {
-  const worksheet = XLSX.utils.json_to_sheet(teachers.map(teacher => ({
-      'Prénom': teacher.first_name,
-      'Nom': teacher.last_name,
-      'Email': teacher.email,
-      'Téléphone': teacher.phone_number,
-      'Statut de paiement': teacher.paid ? 'Payé' : 'Non Payé', // Ajouter le statut de paiement
-      'Niveau d\'éducation': getEducationLevelName(teacher.education_level),
-      'Matière': getSubjectName(teacher.subject)
-  })));
+  const formattedData = teachers.map((teacher) => {
+      const duplicateKey = `${teacher.first_name}_${teacher.last_name}`;
+      const educationLevels = duplicateEducationLevels[duplicateKey] || [];
+      const subjects = duplicateSubjects[duplicateKey] || [];
 
+      const educationLevelsString = educationLevels.map((level) => level.education_level__name).join(", ");
+      const subjectsString = subjects.map((subject) => subject.subject__name).join(", ");
+
+      return {
+          'Prénom': teacher.first_name,
+          'Nom': teacher.last_name,
+          'Email': teacher.email,
+          'Téléphone': teacher.phone_number,
+          'Statut de paiement': teacher.paid ? 'Payé' : 'Non Payé',
+          'Niveaux d\'éducation': educationLevelsString,
+          'Matières': subjectsString,
+      };
+  });
+
+  const worksheet = XLSX.utils.json_to_sheet(formattedData);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Enseignants');
-  XLSX.writeFile(workbook, 'teachers.xlsx');
+  XLSX.writeFile(workbook, 'Teachers.xlsx');
 };
 
   const handleGenerateEmail = () => {
-    const email = `${newTeacherData.first_name.toLowerCase()}.${newTeacherData.last_name.toLowerCase()}@scolara.com`;
+    // Trouver le nom du sujet sélectionné
+    const selectedSubject = subjects.find(subject => subject.id === newTeacherData.subject);
+    const subjectName = selectedSubject ? selectedSubject.name.replace(/\s+/g, '').toLowerCase() : 'general';
+
+    // Générer l'email avec le sujet inclus
+    const email = `${newTeacherData.first_name.toLowerCase()}.${newTeacherData.last_name.toLowerCase()}.${subjectName}@scolara.com`;
+    
     setNewTeacherData((prevData) => ({
-      ...prevData,
-      email
+        ...prevData,
+        email
     }));
   };
+
 
   const generatePassword = (length = 8) => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -329,8 +361,9 @@ const downloadXLSX = () => {
     setLoadingDelete(true); // Activer le loader
     try {
         await deleteTeacher(teacherId);
-        const updatedTeachers = teachers.filter(teacher => teacher.id !== teacherId);
-        setTeachers(updatedTeachers);
+
+        // Rafraîchir la page après suppression
+        window.location.reload();
     } catch (error) {
         console.error('Erreur lors de la suppression de l\'enseignant:', error);
     } finally {
@@ -339,58 +372,60 @@ const downloadXLSX = () => {
 };
 
 
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const schoolId = Cookies.get('SchoolId');
-      if (!schoolId) {
-          console.error('Aucun ID d\'école trouvé dans les cookies.');
-          return;
-      }
+    const schoolId = Cookies.get('SchoolId');
+    if (!schoolId) {
+        console.error('Aucun ID d\'école trouvé dans les cookies.');
+        return;
+    }
 
-      const teacherData = new FormData();
-      teacherData.append('first_name', newTeacherData.first_name);
-      teacherData.append('last_name', newTeacherData.last_name);
-      teacherData.append('email', newTeacherData.email);
-      teacherData.append('phone_number', newTeacherData.phone_number);
-      teacherData.append('school', schoolId);
-      teacherData.append('education_level', newTeacherData.education_level);
-      teacherData.append('subject', newTeacherData.subject);
-      teacherData.append('password', newTeacherData.password); // Vérifiez si le mot de passe est bien inclus
+    const teacherData = new FormData();
+    teacherData.append('first_name', newTeacherData.first_name);
+    teacherData.append('last_name', newTeacherData.last_name);
+    teacherData.append('email', newTeacherData.email);
+    teacherData.append('phone_number', newTeacherData.phone_number);
+    teacherData.append('school', schoolId);
+    teacherData.append('education_level', newTeacherData.education_level);
+    teacherData.append('subject', newTeacherData.subject);
+    teacherData.append('password', newTeacherData.password); // Vérifiez si le mot de passe est bien inclus
 
-      setLoadingForm(true); // Démarrer le spinner
+    setLoadingForm(true); // Démarrer le spinner
 
-      try {
-          if (editTeacherData) {
-              await updateTeacher(editTeacherData.id, teacherData);
-          } else {
-              await createTeacher(teacherData);
-          }
+    try {
+        if (editTeacherData) {
+            await updateTeacher(editTeacherData.id, teacherData);
+        } else {
+            await createTeacher(teacherData);
+        }
 
-          setShowForm(false);
-          setNewTeacherData({
-              first_name: '',
-              last_name: '',
-              email: '',
-              phone_number: '',
-              school: null,
-              education_level: '',
-              subject: '',
-          });
-          setEditTeacherData(null);
+        setShowForm(false);
+        setNewTeacherData({
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone_number: '',
+            school: null,
+            education_level: '',
+            subject: '',
+        });
+        setEditTeacherData(null);
 
-          // Déclencher un rafraîchissement des données
-          setShouldRefresh((prev) => !prev);
-      } catch (error) {
-          console.error('Erreur lors de la création ou de la modification de l\'enseignant:', error);
-      } finally {
-          setLoadingForm(false); // Arrêter le spinner
-      }
-  };
+        // Rafraîchir la page après ajout
+        window.location.reload();
+    } catch (error) {
+        console.error('Erreur lors de la création ou de la modification de l\'enseignant:', error);
+    } finally {
+        setLoadingForm(false); // Arrêter le spinner
+    }
+};
+
 
 
 
@@ -442,8 +477,8 @@ const downloadXLSX = () => {
         <thead>
           <tr>
             <th>Photo de Profil</th>
-            <th>Nom</th>
             <th>Prénom</th>
+            <th>Nom</th>
             <th>Niveaux d'éducation</th>
             <th>Matière</th>
             <th>Téléphone</th>

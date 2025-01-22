@@ -97,5 +97,6 @@
     .navbar-button-signup {
         padding: 8px 10px; /* Moins de padding pour s'adapter aux petits écrans */
         font-size: 12px; /* Taille de police plus petite */
+        margin-bottom: 15px;
     }
 }

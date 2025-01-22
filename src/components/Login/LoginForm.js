@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import axiosInstance from '../../axiosConfig';
 import { useNavigate, Link } from 'react-router-dom';
+import { MoonLoader } from 'react-spinners';
+import axiosInstance from '../../axiosConfig';
 import '../../components/Signup/Signup.css';
 import '../Admin/Adminsignup/AdminSignup.css';
 import './LoginForm.css';
@@ -15,6 +16,7 @@ const LoginForm = () => {
     ]);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [message, setMessage] = useState('');
+    const [loadingForm, setLoadingForm] = useState(false); // État pour le loader
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,6 +25,7 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoadingForm(true); // Activer le loader
         try {
             const response = await axiosInstance.post('users/login/', formData);
             const { access, refresh, first_name, school, school_id, user } = response.data;
@@ -36,9 +39,9 @@ const LoginForm = () => {
             setCookie('TeacherId', user.id, { path: '/', sameSite: 'None', secure: true });
             setCookie('UserRole', user.role, { path: '/', sameSite: 'None', secure: true });
 
-            if (user.role === 5) { // Chauffeur
-                navigate('/transport-driver'); // Redirige vers la page des transports
-            } else if (user.role === 3) { // Enseignant
+            if (user.role === 5) {
+                navigate('/transport-driver');
+            } else if (user.role === 3) {
                 if (user.education_level) {
                     setCookie('TeacherEducationLevel', user.education_level, { path: '/' });
                 }
@@ -46,17 +49,17 @@ const LoginForm = () => {
                     setCookie('TeacherSubject', user.subject, { path: '/' });
                 }
                 navigate('/timetable-teacher');
-            } else if (user.role === 4) { // Parent
+            } else if (user.role === 4) {
                 navigate('/enter-secret-key');
-            } else if (user.role === 1) { // Administrateur
+            } else if (user.role === 1) {
                 navigate('/dashboard');
-            } else if (user.role === 2) { // Étudiant
+            } else if (user.role === 2) {
                 if (user.education_level) {
                     setCookie('education_level', user.education_level, { path: '/' });
                 }
                 navigate('/student-timetable');
             } else {
-                navigate('/'); // Par défaut
+                navigate('/');
             }
         } catch (error) {
             console.error('Erreur lors de la connexion:', error);
@@ -67,6 +70,8 @@ const LoginForm = () => {
                         : 'Erreur lors de la connexion.'}
                 </span>
             );
+        } finally {
+            setLoadingForm(false); // Désactiver le loader
         }
     };
 
@@ -86,6 +91,7 @@ const LoginForm = () => {
                                     onChange={handleChange}
                                     className="admin-signup-input"
                                     required
+                                    disabled={loadingForm} // Désactiver pendant le chargement
                                 />
                             </div>
                             <div className="whitetext">_</div>
@@ -98,11 +104,12 @@ const LoginForm = () => {
                                     onChange={handleChange}
                                     className="admin-signup-input"
                                     required
+                                    disabled={loadingForm} // Désactiver pendant le chargement
                                 />
                             </div>
                             <div className="whitetext">_</div>
-                            <button className="signup-button" type="submit">
-                                Se connecter
+                            <button className="signup-button" type="submit" disabled={loadingForm}>
+                                {loadingForm ? 'Chargement...' : 'Se connecter'}
                             </button>
                         </form>
                         {message && <p>{message}</p>}
@@ -116,6 +123,13 @@ const LoginForm = () => {
                     </div>
                 </div>
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="login-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

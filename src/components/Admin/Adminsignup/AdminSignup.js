@@ -3,6 +3,7 @@ import { signup } from '../../../APIServices';
 import { useNavigate } from 'react-router-dom';
 import './AdminSignup.css'; 
 import Modal from '../../Modal/Modal';
+import { MoonLoader } from 'react-spinners';
 
 const AdminSignup = () => {
     const navigate = useNavigate();
@@ -21,6 +22,8 @@ const AdminSignup = () => {
 
     const [message, setMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [loadingForm, setLoadingForm] = useState(false); // État pour le loader
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,6 +36,7 @@ const AdminSignup = () => {
     };
 
     const handleSubmit = async (e) => {
+        setLoadingForm(true);
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             setMessage('Les mots de passe ne correspondent pas');
@@ -65,6 +69,8 @@ const AdminSignup = () => {
             setMessage('Échec de l\'inscription. Veuillez réessayer.');
             console.error(error);
             setShowModal(true); // Affiche le modal en cas d'erreur
+        } finally {
+            setLoadingForm(false);
         }
     };
 
@@ -209,7 +215,14 @@ const AdminSignup = () => {
                 </div>
             </div>
             {showModal && <Modal message={message} onClose={handleCloseModal} />}
-        </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="login-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
+        </div>    
     );
 };
 

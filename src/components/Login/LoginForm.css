@@ -21,3 +21,27 @@
     padding: 20px; /* Ajoute de l'espacement intérieur */
     margin-top: 150px;
 }
+
+.login-loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Remplir la hauteur de la fenêtre */
+    width: 100%;
+    position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+    top: 0;
+    left: 0;   
+}
+
+@media (max-width:768px){
+    .login-loading-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;  /* Remplir la hauteur de la fenêtre */
+        width: 100%;
+        position: absolute;  /* Position absolue pour s'assurer que le loader soit au-dessus de tout autre contenu */
+        top: 0;
+        left: 0;  
+    }
+}

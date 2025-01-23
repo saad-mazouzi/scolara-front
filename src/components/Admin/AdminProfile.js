@@ -304,7 +304,7 @@ const AdminProfile = () => {
                 </div>
             )}
             <div className="admin-profile-content">
-                <div className="admin-profile-picture-container">
+                {/* <div className="admin-profile-picture-container"> */}
                     <div className="admin-name">
                         {userName}
                     </div>
@@ -324,7 +324,7 @@ const AdminProfile = () => {
                         onClick={() => document.getElementById('fileInput').click()}
                         style={{ cursor: 'pointer', position: 'absolute', bottom: '10px', right: '10px', fontSize: '20px' }}
                     />
-                </div>
+                {/* </div> */}
                 <input
                     type="file"
                     id="fileInput"

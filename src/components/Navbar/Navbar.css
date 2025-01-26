@@ -258,12 +258,13 @@
         margin-right: 40px !important; /* Réduire la marge pour mobile */
         flex-direction: row; /* Assure une disposition horizontale */
         justify-content: flex-end; /* Toujours aligné à droite */
-        margin-left:100px;
+        margin-left:90px;
     }
 
     .logout-button {
         padding: 5px 10px; /* Adapter la taille du bouton pour mobile */
         font-size: 14px; /* Réduction de la taille de la police */
+
     }
 
     .notification-container {

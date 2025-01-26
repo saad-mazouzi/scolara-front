@@ -537,9 +537,10 @@
     .message-input-container {
         flex-direction: column; /* Réorganise les éléments en colonne */
         gap: 5px; /* Réduit l'espacement */
-        position:fixed;
-        top:650px;
+        position:fixed !important;
+        top:550px;
         margin-left:20px;
+        text-align: center;
     }
 
     .send-button {

@@ -174,7 +174,7 @@ const TimetableTeacher = () => {
                 organizedSchedule[session.day][slot.id] = {
                     subject: subjects.find(subj => subj.id === session.subject)?.name || <PulseLoader size={8} color="#ffcc00" />,
                     teacherName: teacher ? `${teacher.first_name} ${teacher.last_name}` : <PulseLoader size={8} color="#4e7dad" />,
-                    classroom: classrooms.find(room => room.id === session.classroom)?.name || <PulseLoader size={8} color="#ffcc00" />,
+                    classroom: classrooms.find(room => room.id === session.classroom)?.name ,
                 };
             }
         });

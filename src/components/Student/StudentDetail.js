@@ -24,6 +24,7 @@ const StudentProfile = () => {
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [educationLevels, setEducationLevels] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState(null);
   const [loadingform, setLoadingForm] = useState(false);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const StudentProfile = () => {
         setMonthlyPayment(studentData.monthly_payment || 0);
         const levelsData = await fetchEducationLevelsBySchool(schoolId);
         setEducationLevels(levelsData);
+        setSelectedLevel(studentData.education_level); // Initialiser le niveau sélectionné
         setProfilePicture(studentData.profile_picture);
       } catch (err) {
         console.error('Erreur lors de la récupération des données de l\'étudiant:', err);
@@ -63,6 +65,27 @@ const StudentProfile = () => {
       setRemark(refreshedStudent.remark || "");
     } catch (err) {
       console.error("Erreur lors de la mise à jour de la remarque :", err);
+    } finally {
+      setLoadingForm(false);
+    }
+  };
+
+  const handleLevelTransfer = async () => {
+    if (!selectedLevel) return;
+
+    setLoadingForm(true);
+    try {
+      const updatedStudent = {
+        ...student,
+        education_level: selectedLevel,
+      };
+
+      await updateStudent(id, updatedStudent);
+      const refreshedStudent = await fetchStudentById(id);
+      setStudent(refreshedStudent);
+      alert("Le transfert de l'étudiant a été effectué avec succès.");
+    } catch (err) {
+      console.error('Erreur lors du transfert de l\'étudiant :', err);
     } finally {
       setLoadingForm(false);
     }
@@ -239,7 +262,7 @@ const StudentProfile = () => {
             <p className="student-name">{student.last_name} {student.first_name}</p>
             <p className="student-description">
               <strong>{student.first_name} {student.last_name}</strong> est un(e) étudiant(e) à l'école. 
-              Le niveau d'éducation de l'étudiant est <strong>{getEducationLevelName(student.education_level)}</strong>.
+              Le niveau d'éducation de l'étudiant(e) est <strong>{getEducationLevelName(student.education_level)}</strong>.
               Avec un nombre d'absences de <strong>{absenceCount}</strong>.
             </p>
             <p><strong>Nombre d'absences :</strong>
@@ -357,6 +380,41 @@ const StudentProfile = () => {
                     {loadingform ? "Sauvegarde..." : "Sauvegarder"}
                   </button>
                 </p>
+                <p>
+              <strong>Niveau d'éducation actuel :</strong> {educationLevels.find(level => level.id === student.education_level)?.name || 'Non défini'}
+            </p>
+            <p>
+              <strong>Transférer vers un nouveau niveau :</strong>
+              <select
+                value={selectedLevel || ""}
+                onChange={(e) => setSelectedLevel(parseInt(e.target.value))}
+                style={{
+                  display: "block",
+                  marginTop: "10px",
+                  padding: "5px",
+                  width: "100%",
+                }}
+              >
+                <option value="" disabled>Choisir un niveau</option>
+                {educationLevels.map(level => (
+                  <option key={level.id} value={level.id}>
+                    {level.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="update-button"
+                onClick={handleLevelTransfer}
+                disabled={loadingform || selectedLevel === student.education_level}
+                style={{
+                  marginTop: "10px",
+                  cursor: loadingform || selectedLevel === student.education_level ? "not-allowed" : "pointer",
+                  opacity: loadingform || selectedLevel === student.education_level ? 0.6 : 1,
+                }}
+              >
+                {loadingform ? "Transfert en cours..." : "Transférer"}
+              </button>
+            </p>
           </div>
         </div>
       )}

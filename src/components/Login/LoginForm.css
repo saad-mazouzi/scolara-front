@@ -45,3 +45,14 @@
         left: 0;  
     }
 }
+
+.login-container h2 {
+    font-size: 2.0rem;
+    font-weight: bold;
+    color: #4e7dad; /* Couleur attrayante */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce */
+    margin-bottom: 20px;
+    text-align: center; /* Centrer le titre */
+    font-family: 'Arial', sans-serif; /* Une police moderne */
+    letter-spacing: 2px; /* Espacement des lettres */
+}

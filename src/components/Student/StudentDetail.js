@@ -16,6 +16,7 @@ import { ScaleLoader,MoonLoader } from 'react-spinners';
 
 const StudentProfile = () => {
   const { id } = useParams();
+  const [remark, setRemark] = useState(""); // État pour la remarque
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,6 +32,7 @@ const StudentProfile = () => {
       try {
         const studentData = await fetchStudentById(id);
         setStudent(studentData);
+        setRemark(studentData.remark || ""); // Initialiser la remarque
         setAbsenceCount(studentData.absences_number || 0);
         setMonthlyPayment(studentData.monthly_payment || 0);
         const levelsData = await fetchEducationLevelsBySchool(schoolId);
@@ -46,6 +48,25 @@ const StudentProfile = () => {
 
     getStudentData();
   }, [id]);
+
+  const handleRemarkSubmit = async () => {
+    setLoadingForm(true);
+    try {
+      const updatedStudent = {
+        ...student,
+        remark,
+      };
+
+      await updateStudent(id, updatedStudent);
+      const refreshedStudent = await fetchStudentById(id);
+      setStudent(refreshedStudent);
+      setRemark(refreshedStudent.remark || "");
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour de la remarque :", err);
+    } finally {
+      setLoadingForm(false);
+    }
+  };
 
   const handleProfilePictureSubmit = async () => {
     const formData = new FormData();
@@ -308,6 +329,33 @@ const StudentProfile = () => {
                 </div>  
                 <p>
                   <strong>Clé secrète des parents :</strong> {student.parent_key || 'Non spécifiée'}
+                </p>
+                <p>
+                  <strong>Remarques :</strong>
+                  <textarea
+                    value={remark}
+                    onChange={(e) => setRemark(e.target.value)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      marginTop: "10px",
+                      padding: "5px",
+                      resize: "vertical",
+                    }}
+                    placeholder="Ajoutez une remarque pour l'étudiant (ex. : maladie, conditions particulières)"
+                  />
+                  <button
+                    className="update-button"
+                    onClick={handleRemarkSubmit}
+                    disabled={loadingform || remark === student.remark} // Désactiver si aucun changement
+                    style={{
+                      marginTop: "10px",
+                      cursor: loadingform || remark === student.remark ? "not-allowed" : "pointer",
+                      opacity: loadingform || remark === student.remark ? 0.6 : 1,
+                    }}
+                  >
+                    {loadingform ? "Sauvegarde..." : "Sauvegarder"}
+                  </button>
                 </p>
           </div>
         </div>

@@ -12,8 +12,9 @@
 }
 
 .navbar-logo img {
-    height: 50px; /* Réduction de la taille sur mobile */
+    height: 80px; /* Réduction de la taille sur mobile */
     object-fit: contain;
+    margin-left: 10px;
 }
 
 .navbar-text {
@@ -28,6 +29,7 @@
 .navbar-buttons {
     display: flex;
     gap: 12px;
+    margin-right:10px;
 }
 
 .navbar-button-login,
@@ -65,7 +67,7 @@
     }
 
     .navbar-logo img {
-        height: 40px; /* Taille réduite sur mobile */
+        height: 55px; /* Taille réduite sur mobile */
     }
 
     .navbar-text {
@@ -100,3 +102,5 @@
         margin-bottom: 15px;
     }
 }
+
+

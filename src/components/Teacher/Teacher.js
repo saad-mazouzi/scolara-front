@@ -169,7 +169,7 @@ const TeacherList = () => {
 
   const fetchDuplicateEducationLevels = async (firstName, lastName) => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/duplicate-teacher-education-levels/', {
+      const response = await axios.get('https://scolara-backend.onrender.com/api/duplicate-teacher-education-levels/', {
         params: { first_name: firstName, last_name: lastName },
       });
       return response.data;
@@ -182,7 +182,7 @@ const TeacherList = () => {
   // Fonction pour récupérer les doublons des sujets
   const fetchDuplicateSubjects = async (firstName, lastName) => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/duplicate-teacher-subjects/', {
+      const response = await axios.get('https://scolara-backend.onrender.com/api/duplicate-teacher-subjects/', {
         params: { first_name: firstName, last_name: lastName },
       });
       return response.data;

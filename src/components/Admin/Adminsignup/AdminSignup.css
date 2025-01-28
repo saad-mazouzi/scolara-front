@@ -54,7 +54,7 @@ label {
 .admin-signup-input {
     width: 100%; /* Largeur complète */
     padding: 10px; /* Espacement intérieur */
-    border: 1px solid #ccc; /* Bordure grise */
+    border: 2px solid #ccc; /* Bordure grise */
     border-radius: 4px; /* Coins arrondis */
     transition: border-color 0.3s; /* Transition douce pour le changement de couleur */
     margin-bottom:6px;

@@ -9,6 +9,8 @@ import {
   fetchEducationLevelsBySchool,
   markStudentAsPaid,
   updateStudentSalary,
+  fetchParents,
+  createParent
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Student.css';
@@ -20,12 +22,16 @@ const StudentProfile = () => {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [parents, setParents] = useState([]);
   const [absenceCount, setAbsenceCount] = useState(0);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [educationLevels, setEducationLevels] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [loadingform, setLoadingForm] = useState(false);
+  const [selectedParent, setSelectedParent] = useState(null);
+  const [newParent, setNewParent] = useState({ first_name: '', last_name: '', email: '', phone_number: '' });
+  const [useExistingParent, setUseExistingParent] = useState(true);
 
   useEffect(() => {
     const getStudentData = async () => {
@@ -50,6 +56,55 @@ const StudentProfile = () => {
 
     getStudentData();
   }, [id]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const studentData = await fetchStudentById(id);
+        setStudent(studentData);
+
+        const parentsData = await fetchParents(Cookies.get('SchoolId')); // Récupère les parents existants
+        setParents(parentsData);
+
+        setSelectedParent(studentData.parent_id || null); // Initialiser avec le tuteur actuel
+      } catch (err) {
+        console.error("Erreur lors de la récupération des données :", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, [id]);
+
+  const handleParentSubmit = async () => {
+    setLoadingForm(true);
+
+    try {
+      let parentId = selectedParent;
+
+      if (!useExistingParent) {
+        // Crée un nouveau parent si nécessaire
+        const createdParent = await createParent(newParent);
+        parentId = createdParent.id;
+      }
+
+      const updatedStudent = {
+        ...student,
+        parent_id: parentId,
+      };
+
+      await updateStudent(id, updatedStudent);
+      const refreshedStudent = await fetchStudentById(id);
+      setStudent(refreshedStudent);
+
+      alert('Le tuteur a été mis à jour avec succès.');
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du tuteur :', err);
+    } finally {
+      setLoadingForm(false);
+    }
+  };
 
   const handleRemarkSubmit = async () => {
     setLoadingForm(true);
@@ -415,6 +470,94 @@ const StudentProfile = () => {
                 {loadingform ? "Transfert en cours..." : "Transférer"}
               </button>
             </p>
+            <p>
+              <strong>Gestion du tuteur :</strong>
+            </p>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  checked={useExistingParent}
+                  onChange={() => setUseExistingParent(true)}
+                />
+                Utiliser un tuteur existant
+              </label>
+              <label style={{ marginLeft: '20px' }}>
+                <input
+                  type="radio"
+                  checked={!useExistingParent}
+                  onChange={() => setUseExistingParent(false)}
+                />
+                Créer un nouveau tuteur
+              </label>
+            </div>
+
+            {useExistingParent ? (
+              <div>
+                <select
+                  value={selectedParent || ''}
+                  onChange={(e) => setSelectedParent(e.target.value)}
+                  style={{
+                    display: 'block',
+                    marginTop: '10px',
+                    padding: '5px',
+                    width: '100%',
+                  }}
+                >
+                  <option value="">Choisir un tuteur</option>
+                  {parents.map((parent) => (
+                    <option key={parent.id} value={parent.id}>
+                      {parent.first_name} {parent.last_name} ({parent.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div style={{ marginTop: '10px' }}>
+                <input
+                  type="text"
+                  placeholder="Prénom"
+                  value={newParent.first_name}
+                  onChange={(e) => setNewParent({ ...newParent, first_name: e.target.value })}
+                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                />
+                <input
+                  type="text"
+                  placeholder="Nom"
+                  value={newParent.last_name}
+                  onChange={(e) => setNewParent({ ...newParent, last_name: e.target.value })}
+                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={newParent.email}
+                  onChange={(e) => setNewParent({ ...newParent, email: e.target.value })}
+                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                />
+                <input
+                  type="text"
+                  placeholder="Téléphone"
+                  value={newParent.phone_number}
+                  onChange={(e) => setNewParent({ ...newParent, phone_number: e.target.value })}
+                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                />
+              </div>
+            )}
+
+            <button
+              className="update-button"
+              onClick={handleParentSubmit}
+              disabled={loadingform}
+              style={{
+                marginTop: '10px',
+                cursor: loadingform ? 'not-allowed' : 'pointer',
+                opacity: loadingform ? 0.6 : 1,
+              }}
+            >
+              {loadingform ? 'Mise à jour...' : 'Mettre à jour le tuteur'}
+            </button>
+  
           </div>
         </div>
       )}

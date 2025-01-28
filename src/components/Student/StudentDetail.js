@@ -79,32 +79,38 @@ const StudentProfile = () => {
 
   const handleParentSubmit = async () => {
     setLoadingForm(true);
-
+  
     try {
       let parentId = selectedParent;
-
+  
       if (!useExistingParent) {
-        // Crée un nouveau parent si nécessaire
-        const createdParent = await createParent(newParent);
+        // Ajouter SchoolId au nouveau parent
+        const schoolId = Cookies.get('SchoolId');
+        const createdParent = await createParent({ ...newParent, school: schoolId });
         parentId = createdParent.id;
-      }
+        window.location.reload();
 
+      }
+  
       const updatedStudent = {
         ...student,
-        parent_id: parentId,
+        parent: parentId, // Utilisez "parent" pour associer le tuteur
       };
-
+  
       await updateStudent(id, updatedStudent);
       const refreshedStudent = await fetchStudentById(id);
       setStudent(refreshedStudent);
+  
+      alert('Le tuteur a été ajouté avec succès.');
 
-      alert('Le tuteur a été mis à jour avec succès.');
     } catch (err) {
       console.error('Erreur lors de la mise à jour du tuteur :', err);
     } finally {
       setLoadingForm(false);
     }
   };
+  
+  
 
   const handleRemarkSubmit = async () => {
     setLoadingForm(true);
@@ -287,7 +293,7 @@ const StudentProfile = () => {
   return (
     <div className="student-profile-container">
       {student && (
-        <div className="student-profile">
+        <div className="student-profile-test">
           <div className="student-profile-picture">
             {student.profile_picture ? (
               <img
@@ -391,7 +397,7 @@ const StudentProfile = () => {
                 Non Payé
               </button>
             </p>
-            <div className="student-profile">
+            <div className="student-profile-test">
                 <div className="transportation-toggle">
                     <p><strong>Transport :</strong></p>
                     </div> 
@@ -513,35 +519,85 @@ const StudentProfile = () => {
                 </select>
               </div>
             ) : (
-              <div style={{ marginTop: '10px' }}>
+              <div className="parent-creation-form">
                 <input
                   type="text"
+                  name="first_name"
                   placeholder="Prénom"
                   value={newParent.first_name}
                   onChange={(e) => setNewParent({ ...newParent, first_name: e.target.value })}
-                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                  className="student-input-lastname"
+                  required
                 />
                 <input
                   type="text"
+                  name="last_name"
                   placeholder="Nom"
                   value={newParent.last_name}
                   onChange={(e) => setNewParent({ ...newParent, last_name: e.target.value })}
-                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={newParent.email}
-                  onChange={(e) => setNewParent({ ...newParent, email: e.target.value })}
-                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                  className="student-input-lastname"
+                  required
                 />
                 <input
                   type="text"
+                  name="phone_number"
                   placeholder="Téléphone"
                   value={newParent.phone_number}
                   onChange={(e) => setNewParent({ ...newParent, phone_number: e.target.value })}
-                  style={{ display: 'block', marginBottom: '10px', padding: '5px', width: '100%' }}
+                  className="student-input-lastname"
+                  required
                 />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={newParent.email}
+                  onChange={(e) => setNewParent({ ...newParent, email: e.target.value })}
+                  className="student-input-lastname"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const generatedEmail = `${newParent.first_name.toLowerCase()}.${newParent.last_name.toLowerCase()}@scolara.com`;
+                    setNewParent({ ...newParent, email: generatedEmail });
+                  }}
+                  className="generate-password-button"
+                >
+                  <FaEdit /> Générer un email
+                </button>
+                <input
+                  type="text"
+                  name="password"
+                  placeholder="Mot de passe"
+                  value={newParent.password}
+                  readOnly
+                  className="student-input-lastname"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const generatedPassword = Array.from({ length: 8 }, () =>
+                      Math.random().toString(36).charAt(2)
+                    ).join('');
+                    setNewParent({ ...newParent, password: generatedPassword });
+                  }}
+                  className="generate-password-button"
+                >
+                  <FaEdit /> Générer un mot de passe
+                </button>
+                <button
+                  type="button"
+                  onClick={handleParentSubmit}
+                  className="create-student-button"
+                  disabled={loadingform}
+                >
+                  {loadingform ? (
+                    <MoonLoader size={20} color="#fff" loading={loadingform} />
+                  ) : (
+                    'Créer le tuteur'
+                  )}
+                </button>
               </div>
             )}
 

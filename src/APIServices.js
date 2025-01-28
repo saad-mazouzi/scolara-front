@@ -392,16 +392,33 @@ export const createStudent = async (studentData) => {
     }
 };
 
-export const createParent = async (studentData) => {
+export const createParent = async (parentData) => {
     try {
-        const response = await axiosInstance.post(`${API_URL}/users/create_parent/`, studentData, {
+        // Ajouter SchoolId provenant des cookies
+        const schoolId = Cookies.get('SchoolId');
+        if (!schoolId) {
+            throw new Error("SchoolId introuvable dans les cookies.");
+        }
+
+        // Créer un objet FormData pour envoyer les données
+        const formData = new FormData();
+        Object.entries({ ...parentData, school: schoolId }).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        console.log("Données envoyées au backend :", formData);
+
+        // Envoyer la requête au backend
+        const response = await axiosInstance.post(`${API_URL}/users/create_parent/`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data', // Assurez-vous que le type de contenu est correct si vous envoyez des fichiers
+                'Content-Type': 'multipart/form-data',
             },
         });
-        return response.data; // Retourne les données de la réponse, y compris l'étudiant créé
+
+        console.log("Réponse du backend :", response.data);
+        return response.data; // Retourne les données de la réponse
     } catch (error) {
-        console.error('Erreur lors de la création de l\'étudiant :', error);
+        console.error("Erreur lors de la création du parent :", error.response?.data || error.message);
         throw error; // Relance l'erreur pour une gestion ultérieure
     }
 };

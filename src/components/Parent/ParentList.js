@@ -206,36 +206,49 @@ const ParentList = () => {
         />
       </div>
       <table>
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedParents.length === 0 ? (
-            <tr>
-              <td colSpan="5" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
-                Aucun parent disponible.
-              </td>
-            </tr>
-          ) : (
-            paginatedParents.map(parent => (
-              <tr key={parent.id}>
-                <td>{parent.last_name}</td>
-                <td>{parent.first_name}</td>
-                <td>{parent.email}</td>
-                <td>{parent.phone_number}</td>
-                <td>
-                  <button onClick={() => handleDeleteClick(parent.id)} className="student-button-delete">Supprimer</button>
-                </td>
-              </tr>
+      <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Email</th>
+    <th>Téléphone</th>
+    <th>Enfant(s)</th> {/* Nouvelle colonne */}
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {paginatedParents.length === 0 ? (
+    <tr>
+      <td colSpan="6" style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
+        Aucun parent disponible.
+      </td>
+    </tr>
+  ) : (
+    paginatedParents.map(parent => (
+      <tr key={parent.id}>
+        <td>{parent.last_name}</td>
+        <td>{parent.first_name}</td>
+        <td>{parent.email}</td>
+        <td>{parent.phone_number}</td>
+        <td>
+          {parent.children && parent.children.length > 0 ? (
+            parent.children.map(child => (
+              <div key={child.id}>
+                {child.first_name} {child.last_name}
+              </div>
             ))
+          ) : (
+            <span>Non défini(es)</span>
           )}
-        </tbody>
+        </td>
+        <td>
+          <button onClick={() => handleDeleteClick(parent.id)} className="student-button-delete">Supprimer</button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
 
       </table>
 

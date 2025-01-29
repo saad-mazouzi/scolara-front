@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { PuffLoader , PulseLoader , MoonLoader} from 'react-spinners';
+import './subject.css';
 
 const Subject = () => {
     const [cookies] = useCookies(['SchoolId']);
@@ -276,13 +277,13 @@ const Subject = () => {
                     <div className="modal-content">
                         <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <h3>Modifier le Sujet</h3>
-                        <input 
+                        <input className='modif-input'
                             type="text" 
                             value={editSubjectName} 
                             onChange={(e) => setEditSubjectName(e.target.value)} 
                             placeholder="Nouveau nom" 
                         />
-                        <input 
+                        <input className='modif-input-2'
                             type="number" 
                             value={editCoefficient} 
                             onChange={(e) => setEditCoefficient(e.target.value)} 

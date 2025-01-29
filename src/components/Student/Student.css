@@ -447,6 +447,12 @@ tr:hover {
     display:flex;
 }
 
+.transportation-toggle{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 
 .pagination-controls-student {
     display: flex;

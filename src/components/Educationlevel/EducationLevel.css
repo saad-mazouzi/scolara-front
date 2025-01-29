@@ -79,6 +79,9 @@
     border-radius: 4px;
     transition: border-color 0.3s ease, box-shadow 0.2s ease;
     margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+
 }
 
 .education-level-input:focus {
@@ -244,4 +247,15 @@
         margin-top:10px;
     }
 
+    .education-level-container select {
+        width: 250px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s ease, box-shadow 0.2s ease;
+        margin-left: 20px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        max-width: 150px;
+    }
 }

@@ -18,6 +18,7 @@ import { ScaleLoader,MoonLoader } from 'react-spinners';
 
 const StudentProfile = () => {
   const { id } = useParams();
+  const [parentName, setParentName] = useState(null);
   const [remark, setRemark] = useState(""); // État pour la remarque
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,13 +40,26 @@ const StudentProfile = () => {
       try {
         const studentData = await fetchStudentById(id);
         setStudent(studentData);
-        setRemark(studentData.remark || ""); // Initialiser la remarque
+        setRemark(studentData.remark || ""); 
         setAbsenceCount(studentData.absences_number || 0);
         setMonthlyPayment(studentData.monthly_payment || 0);
+    
+        // Charger les niveaux d'éducation
         const levelsData = await fetchEducationLevelsBySchool(schoolId);
         setEducationLevels(levelsData);
-        setSelectedLevel(studentData.education_level); // Initialiser le niveau sélectionné
+        setSelectedLevel(studentData.education_level);
         setProfilePicture(studentData.profile_picture);
+    
+        // Charger le nom du parent
+        if (studentData.parent) {
+          const parentData = await fetchParents(schoolId);
+          const parentDetails = parentData.find(parent => parent.id === studentData.parent);
+          if (parentDetails) {
+            setParentName(`${parentDetails.first_name} ${parentDetails.last_name}`);
+          }
+        } else {
+          setParentName("Non spécifié");
+        }
       } catch (err) {
         console.error('Erreur lors de la récupération des données de l\'étudiant:', err);
         setError('Impossible de récupérer les données.');
@@ -53,6 +67,7 @@ const StudentProfile = () => {
         setLoading(false);
       }
     };
+    
 
     getStudentData();
   }, [id]);
@@ -353,6 +368,10 @@ const StudentProfile = () => {
               <strong>Email :</strong> {student.email || 'Non spécifié'}
             </p>
             <p>
+              <strong>Tuteur :</strong> {parentName || "Non spécifié"}
+            </p>
+
+            <p>
               <strong>Numéro de téléphone :</strong> {student.phone_number || 'Non spécifié'}
             </p>
             <p>
@@ -399,6 +418,7 @@ const StudentProfile = () => {
             </p>
             <div className="student-profile-test">
                 <div className="transportation-toggle">
+                    <div className="student-transportation-test-test">
                     <p><strong>Transport :</strong></p>
                     </div> 
                     <label className="switch">
@@ -409,7 +429,9 @@ const StudentProfile = () => {
                     />
                     <span className="slider round"></span>
                     </label>
+                    
                     <span>{student.transportation_service ? 'Activé' : 'Désactivé'}</span>
+                    </div>
                 </div>  
                 <p>
                   <strong>Clé secrète des parents :</strong> {student.parent_key || 'Non spécifiée'}
@@ -479,24 +501,28 @@ const StudentProfile = () => {
             <p>
               <strong>Gestion du tuteur :</strong>
             </p>
-            <div>
+            <div className="transport-student-label">
               <label>
                 <input
-                  type="radio"
+                  type="checkbox"
                   checked={useExistingParent}
-                  onChange={() => setUseExistingParent(true)}
+                  onChange={() => setUseExistingParent(!useExistingParent)}
                 />
                 Utiliser un tuteur existant
               </label>
-              <label style={{ marginLeft: '20px' }}>
+            </div>
+
+            <div className="transport-student-label">
+              <label>
                 <input
-                  type="radio"
+                  type="checkbox"
                   checked={!useExistingParent}
-                  onChange={() => setUseExistingParent(false)}
+                  onChange={() => setUseExistingParent(!useExistingParent)}
                 />
                 Créer un nouveau tuteur
               </label>
             </div>
+
 
             {useExistingParent ? (
               <div>

@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { PuffLoader , PulseLoader , MoonLoader} from 'react-spinners';
-import './subject.css';
+import './Subject.css';
 
 const Subject = () => {
     const [cookies] = useCookies(['SchoolId']);

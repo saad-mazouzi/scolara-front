@@ -19,6 +19,8 @@ import { FaFileInvoiceDollar } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { LuNewspaper } from "react-icons/lu";
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FaRegNoteSticky } from "react-icons/fa6";
+
 
 
 
@@ -68,6 +70,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         const paths = [
             '/education-level', 
             '/education-level-students' // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isNoticeActive = () => {
+        const paths = [
+            '/notices', 
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -317,6 +326,16 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <FaMoneyBillTrendUp style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
                             Revenus
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/notices"
+                            className={`sidebar-button ${isNoticeActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/notices')}
+                        >
+                            <FaRegNoteSticky style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Avis
                         </Link>
                     </li>
                 </ul>

@@ -1,0 +1,105 @@
+.notices-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.notices-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.notices-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.notice-item {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.notice-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.notice-content {
+    font-size: 16px;
+    color: #555;
+}
+
+.notice-date {
+    font-size: 14px;
+    color: #999;
+}
+
+.notice-delete-button {
+    margin-top: 10px;
+    color: red;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.notice-delete-button:hover {
+    text-decoration: underline;
+}
+
+.notice-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 50%;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4a79ba;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #3a68a3;
+}

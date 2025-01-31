@@ -108,6 +108,8 @@ export const fetchParents = async () => {
     }
 };
 
+
+
 export const fetchTeachers = async () => {
     try {
       // Récupérer le SchoolId depuis les cookies
@@ -136,6 +138,47 @@ export const fetchRoles = async () => {
         throw error;
     }
 };
+
+
+
+export const fetchNoticesForUser = async (schoolId) => {
+    try {
+        const cookies = document.cookie.split(';');
+        const roleCookie = cookies.find(cookie => cookie.trim().startsWith('UserRole='));
+        const userRole = roleCookie ? parseInt(roleCookie.split('=')[1], 10) : null;
+
+        if (!userRole) {
+            console.warn("Aucun rôle trouvé dans les cookies.");
+            return [];
+        }
+
+        // Récupérer le token d'authentification depuis les cookies
+        const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('jwtToken='));
+        const authToken = tokenCookie ? tokenCookie.split('=')[1] : null;
+
+        if (!authToken) {
+            console.warn("Aucun token d'authentification trouvé.");
+            return [];
+        }
+
+        const url = schoolId ? `http://127.0.0.1:8000/api/notices/?school_id=${schoolId}` : `http://127.0.0.1:8000/api/notices/`;
+
+        const response = await axios.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authToken}`  // Envoi du token dans l'en-tête
+            }
+        });
+
+        return response.data.filter(notice => notice.roles.includes(userRole));
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des avis :", error);
+        return [];
+    }
+};
+
+
 
 // CRUD functions for Teacher Availability
 export const fetchTeacherAvailabilities = async () => {
@@ -210,6 +253,51 @@ export const fetchEducationLevels = async (schoolId) => {
         throw error;
     }
 };
+
+export const fetchNotices = async (schoolId = null) => {
+    try {
+        const url = schoolId ? `http://127.0.0.1:8000/api/notices/?school_id=${schoolId}` : `http://127.0.0.1:8000/api/notices/`;
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching notices:', error);
+        throw error;
+    }
+};
+
+// Create a new notice
+export const createNotice = async (noticeData) => {
+    try {
+        const response = await axios.post(`${API_URL}/notices/`, noticeData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating notice:', error);
+        throw error;
+    }
+};
+
+// Update an existing notice
+export const updateNotice = async (noticeId, noticeData) => {
+    try {
+        const response = await axios.put(`${API_URL}/notices/${noticeId}/`, noticeData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating notice:', error);
+        throw error;
+    }
+};
+
+// Delete a notice
+export const deleteNotice = async (noticeId) => {
+    try {
+        const response = await axios.delete(`${API_URL}/notices/${noticeId}/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting notice:', error);
+        throw error;
+    }
+};
+
 
 // Utilisez cette URL dans fetchTeacherById pour appeler retrieve_teacher avec l'ID de l'utilisateur.
 export const fetchTeacherById = async (userId) => {

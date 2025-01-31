@@ -63,6 +63,8 @@ import StudentBulletins from './components/Bulletin/StudentBulletins';
 import BulletinHeader from './components/Bulletin/BulletinHeader';
 import DriverProfileNavbar from './components/Drivers/DriverProfile';
 import DriverTransports from './components/Transports/TransportCards';
+import Notices from './components/Notices/Notices';
+import NoticesByRole from './components/Notices/NoticesByRole';
 
 function Router() {
     return (
@@ -96,6 +98,8 @@ function Router() {
                         <Route path="/users" element={<UsersPage />} />
                         <Route path="/bulletins" element={<StudentBulletins />} />
                         <Route path="/bulletin/:studentId" element={<BulletinHeader />} />
+                        <Route path="/notices" element={<Notices />} />
+
                     </Route>
                     <Route path="/" element={<TeacherLayout />}>
                         <Route path="timetable-teacher" element={<TimetableTeacher />} /> 
@@ -106,7 +110,7 @@ function Router() {
                         <Route path="/chat-teacher" element={< RolesCards/>} />
                         <Route path="/users-teacher" element={<UsersPage />} />
                         <Route path="/chat-teacher/:chatRoomId" element={<ChatPage />} />
-
+                        <Route path="/notices-user" element={<NoticesByRole />} />
                     </Route>
 
                     <Route path="/" element={<StudentLayout />}>

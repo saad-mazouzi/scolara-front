@@ -25,7 +25,7 @@ const TeacherSidebar = ({ isOpen, toggleSidebar }) => {
 
     const isNoticeActive = () => {
         const paths = [
-            '/notices', // Chemin principal
+            '/notices-user', // Chemin principal
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -109,7 +109,7 @@ const TeacherSidebar = ({ isOpen, toggleSidebar }) => {
                         <Link
                             to="/notices-user"
                             className={`sidebar-button ${isNoticeActive() ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/notices')}
+                            onClick={() => setActiveLink('/notices-user')}
                         >
                             <FaRegNoteSticky style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
                             Avis

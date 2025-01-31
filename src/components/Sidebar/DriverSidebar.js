@@ -7,6 +7,8 @@ import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FaRegNoteSticky } from "react-icons/fa6";
+
 
 const DriverSidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation();
@@ -20,6 +22,13 @@ const DriverSidebar = ({ isOpen, toggleSidebar }) => {
 
     const isTransportActive = () => {
         const paths = ['/transport-driver'];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isNoticeActive = () => {
+        const paths = [
+            '/notices-user', // Chemin principal
+        ];
         return paths.some(path => location.pathname.startsWith(path));
     };
 
@@ -59,6 +68,16 @@ const DriverSidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Chat
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/notices-user"
+                            className={`sidebar-button ${isNoticeActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/notices-user')}
+                        >
+                            <FaRegNoteSticky style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Avis
                         </Link>
                     </li>
                 </ul>

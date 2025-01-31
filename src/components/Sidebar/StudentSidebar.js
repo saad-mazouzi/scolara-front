@@ -8,15 +8,27 @@ import { GrTableAdd } from "react-icons/gr";
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FaRegNoteSticky } from "react-icons/fa6";
+import { useState } from 'react';
+
 
 const StudentSidebar = ({ isOpen, toggleSidebar }) => {
     const location = useLocation(); // Utilise useLocation pour obtenir le chemin actuel
+    const [activeLink, setActiveLink] = useState(location.pathname); // État pour le lien actif
+    
 
     // Fonction utilitaire pour vérifier les chemins
     const isCoursesActive = () => {
         const paths = [
             '/courses-student', // Chemin principal
             '/student-courses', // Préfixe des sous-chemins
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isNoticeActive = () => {
+        const paths = [
+            '/notices-user', // Chemin principal
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -82,6 +94,16 @@ const StudentSidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <IoChatbubbleEllipsesOutline style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Chat
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/notices-user"
+                            className={`sidebar-button ${isNoticeActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/notices-user')}
+                        >
+                            <FaRegNoteSticky style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Avis
                         </Link>
                     </li>
                 </ul>

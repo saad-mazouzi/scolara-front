@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchNotices, deleteNotice, createNotice, fetchRoles } from '../../APIServices';
+import { fetchNoticesForUser, deleteNotice, createNotice, fetchRoles } from '../../APIServices';
 import './Notices.css'; // Import the CSS file for styling
 
 const Notices = () => {
@@ -21,7 +21,7 @@ const Notices = () => {
     const loadNotices = async () => {
       try {
         setLoading(true);
-        const data = await fetchNotices(schoolId);
+        const data = await fetchNoticesForUser(schoolId);
         setNotices(data);
       } catch (err) {
         setError('Failed to fetch notices');

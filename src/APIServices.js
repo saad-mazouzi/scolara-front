@@ -161,7 +161,7 @@ export const fetchNoticesForUser = async (schoolId) => {
             return [];
         }
 
-        const url = schoolId ? `http://127.0.0.1:8000/api/notices/?school_id=${schoolId}` : `http://127.0.0.1:8000/api/notices/`;
+        const url = schoolId ? `${API_URL}/notices/?school_id=${schoolId}` : `${API_URL}/notices/`;
 
         const response = await axios.get(url, {
             headers: {
@@ -256,7 +256,7 @@ export const fetchEducationLevels = async (schoolId) => {
 
 export const fetchNotices = async (schoolId = null) => {
     try {
-        const url = schoolId ? `http://127.0.0.1:8000/api/notices/?school_id=${schoolId}` : `http://127.0.0.1:8000/api/notices/`;
+        const url = schoolId ? `${API_URL}/notices/?school_id=${schoolId}` : `${API_URL}/notices/`;
         const response = await axios.get(url);
         return response.data;
     } catch (error) {

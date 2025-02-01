@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchNoticesForUser } from '../../APIServices';
 import './Notices.css'; // Assurez-vous que le CSS est bien appliqué
+import { PuffLoader } from 'react-spinners';
 
 const NoticesByRole = ({ schoolId }) => {
   const [notices, setNotices] = useState([]);
@@ -23,12 +24,19 @@ const NoticesByRole = ({ schoolId }) => {
     loadNotices();
   }, [schoolId]);
 
-  if (loading) return <div>Chargement...</div>;
+  if (loading) {
+      return (
+          <div className="loading-container">
+              <PuffLoader size={60} color="#ffcc00" loading={loading} />
+          </div>
+      );
+  }
+
   if (error) return <div>{error}</div>;
 
   return (
     <div className="notices-container">
-      <h3 className="notices-title">Mes Avis</h3>
+      <h3 className="student-list-title">Avis</h3>
       {notices.length > 0 ? (
         <ul className="notices-list">
           {notices.map((notice) => (

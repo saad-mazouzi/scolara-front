@@ -152,33 +152,25 @@ export const fetchNoticesForUser = async (schoolId) => {
             return [];
         }
 
-        // Récupérer le token d'authentification depuis les cookies
-        const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('jwtToken='));
-        const authToken = tokenCookie ? tokenCookie.split('=')[1] : null;
-
-        if (!authToken) {
-            console.warn("Aucun token d'authentification trouvé.");
-            return [];
-        }
-
-        const url = schoolId ? `${API_URL}/notices/?school_id=${schoolId}` : `${API_URL}/notices/`;
-
-        const response = await axios.get(url, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${authToken}`  // Envoi du token dans l'en-tête
-            }
-        });
+        const url = schoolId ? `notices/?school_id=${schoolId}` : `notices/`;
+        const response = await axiosInstance.get(url);
 
         return response.data.filter(notice => notice.roles.includes(userRole));
-
     } catch (error) {
         console.error("Erreur lors de la récupération des avis :", error);
         return [];
     }
 };
 
-
+export const deleteNotice = async (noticeId) => {
+    try {
+        const response = await axiosInstance.delete(`notices/${noticeId}/delete/`);
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de la suppression de l'avis :", error);
+        throw error;
+    }
+};
 
 // CRUD functions for Teacher Availability
 export const fetchTeacherAvailabilities = async () => {
@@ -283,17 +275,6 @@ export const updateNotice = async (noticeId, noticeData) => {
         return response.data;
     } catch (error) {
         console.error('Error updating notice:', error);
-        throw error;
-    }
-};
-
-// Delete a notice
-export const deleteNotice = async (noticeId) => {
-    try {
-        const response = await axios.delete(`${API_URL}/notices/${noticeId}/`);
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting notice:', error);
         throw error;
     }
 };

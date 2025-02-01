@@ -1,6 +1,7 @@
 .notices-container {
     padding: 20px;
     font-family: Arial, sans-serif;
+    margin-top:-40px;
 }
 
 .notices-title {
@@ -20,6 +21,7 @@
     border-radius: 5px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
+    margin-top:60px;
 }
 
 .notice-title {
@@ -102,4 +104,67 @@
 
 .submit-button:hover {
     background-color: #3a68a3;
+}
+
+.role-button {
+    padding: 10px;
+    background-color: #cccccc;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.role-selection-group{
+    display: flex;
+    gap: 10px;
+}
+
+.notice-print-button{
+    background-color: #ffcc00;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-left: 950px;
+}
+
+@media (max-width: 768px) {
+    .role-selection-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .role-button {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+    .notice-form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 80%;
+        margin: auto;
+    }
+
+    .notice-print-button{
+        background-color: #ffcc00;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 5px;
+        margin-left: 50px;
+    }
+    
+
 }

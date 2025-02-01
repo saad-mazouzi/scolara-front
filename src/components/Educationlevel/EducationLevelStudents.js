@@ -22,6 +22,10 @@ const EducationLevelStudents = () => {
         day: 'numeric',
     });
 
+    const formatTime = (timeString) => {
+        return timeString.slice(0, 5); // Format HH:MM uniquement
+    };
+
     useEffect(() => {
         const getStudentsAndTimeSlots = async () => {
             try {
@@ -71,15 +75,50 @@ const EducationLevelStudents = () => {
                             .students-table {
                                 width: 100%;
                                 border-collapse: collapse;
+                                margin-top: 20px;
+                                font-size: 12px;
                             }
-                            .students-table th, .students-table td {
+
+                            .students-table th,
+                            .students-table td {
                                 border: 1px solid #ddd;
                                 padding: 8px;
-                                text-align: left;
+                                text-align: center;
                             }
+
+                            .signature-liste-appel {
+                                margin-top: 50px;
+                                margin-right : 150px;
+                                text-align: right;
+                                margin-bottom: 100px;
+                            }
+                            
+                            .middle-text{
+                                color:black;
+                                text-align: center;
+                                margin-top:30px;
+                                margin-bottom: 40px;
+                            }
+
+                            .students-table th.small-column,
+                            .students-table td.small-column {
+                                width: 100px; /* Colonnes des horaires plus petites */
+                            }
+
+                            .students-table th.large-column,
+                            .students-table td.large-column {
+                                width: 200px; /* Colonne Remarques plus large */
+                            }
+
                             .students-table th {
-                                background-color: #f4f4f4;
+                                background-color: #252628;
+                                font-weight: bold;
                             }
+
+                            .students-table tr:nth-child(even) {
+                                background-color: #f9f9f9;
+                            }
+
                             .student-list-title h3 {
                                 text-align: center;
                             }
@@ -131,7 +170,7 @@ const EducationLevelStudents = () => {
                                 <th>Numéro</th>
                                 <th>Nom Prénom</th>
                                 {timeSlots.map((slot) => (
-                                    <th key={slot.id}>{`${slot.start_time} - ${slot.end_time}`}</th>
+                                    <th key={slot.id}>{`${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`}</th>
                                 ))}
                                 <th>Remarques</th>
                             </tr>

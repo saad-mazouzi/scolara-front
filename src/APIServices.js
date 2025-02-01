@@ -1823,3 +1823,5 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
       throw error;
     }
   };
+
+  

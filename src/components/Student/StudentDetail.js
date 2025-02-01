@@ -15,8 +15,10 @@ import {
 import Cookies from 'js-cookie';
 import './Student.css';
 import { ScaleLoader,MoonLoader } from 'react-spinners';
+import axios from 'axios';
 
 const StudentProfile = () => {
+  const API_URL = 'https://scolara-backend.onrender.com/api';  
   const { id } = useParams();
   const [parentName, setParentName] = useState(null);
   const [remark, setRemark] = useState(""); // État pour la remarque
@@ -25,6 +27,7 @@ const StudentProfile = () => {
   const [error, setError] = useState(null);
   const [parents, setParents] = useState([]);
   const [absenceCount, setAbsenceCount] = useState(0);
+  const [school, setSchool] = useState('null');
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [educationLevels, setEducationLevels] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
@@ -33,6 +36,9 @@ const StudentProfile = () => {
   const [selectedParent, setSelectedParent] = useState(null);
   const [newParent, setNewParent] = useState({ first_name: '', last_name: '', email: '', phone_number: '' });
   const [useExistingParent, setUseExistingParent] = useState(true);
+  const schoolName = Cookies.get('SchoolName');
+  const schoollogo = Cookies.get('SchoolLogo')
+
 
   useEffect(() => {
     const getStudentData = async () => {
@@ -66,6 +72,16 @@ const StudentProfile = () => {
       } finally {
         setLoading(false);
       }
+
+      const fetchSchoolData = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/school/${schoolId}/`);
+            setSchool(response.data);
+        } catch (err) {
+            console.error("Error fetching school data:", err);
+            setError("Unable to load school information.");
+        }
+    };
     };
     
 
@@ -91,6 +107,7 @@ const StudentProfile = () => {
 
     getData();
   }, [id]);
+
 
   const handleParentSubmit = async () => {
     setLoadingForm(true);
@@ -213,6 +230,7 @@ const StudentProfile = () => {
     try {
         if (isPaid) {
             await markStudentAsPaid(student.id); // Appeler l'API pour marquer comme payé
+            generatePaymentReceipt(student);
         } else {
             const updatedStudent = {
                 ...student,
@@ -247,7 +265,125 @@ const StudentProfile = () => {
     }
   };
 
+  const generatePaymentReceipt = (student) => {
+    const receiptWindow = window.open('', '_blank', 'width=800,height=600');
+  
+    if (receiptWindow) {
+      receiptWindow.document.open();
+      receiptWindow.document.write(`
+        <html>
+          <head>
+            <title>Reçu de Paiement</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                padding: 0;
+              }
+              .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+              }
+              .logo {
+                width: 80px;
+                height: auto;
+              }
+              .school-info {
+                text-align: right;
+                font-size: 14px;
+              }
+              .receipt-container {
+                border: 1px solid #000;
+                padding: 20px;
+                width: 100%;
+                max-width: 600px;
+                margin: auto;
+              }
+              .receipt-title {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 20px;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+              }
+              th, td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: center;
+              }
+              .signature {
+                text-align: left;
+                margin-top: 50px;
+                margin-left:340px;
+              }
+              .signature-box {
+                border: 1px solid #000;
+                margin-left:320px;
+                height: 110px;
+                width: 200px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="receipt-container">
+              <div class="header">
+                <div>
+                  <img src="${schoollogo}" alt="Logo de l'école" class="logo" id="schoolLogo"/>
+                </div>
+                <div class="school-info">
+                  <strong>${schoolName}</strong><br>
+                  Année Scolaire: 2024/2025<br>
+                  Classe: ${getEducationLevelName(student.education_level) || 'Non spécifiée'}<br>
+                  Date de Paiement: ${new Date().toLocaleDateString()}
+                </div>
+              </div>
+  
+              <div class="receipt-title">Reçu n° ${Math.floor(Math.random() * 10000)}</div>
+  
+              <table>
+                <tr>
+                  <th>Nom de l'étudiant</th>
+                  <td>${student.first_name} ${student.last_name}</td>
+                </tr>
+                <tr>
+                  <td>Mensualité - ${new Date().toLocaleString('default', { month: 'long' })}</td>
+                  <td>${student.monthly_payment || 'Non spécifié'} DH</td>
+                </tr>
+                <tr>
+                  <td><strong>Total TTC :</strong></td>
+                  <td><strong>${student.monthly_payment || 'Non spécifié'} DH</strong></td>
+                </tr>
+              </table>
+  
+              <div class="signature">
+                Signature et Cachet:
+              </div>
+              <div class="signature-box"></div>
 
+            </div>
+  
+            <script>
+              // Attendre que l'image soit chargée avant d'imprimer
+              const logo = document.getElementById('schoolLogo');
+              if (logo.complete) {
+                window.print();
+              } else {
+                logo.onload = () => window.print();
+              }
+            </script>
+          </body>
+        </html>
+      `);
+      receiptWindow.document.close();
+    }
+  };
+  
+  
   const handleMonthlyPaymentSubmit = async () => {
     setLoadingForm(true);
     try {

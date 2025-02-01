@@ -28,7 +28,7 @@ const LoginForm = () => {
         setLoadingForm(true); // Activer le loader
         try {
             const response = await axiosInstance.post('users/login/', formData);
-            const { access, refresh, first_name, school, school_id, user } = response.data;
+            const { access, refresh, first_name, school, school_id, user} = response.data;
 
             setCookie('jwtToken', access, { path: '/', sameSite: 'None', secure: true });
             setCookie('refreshToken', refresh, { path: '/', sameSite: 'None', secure: true });
@@ -38,6 +38,15 @@ const LoginForm = () => {
             setCookie('SchoolId', school_id, { path: '/', sameSite: 'None', secure: true });
             setCookie('TeacherId', user.id, { path: '/', sameSite: 'None', secure: true });
             setCookie('UserRole', user.role, { path: '/', sameSite: 'None', secure: true });
+
+            const schoolResponse = await axiosInstance.get(`school/${school_id}/`);
+            const schoolLogo = schoolResponse.data.logo;
+
+            // Stocker le logo dans les cookies
+            if (schoolLogo) {
+                setCookie('SchoolLogo', schoolLogo, { path: '/', sameSite: 'None', secure: true });
+            }
+
 
             if (user.role === 5) {
                 navigate('/transport-driver');

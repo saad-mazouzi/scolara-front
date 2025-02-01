@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { fetchStudentsByEducationLevel } from '../../APIServices';
+import { fetchStudentsByEducationLevel, fetchTimeSlots } from '../../APIServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPrint } from '@fortawesome/free-solid-svg-icons'; // Importer l'icône d'impression
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import './EducationLevel.css';
 import { PuffLoader } from 'react-spinners';
 
 const EducationLevelStudents = () => {
-    const { id } = useParams(); // Récupérer l'id du niveau d'éducation depuis l'URL
-    const [cookies] = useCookies(['SchoolId']); // Récupérer school_id des cookies
+    const { id } = useParams(); 
+    const [cookies] = useCookies(['SchoolId']); 
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [timeSlots, setTimeSlots] = useState([]);
 
-    const timeSlots = [
-        '8:00-10:00',
-        '10:00-12:00',
-        '12:00-14:00',
-        '14:00-16:00',
-        '16:00-18:00',
-    ];
-
-    // Obtenir la date actuelle
     const currentDate = new Date().toLocaleDateString('fr-FR', {
         weekday: 'long',
         year: 'numeric',
@@ -31,34 +23,39 @@ const EducationLevelStudents = () => {
     });
 
     useEffect(() => {
-        const getStudents = async () => {
+        const getStudentsAndTimeSlots = async () => {
             try {
                 setLoading(true);
-                const schoolId = cookies.SchoolId; // Obtenir l'ID de l'école des cookies
-                const data = await fetchStudentsByEducationLevel(schoolId, id); // Appeler l'API pour récupérer les étudiants
-                
-                // Trier les étudiants par ordre alphabétique (nom puis prénom)
-                const sortedStudents = data.sort((a, b) => {
+                const schoolId = cookies.SchoolId;
+
+                const [studentsData, timeSlotsData] = await Promise.all([
+                    fetchStudentsByEducationLevel(schoolId, id),
+                    fetchTimeSlots(schoolId)
+                ]);
+
+                const sortedStudents = studentsData.sort((a, b) => {
                     const fullNameA = `${a.last_name} ${a.first_name}`.toLowerCase();
-                    const fullNameB = `${b.last_name} ${b.first_name}`.toLowerCase();                    
+                    const fullNameB = `${b.last_name} ${b.first_name}`.toLowerCase();
                     return fullNameA.localeCompare(fullNameB);
                 });
 
-                setStudents(sortedStudents); // Mettre à jour la liste triée des étudiants
+                setStudents(sortedStudents);
+                setTimeSlots(timeSlotsData);
+
             } catch (err) {
                 console.error(err);
-                setError('Erreur lors du chargement des étudiants');
+                setError('Erreur lors du chargement des données');
             } finally {
                 setLoading(false);
             }
         };
-        getStudents();
+        getStudentsAndTimeSlots();
     }, [id, cookies.SchoolId]);
 
     const printAttendanceList = () => {
         const printContents = document.getElementById('attendance-list').innerHTML;
         const newWindow = window.open('', '_blank', 'width=800,height=600');
-        
+
         if (newWindow) {
             newWindow.document.open();
             newWindow.document.write(`
@@ -68,40 +65,28 @@ const EducationLevelStudents = () => {
                         <style>
                             body {
                                 font-family: Arial, sans-serif;
-                                font-size: 10px; /* Taille de la police réduite */
+                                font-size: 10px;
                                 margin: 20px;
                             }
                             .students-table {
                                 width: 100%;
-                                margin-top:50px;
                                 border-collapse: collapse;
                             }
                             .students-table th, .students-table td {
                                 border: 1px solid #ddd;
                                 padding: 8px;
                                 text-align: left;
-                                font-size: 10px; /* Taille de la police des cellules */
                             }
                             .students-table th {
                                 background-color: #f4f4f4;
                             }
                             .student-list-title h3 {
                                 text-align: center;
-                                font-size: 12px; /* Taille légèrement plus grande pour le titre */
                             }
-                            .middle-text {
-                                text-align: center;
-                                margin-bottom: 20px;
-                                font-size: 10px; /* Taille pour le texte du centre */
-                            }
-                            
                             .signature-liste-appel {
                                 margin-top: 50px;
-                                margin-right : 150px;
                                 text-align: right;
-                                margin-bottom: 100px;
                             }
-
                         </style>
                     </head>
                     <body>
@@ -114,8 +99,7 @@ const EducationLevelStudents = () => {
             newWindow.close();
         }
     };
-    
-    
+
     if (loading) {
         return (
             <div className="loading-container">
@@ -139,19 +123,7 @@ const EducationLevelStudents = () => {
                 </div>
                 <div className='middle-text'>{currentDate}</div>
                 {students.length === 0 ? (
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                        textAlign: 'center',
-                        fontSize: '18px',
-                        color: '#666',
-                        fontWeight: 'bold',
-                        backgroundColor: '#f9f9f9',
-                    }}>
-                        Aucun étudiant trouvé pour ce niveau d'éducation.
-                    </div>
+                    <div>Aucun étudiant trouvé pour ce niveau d'éducation.</div>
                 ) : (
                     <table className="students-table">
                         <thead>
@@ -159,28 +131,25 @@ const EducationLevelStudents = () => {
                                 <th>Numéro</th>
                                 <th>Nom Prénom</th>
                                 {timeSlots.map((slot) => (
-                                    <th key={slot} className="small-column">{slot}</th>
+                                    <th key={slot.id}>{`${slot.start_time} - ${slot.end_time}`}</th>
                                 ))}
-                                <th className="large-column">Remarques</th>
+                                <th>Remarques</th>
                             </tr>
                         </thead>
                         <tbody>
                             {students.map((student, index) => (
                                 <tr key={student.id}>
-                                    <td>{index + 1}</td> {/* Numéro séquentiel */}
-                                    <td>
-                                        {student.last_name} {student.first_name}
-                                    </td>
+                                    <td>{index + 1}</td>
+                                    <td>{student.last_name} {student.first_name}</td>
                                     {timeSlots.map((slot) => (
-                                        <td key={slot} className="small-column"></td> 
+                                        <td key={slot.id}></td>
                                     ))}
-                                    <td className="large-column"></td>
+                                    <td></td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 )}
-                
                 <div className='signature-liste-appel'>Signature :</div>
             </div>
         </div>

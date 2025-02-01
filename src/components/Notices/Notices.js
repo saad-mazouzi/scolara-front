@@ -82,12 +82,47 @@ const Notices = () => {
           <head>
             <title>Impression de l'Avis</title>
             <style>
-              body { font-family: Arial, sans-serif; padding: 20px; }
-              h2 { text-align: center; color: #333; }
-              .notice-container { border: 1px solid #ddd; padding: 15px; border-radius: 5px; width: 80%; margin: auto; }
-              .notice-content { margin: 10px 0; font-size: 16px; }
-              .notice-roles { margin-top: 15px; font-size: 14px; font-weight: bold; }
-              .role-button { display: inline-block; padding: 5px 10px; background-color: gray; color: white; border-radius: 5px; margin-right: 5px; font-size: 12px; }
+              body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh; /* Hauteur totale de la page */
+                margin: 0;
+                padding: 0;
+              }
+              h2 { 
+                text-align: center; 
+                color: #333; 
+              }
+              .notice-container { 
+                border: 1px solid #ddd; 
+                padding: 20px; 
+                border-radius: 5px; 
+                width: 80%; 
+                max-width: 600px; 
+                box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+                background-color: white;
+              }
+              .notice-content { 
+                margin: 10px 0; 
+                font-size: 16px; 
+                margin-bottom: 20px; 
+              }
+              .notice-roles { 
+                margin-top: 15px; 
+                font-size: 14px; 
+                font-weight: bold; 
+              }
+              .role-button { 
+                display: inline-block; 
+                padding: 5px 10px; 
+                background-color: gray; 
+                color: white; 
+                border-radius: 5px; 
+                margin-right: 5px; 
+                font-size: 12px; 
+              }
             </style>
           </head>
           <body>
@@ -101,7 +136,8 @@ const Notices = () => {
       printWindow.document.close();
       printWindow.print();
     }
-  };
+};
+
   
 
   const handleCreateNotice = async (e) => {

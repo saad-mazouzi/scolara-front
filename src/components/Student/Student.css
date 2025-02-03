@@ -678,3 +678,56 @@ input:checked+.slider:before {
         transition: background-color 0.5s ease;
     }
 }
+
+.sms-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Assurez-vous qu'il est au-dessus des autres éléments */
+}
+
+.sms-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1001; /* Plus haut que l'overlay */
+}
+
+.sms-popup textarea {
+    width: 80% !important;
+    padding: 10px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sms-popup button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4e7dad;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.sms-popup button:hover {
+    background-color: #416a92;
+}
+
+.sms-popup button:last-child {
+    background-color: #ffcc00 !important;
+}
+
+.sms-popup button:last-child:hover {
+    background-color: #c09b06;
+}

@@ -123,6 +123,8 @@ function Router() {
                         <Route path="/chat-student" element={< RolesCards/>} />
                         <Route path="/users-student" element={<UsersPage />} />
                         <Route path="/chat-student/:chatRoomId" element={<ChatPage />} />
+                        <Route path="/notices-student" element={<NoticesByRole />} />
+
                     </Route>
 
                     <Route path="/" element={<ParentLayout />}>
@@ -133,6 +135,8 @@ function Router() {
                         <Route path="/chat-parent" element={< RolesCards/>} />
                         <Route path="/users-parent" element={<UsersPage />} />
                         <Route path="/chat-parent/:chatRoomId" element={<ChatPage />} />
+                        <Route path="/notices-parent" element={<NoticesByRole />} />
+
                     </Route>
 
                     <Route path="/" element={<DriverLayout />}>
@@ -141,6 +145,8 @@ function Router() {
                         <Route path="/chat-driver" element={< RolesCards/>} />
                         <Route path="/users-driver" element={<UsersPage />} />
                         <Route path="/chat-driver/:chatRoomId" element={<ChatPage />} />
+                        <Route path="/notices-driver" element={<NoticesByRole />} />
+
                     </Route>
                     <Route path="/student-info" element={<StudentInfo />} />
                     <Route path="/enter-secret-key" element={<SecretKeyPage/>} />

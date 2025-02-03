@@ -10,7 +10,8 @@ import {
   markStudentAsPaid,
   updateStudentSalary,
   fetchParents,
-  createParent
+  createParent,
+  sendSMS
 } from '../../APIServices';
 import Cookies from 'js-cookie';
 import './Student.css';
@@ -26,6 +27,7 @@ const StudentProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [parents, setParents] = useState([]);
+  const today = new Date().toLocaleDateString('fr-FR'); 
   const [absenceCount, setAbsenceCount] = useState(0);
   const [school, setSchool] = useState('null');
   const [monthlyPayment, setMonthlyPayment] = useState(null);
@@ -37,7 +39,10 @@ const StudentProfile = () => {
   const [newParent, setNewParent] = useState({ first_name: '', last_name: '', email: '', phone_number: '' });
   const [useExistingParent, setUseExistingParent] = useState(true);
   const schoolName = Cookies.get('SchoolName');
-  const schoollogo = Cookies.get('SchoolLogo')
+  const schoollogo = Cookies.get('SchoolLogo');
+  const [showSMSPopup, setShowSMSPopup] = useState(false);
+  const [smsMessage, setSmsMessage] = useState('');
+  const [parentPhoneNumber, setParentPhoneNumber] = useState('');
 
 
   useEffect(() => {
@@ -107,6 +112,28 @@ const StudentProfile = () => {
 
     getData();
   }, [id]);
+
+  const handlePaymentReminder = async () => {
+      try {
+          if (student.parent) {
+              const parentData = await fetchParents(Cookies.get('SchoolId'));
+              const parentDetails = parentData.find(parent => parent.id === student.parent);
+
+              if (parentDetails && parentDetails.phone_number) {
+                  setParentPhoneNumber(parentDetails.phone_number);
+                  setSmsMessage(`Bonjour, ceci est un rappel de paiement pour la mensualité de votre enfant ${student.first_name} ${student.last_name}. Merci de régulariser le paiement dès que possible.`);
+                  setShowSMSPopup(true);
+              } else {
+                  alert("Le numéro de téléphone du tuteur est manquant.");
+              }
+          } else {
+              alert("Aucun tuteur associé à cet étudiant.");
+          }
+      } catch (error) {
+          console.error('Erreur lors de l\'envoi du rappel de paiement :', error);
+          alert('Erreur lors de l\'envoi du rappel de paiement.');
+      }
+  };
 
 
   const handleParentSubmit = async () => {
@@ -207,23 +234,62 @@ const StudentProfile = () => {
   };
 
   const handleAbsenceSubmit = async () => {
-    setLoadingForm(true);
-    try {
-      const updatedStudent = {
-        ...student,
-        absences_number: absenceCount,
-      };
+      setLoadingForm(true);
+      try {
+          const updatedStudent = {
+              ...student,
+              absences_number: absenceCount,
+          };
 
-      await updateStudentAbsence(id, updatedStudent);
+          await updateStudentAbsence(id, updatedStudent);
+          const refreshedStudent = await fetchStudentById(id);
+          setStudent(refreshedStudent);
 
-      const refreshedStudent = await fetchStudentById(id);
-      setStudent(refreshedStudent);
-    } catch (err) {
-      console.error('Erreur lors de la mise à jour du nombre d\'absences:', err);
-    } finally {
-      setLoadingForm(false);
-    }
+          // Récupérer la date du jour
+          const today = new Date().toLocaleDateString('fr-FR'); 
+
+          // Envoyer un SMS si un parent est associé
+          if (refreshedStudent.parent) {
+              const parentData = await fetchParents(Cookies.get('SchoolId'));
+              const parentDetails = parentData.find(parent => parent.id === refreshedStudent.parent);
+
+              if (parentDetails && parentDetails.phone_number) {
+                  setParentPhoneNumber(parentDetails.phone_number);
+                  setSmsMessage(`Bonjour, votre enfant ${refreshedStudent.first_name} ${refreshedStudent.last_name} a été absent(e) le ${today}. Le nombre total d'absences est de ${refreshedStudent.absences_number}.`);
+                  setShowSMSPopup(true);
+              }
+          }
+      } catch (err) {
+          console.error('Erreur lors de la mise à jour du nombre d\'absences:', err);
+      } finally {
+          setLoadingForm(false);
+      }
   };
+
+    const normalizePhoneNumber = (number) => {
+      if (!number.startsWith('+')) {
+          // Supposons que les numéros commencent par 0 pour le Maroc
+          if (number.startsWith('0')) {
+              return '+212' + number.substring(1);
+          }
+          return '+212' + number; // Si l'utilisateur oublie le 0
+      }
+      return number; // Le numéro est déjà au bon format
+  };
+
+  const handleSendSMS = async () => {
+      try {
+          const formattedNumber = normalizePhoneNumber(parentPhoneNumber);
+          console.log(`le numéro de téléphone formaté est :${formattedNumber}`)
+          await sendSMS(formattedNumber, smsMessage);
+          alert('✅ SMS envoyé avec succès au tuteur.');
+          setShowSMSPopup(false);
+      } catch (error) {
+          console.error('Erreur lors de l\'envoi du SMS:', error);
+          alert('❌ Erreur lors de l\'envoi du SMS.');
+      }
+  };
+
 
   const handlePaymentStatusUpdate = async (isPaid) => {
     setLoadingForm(true);
@@ -551,6 +617,20 @@ const StudentProfile = () => {
               >
                 Non Payé
               </button>
+              <button
+                  style={{
+                      backgroundColor: '#ffcc00', // orange pour attirer l'attention
+                      color: 'white',
+                      padding: '5px 10px',
+                      marginLeft: '10px',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                  }}
+                  onClick={handlePaymentReminder}
+              >
+                  📩 Envoyer un rappel de paiement
+              </button>
             </p>
             <div className="student-profile-test">
                 <div className="transportation-toggle">
@@ -786,6 +866,29 @@ const StudentProfile = () => {
               </div>
           </div>
       )}
+      {showSMSPopup && (
+        <div className="sms-popup-overlay">
+            <div className="sms-popup">
+                <h3>Envoyer un SMS au tuteur 📲</h3>
+                <p><strong>Numéro :</strong> {parentPhoneNumber}</p>
+                <textarea
+                    value={smsMessage}
+                    onChange={(e) => setSmsMessage(e.target.value)}
+                    rows="4"
+                    style={{ width: '100%', padding: '10px' }}
+                ></textarea>
+                <div style={{ marginTop: '10px' }}>
+                    <button onClick={handleSendSMS} style={{ marginRight: '10px' }}>
+                        Envoyer le SMS
+                    </button>
+                    <button onClick={() => setShowSMSPopup(false)} style={{ backgroundColor: 'red', color: 'white' }}>
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </div>
+    )}
+
     </div>
     
   );

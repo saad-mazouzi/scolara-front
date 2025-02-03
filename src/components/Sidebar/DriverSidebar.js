@@ -27,7 +27,7 @@ const DriverSidebar = ({ isOpen, toggleSidebar }) => {
 
     const isNoticeActive = () => {
         const paths = [
-            '/notices-user', // Chemin principal
+            '/notices-driver', // Chemin principal
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -72,9 +72,9 @@ const DriverSidebar = ({ isOpen, toggleSidebar }) => {
                     </li>
                     <li>
                         <Link
-                            to="/notices-user"
+                            to="/notices-driver"
                             className={`sidebar-button ${isNoticeActive() ? 'active' : ''}`}
-                            onClick={() => setActiveLink('/notices-user')}
+                            onClick={() => setActiveLink('/notices-driver')}
                         >
                             <FaRegNoteSticky style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
                             Avis

@@ -16,6 +16,7 @@ const Notices = () => {
   const getSchoolIdFromCookies = () => {
     const cookies = document.cookie.split(';');
     const schoolCookie = cookies.find((cookie) => cookie.trim().startsWith('SchoolId='));
+    console.log('School cookie:', schoolCookie); // Debugging
     return schoolCookie ? parseInt(schoolCookie.split('=')[1], 10) : null; // Ensure schoolId is an integer
   };
 
@@ -250,7 +251,7 @@ const Notices = () => {
           ))}
         </ul>
       ) : (
-        <p>No notices available.</p>
+        <p>pas d'avis disponible</p>
       )}
       {loadingForm && (
           <div className="overlay-loader">

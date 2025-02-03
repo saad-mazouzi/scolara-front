@@ -143,25 +143,25 @@ export const fetchRoles = async () => {
 
 export const fetchNoticesForUser = async (schoolId) => {
     try {
-        const cookies = document.cookie.split(';');
-        const roleCookie = cookies.find(cookie => cookie.trim().startsWith('UserRole='));
-        const userRole = roleCookie ? parseInt(roleCookie.split('=')[1], 10) : null;
-
-        if (!userRole) {
-            console.warn("Aucun rôle trouvé dans les cookies.");
-            return [];
-        }
-
-        const url = schoolId ? `notices/?school_id=${schoolId}` : `notices/`;
-        const response = await axiosInstance.get(url);
-
-        return response.data.filter(notice => notice.roles.includes(userRole));
-    } catch (error) {
-        console.error("Erreur lors de la récupération des avis :", error);
+      const cookies = document.cookie.split(';');
+      const roleCookie = cookies.find(cookie => cookie.trim().startsWith('UserRole='));
+      const userRole = roleCookie ? parseInt(roleCookie.split('=')[1], 10) : null;
+  
+      if (!userRole) {
+        console.warn("Aucun rôle trouvé dans les cookies.");
         return [];
+      }
+  
+      const url = schoolId ? `notices/?school_id=${schoolId}` : `notices/`;
+      const response = await axiosInstance.get(url);
+  
+      return response.data.filter(notice => notice.roles.includes(userRole));
+    } catch (error) {
+      console.error("Erreur lors de la récupération des avis :", error);
+      return [];
     }
-};
-
+  };
+  
 export const deleteNotice = async (noticeId) => {
     try {
         const response = await axiosInstance.delete(`notices/${noticeId}/delete/`);
@@ -1824,4 +1824,30 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
     }
   };
 
-  
+
+  export const sendSMS = async (phoneNumber, message) => {
+    try {
+        const response = await axios.post(`${API_URL}/send-sms/`, {
+            phone_number: phoneNumber,
+            message: message,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        return response.data; // Renvoie la réponse de l'API si l'envoi est réussi
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi du SMS:', error);
+        if (error.response) {
+            // Erreur renvoyée par le serveur
+            throw new Error(error.response.data.error || 'Erreur inconnue du serveur.');
+        } else if (error.request) {
+            // Aucune réponse du serveur
+            throw new Error('Aucune réponse du serveur.');
+        } else {
+            // Erreur lors de la configuration de la requête
+            throw new Error('Erreur de configuration de la requête.');
+        }
+    }
+};

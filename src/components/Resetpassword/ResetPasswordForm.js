@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import './ResetPasswordForm.css'; // Assurez-vous que ce fichier existe
+import { MoonLoader } from 'react-spinners';
 
 const ResetPasswordForm = () => {
     const [searchParams] = useSearchParams();
@@ -9,6 +10,7 @@ const ResetPasswordForm = () => {
     const [nouveauMotDePasse, setNouveauMotDePasse] = useState('');
     const [confirmerMotDePasse, setConfirmerMotDePasse] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChangeNouveauMotDePasse = (e) => {
@@ -20,6 +22,7 @@ const ResetPasswordForm = () => {
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         if (nouveauMotDePasse !== confirmerMotDePasse) {
             setMessage("Les mots de passe ne correspondent pas. Veuillez réessayer.");
@@ -37,8 +40,17 @@ const ResetPasswordForm = () => {
         } catch (error) {
             setMessage('Une erreur est survenue. Veuillez réessayer plus tard.');
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <MoonLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     return (
         <div className="formulaire-reinitialisation-container">

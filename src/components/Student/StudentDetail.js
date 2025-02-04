@@ -114,6 +114,7 @@ const StudentProfile = () => {
   }, [id]);
 
   const handlePaymentReminder = async () => {
+      setLoadingForm(true);
       try {
           if (student.parent) {
               const parentData = await fetchParents(Cookies.get('SchoolId'));
@@ -132,6 +133,8 @@ const StudentProfile = () => {
       } catch (error) {
           console.error('Erreur lors de l\'envoi du rappel de paiement :', error);
           alert('Erreur lors de l\'envoi du rappel de paiement.');
+      } finally {
+          setLoadingForm(false);
       }
   };
 
@@ -579,7 +582,7 @@ const StudentProfile = () => {
             <p>
               <strong>Adresse :</strong> {student.address || 'Non spécifiée'}
             </p>
-            <p>
+            {/* <p>
               <strong>Date du prochain paiement :</strong>
               <input
                 type="date"
@@ -587,7 +590,7 @@ const StudentProfile = () => {
                 onChange={(e) => handleFieldUpdate('next_payment_date', e.target.value)}
                 style={{ marginLeft: '10px' }}
               />
-            </p>
+            </p> */}
             <p>
               <strong>Statut de paiement :</strong>
               <button

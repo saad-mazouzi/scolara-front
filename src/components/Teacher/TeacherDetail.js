@@ -75,34 +75,34 @@ const TeacherProfile = () => {
   };
 
 
-  useEffect(() => {
-    const checkAndResetPaymentStatus = async () => {
-      if (!teacher || !teacher.next_payment_date) {
-        console.log("Données de l'enseignant manquantes ou date de paiement non définie.");
-        return;
-      }
+  // useEffect(() => {
+  //   const checkAndResetPaymentStatus = async () => {
+  //     if (!teacher || !teacher.next_payment_date) {
+  //       console.log("Données de l'enseignant manquantes ou date de paiement non définie.");
+  //       return;
+  //     }
   
-      const today = new Date().toISOString().split("T")[0];
-      if (today >= teacher.next_payment_date && teacher.paid) {
-        console.log("Réinitialisation automatique...");
-        try {
-          const updatedTeacher = {
-            ...teacher,
-            paid: false,
-            absences_number: 0,
-          };
+  //     const today = new Date().toISOString().split("T")[0];
+  //     if (today >= teacher.next_payment_date && teacher.paid) {
+  //       console.log("Réinitialisation automatique...");
+  //       try {
+  //         const updatedTeacher = {
+  //           ...teacher,
+  //           paid: false,
+  //           absences_number: 0,
+  //         };
   
-          await updateTeacher(id, updatedTeacher);
-          const refreshedTeacher = await fetchTeacherById(id);
-          setTeacher(refreshedTeacher);
-        } catch (err) {
-          console.error("Erreur lors de la réinitialisation automatique :", err);
-        }
-      }
-    };
+  //         await updateTeacher(id, updatedTeacher);
+  //         const refreshedTeacher = await fetchTeacherById(id);
+  //         setTeacher(refreshedTeacher);
+  //       } catch (err) {
+  //         console.error("Erreur lors de la réinitialisation automatique :", err);
+  //       }
+  //     }
+  //   };
   
-    if (teacher) checkAndResetPaymentStatus();
-  }, [teacher, id]);
+  //   if (teacher) checkAndResetPaymentStatus();
+  // }, [teacher, id]);
   
   
   const handleSessionSalarySubmit = async () => {
@@ -246,22 +246,20 @@ const TeacherProfile = () => {
   };
 
   const handleUpdateTeacher = async () => {
-    setLoadingForm(true);
-    try {
-      const updatedTeacher = {
-        ...teacher,
-        next_payment_date: teacher.next_payment_date, // Ajouter la date du prochain paiement
-      };
-  
-      await updateTeacher(id, updatedTeacher);
-      const refreshedTeacher = await fetchTeacherById(id);
-      setTeacher(refreshedTeacher);
-    } catch (err) {
-      console.error("Erreur lors de la mise à jour de l'enseignant :", err);
-    } finally {
-      setLoadingForm(false);
-    }
+      setLoadingForm(true);
+      try {
+        const updatedTeacher = { ...teacher }; // Supprimer next_payment_date
+    
+        await updateTeacher(id, updatedTeacher);
+        const refreshedTeacher = await fetchTeacherById(id);
+        setTeacher(refreshedTeacher);
+      } catch (err) {
+        console.error("Erreur lors de la mise à jour de l'enseignant :", err);
+      } finally {
+        setLoadingForm(false);
+      }
   };
+
   
 
   const handleAbsenceAndSalaryUpdate = async (newAbsenceCount) => {
@@ -429,13 +427,13 @@ const TeacherProfile = () => {
               </button>
             </p>
             <p>
-              <strong>Date du prochain paiement :</strong>
+              {/* <strong>Date du prochain paiement :</strong>
               <input
                 type="date"
                 value={teacher.next_payment_date || ""}
                 onChange={(e) => setTeacher({ ...teacher, next_payment_date: e.target.value })}
                 style={{ marginLeft: "10px" }}
-              />
+              /> */}
               <button
                 className="update-button"
                 onClick={() => handleUpdateTeacher()}

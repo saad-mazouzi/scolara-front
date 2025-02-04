@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import axiosInstance from '../../axiosConfig';
 import Modal from '../Modal/Modal';
 import './ForgotPassword.css'; 
+import {MoonLoader} from 'react-spinners'; 
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [showModal, setShowModal] = useState(false); // Contrôle de la modal
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setEmail(e.target.value);
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         try {
             await axiosInstance.post('/password-reset/', { email });
@@ -22,8 +25,17 @@ const ForgotPassword = () => {
             setMessage('Une erreur est survenue. Veuillez réessayer plus tard.');
             setShowModal(true); // Affiche également la modal en cas d'erreur
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <MoonLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     const closeModal = () => setShowModal(false); // Fonction pour fermer la modal
 

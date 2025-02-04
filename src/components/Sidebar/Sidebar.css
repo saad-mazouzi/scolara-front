@@ -3,7 +3,7 @@
     background-color: #ffffff; /* Fond blanc pour le frontend */
     color: #333333; /* Texte gris foncé pour une meilleure lisibilité */
     width: 250px; /* Largeur de la barre latérale */
-    height: 100vh; /* Hauteur de la barre latérale */
+    height: 200vh; /* Hauteur de la barre latérale */
     padding: 20px; /* Espacement interne */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Légère ombre pour un effet de profondeur */
     display: flex; 

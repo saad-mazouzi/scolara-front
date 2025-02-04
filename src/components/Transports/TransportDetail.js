@@ -127,7 +127,7 @@ const TransportDetails = () => {
                         <p>
                             <strong className='blue-text'>Adresse :</strong>{' '}
                             <a
-                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}&navigate=yes`}
+                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="waze-link"

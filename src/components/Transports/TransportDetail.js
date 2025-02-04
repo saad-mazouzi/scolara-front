@@ -13,12 +13,12 @@ const TransportDetails = () => {
     const [transportStudents, setTransportStudents] = useState([]);
     const [stations, setStations] = useState([]);
     const [error, setError] = useState(null);
-    const [visibleCount, setVisibleCount] = useState(8); // Afficher initialement 8 étudiants
-    const [loading, setLoading] = useState(true); // État de chargement
+    const [visibleCount, setVisibleCount] = useState(8);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchTransportDetails = async () => {
-            setLoading(true); // Démarre le chargement
+            setLoading(true);
             try {
                 const schoolId = Cookies.get('SchoolId');
                 const transports = await getTransports(schoolId);
@@ -38,7 +38,7 @@ const TransportDetails = () => {
                 console.error(err);
                 setError("Erreur lors de la récupération des données.");
             } finally {
-                setLoading(false); // Termine le chargement
+                setLoading(false);
             }
         };
 
@@ -58,7 +58,7 @@ const TransportDetails = () => {
     };
 
     const loadMoreStudents = () => {
-        setVisibleCount(visibleCount + 8); // Afficher 8 étudiants de plus
+        setVisibleCount(visibleCount + 8);
     };
 
     const customIcon = new L.Icon({
@@ -124,14 +124,24 @@ const TransportDetails = () => {
                 {stations.map((station, index) => (
                     <div key={station.location.id} className="station-item">
                         <p className='blue-text'><strong>Station </strong> {station.order}</p>
-                        <p><strong className='blue-text'>Adresse :</strong> {station.location.address}</p>
+                        <p>
+                            <strong className='blue-text'>Adresse :</strong>{' '}
+                            <a
+                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}&navigate=yes`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="waze-link"
+                            >
+                                {station.location.address}
+                            </a>
+                        </p>
                     </div>
                 ))}
             </div>
 
             <div className='blue-text'><strong>Carte des stations :</strong></div>
             <MapContainer
-                center={[0, 0]} // La carte sera ajustée automatiquement par `fitBounds`
+                center={[0, 0]}
                 zoom={15}
                 style={{ height: "400px", width: "100%", marginTop: "20px", marginBottom: "100px" }}
             >
@@ -147,7 +157,14 @@ const TransportDetails = () => {
                     >
                         <Popup>
                             <strong>Station {station.order}</strong><br />
-                            {station.location.address}
+                            <a
+                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}&navigate=yes`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="waze-link"
+                            >
+                                {station.location.address}
+                            </a>
                         </Popup>
                     </Marker>
                 ))}

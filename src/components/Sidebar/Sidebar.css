@@ -244,6 +244,12 @@
     .sidebar-container.closed .toggle-button {
         top: 420px; /* Descend le bouton uniquement lorsque fermé */
     }
+    .sidebar-nav{
+        margin-left:-20px;
+    }
+    .logo {
+        margin-left: -45px;
+    }
 }
 
 /* Très petits écrans (smartphones) */

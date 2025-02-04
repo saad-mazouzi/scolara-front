@@ -222,7 +222,7 @@
     .navbar {
         padding: 5px 10px; /* Ajuster le padding */
         justify-content: flex-start; /* Aligner les éléments à gauche */
-        margin-left: 0px !important;
+        margin-left: 10px !important;
     }
 }
 
@@ -250,25 +250,26 @@
     align-items: center;
     justify-content: flex-end; /* Assure l'alignement à droite */
     margin-right: 15px; /* Espacement par rapport au bord droit */
-    gap: 10px; /* Espacement entre les éléments */
+    gap: -11px; /* Espacement entre les éléments */
 }
 
 @media (max-width: 768px) {
     .navbar-right {
-        margin-right: 40px !important; /* Réduire la marge pour mobile */
+        margin-right: 10px !important; /* Réduire la marge pour mobile */
         flex-direction: row; /* Assure une disposition horizontale */
         justify-content: flex-end; /* Toujours aligné à droite */
         margin-left:90px;
     }
 
     .logout-button {
-        padding: 5px 10px; /* Adapter la taille du bouton pour mobile */
-        font-size: 14px; /* Réduction de la taille de la police */
+        padding: 5px 5px; /* Adapter la taille du bouton pour mobile */
+        font-size: 8px; /* Réduction de la taille de la police */
 
     }
 
     .notification-container {
-        position: relative; /* Maintenir la position pour les notifications */
+        position: relative;
+         /* Maintenir la position pour les notifications */
     }
 
     .notification-item {
@@ -296,5 +297,35 @@
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         z-index: 1000;
         margin-left:100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-right {
+        display: flex;
+        flex-direction: row;        /* Disposition horizontale */
+        justify-content: flex-end;  /* Aligner les éléments à droite */
+        align-items: center;        /* Alignement vertical */
+        margin-right: 40px !important; /* Espacement à droite */
+        margin-left: auto !important;  /* Pousser la navbar à droite */
+    }
+
+    .logout-button {
+        padding: 5px 5px;  /* Adapter la taille du bouton */
+        font-size: 12px;    /* Taille de police réduite */
+    }
+
+    .notification-dropdown {
+        position: absolute;
+        width: 200px;
+        max-height: 400px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        right: 0;  /* Aligner la dropdown à droite */
+        left: auto; /* Éviter le chevauchement à gauche */
     }
 }

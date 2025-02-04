@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -15,6 +15,8 @@ const TransportDetails = () => {
     const [error, setError] = useState(null);
     const [visibleCount, setVisibleCount] = useState(8);
     const [loading, setLoading] = useState(true);
+    const mapRef = useRef(null);
+    const markerRefs = useRef([]);
 
     useEffect(() => {
         const fetchTransportDetails = async () => {
@@ -78,9 +80,18 @@ const TransportDetails = () => {
                     ])
                 );
                 map.fitBounds(bounds, { padding: [50, 50] });
+                mapRef.current = map;
             }
         }, [stations, map]);
         return null;
+    };
+
+    const handleAddressClick = (index) => {
+        const marker = markerRefs.current[index];
+        if (marker && mapRef.current) {
+            mapRef.current.setView(marker.getLatLng(), 18);
+            marker.openPopup();
+        }
     };
 
     if (loading) {
@@ -127,10 +138,10 @@ const TransportDetails = () => {
                         <p>
                             <strong className='blue-text'>Adresse :</strong>{' '}
                             <a
-                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}`}
+                                href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(station.location.address)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="waze-link"
+                                style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
                             >
                                 {station.location.address}
                             </a>
@@ -149,22 +160,16 @@ const TransportDetails = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <MapBounds stations={stations} />
-                {stations.map((station) => (
+                {stations.map((station, index) => (
                     <Marker
                         key={station.location.id}
                         position={[station.location.latitude, station.location.longitude]}
                         icon={customIcon}
+                        ref={(el) => (markerRefs.current[index] = el)}
                     >
                         <Popup>
                             <strong>Station {station.order}</strong><br />
-                            <a
-                                href={`https://waze.com/ul?q=${encodeURIComponent(station.location.address)}&navigate=yes`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="waze-link"
-                            >
-                                {station.location.address}
-                            </a>
+                            {station.location.address}
                         </Popup>
                     </Marker>
                 ))}

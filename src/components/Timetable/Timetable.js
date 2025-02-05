@@ -846,7 +846,7 @@ const Timetable = () => {
 
             {educationLevels.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '20px', fontSize: '16px', color: '#666' }}>
-                    Aucun niveau d'éducation disponible.
+                    {/* Aucun niveau d'éducation disponible. */}
                 </div>
             ) : (
                 Object.entries(sessionsByLevel).map(([levelId, schedule]) => {

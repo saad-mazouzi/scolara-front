@@ -258,4 +258,16 @@
         margin-bottom: 15px;
         max-width: 150px;
     }
+
+    .print-button {
+        margin-left:240px;
+        margin-bottom: 70px; 
+        padding: 10px 10px;
+        background-color: #ffcc00;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 }

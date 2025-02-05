@@ -58,8 +58,7 @@ const DriverProfile = () => {
     setLoadingForm(true);
     try {
       const updatedDriver = {
-        ...driver,
-        next_payment_date: driver.next_payment_date, // Ajouter la date du prochain paiement
+        ...driver
       };
   
       await updateDriver(id, updatedDriver);
@@ -198,22 +197,6 @@ const DriverProfile = () => {
                     Non Payé
                 </button>
                 </p>
-            <p>
-              <strong>Date du prochain paiement :</strong>
-              <input
-                type="date"
-                value={driver.next_payment_date || ""}
-                onChange={(e) => setDriver({ ...driver, next_payment_date: e.target.value })}
-                style={{ marginLeft: "10px" }}
-              />
-              <button
-                className="update-button"
-                onClick={() => handleUpdateDriver()}
-                style={{ marginLeft: "10px" }}
-              >
-                Mettre à jour
-              </button>
-            </p>
           </div>
         </div>
       )}

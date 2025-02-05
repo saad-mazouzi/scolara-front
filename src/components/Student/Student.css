@@ -436,16 +436,15 @@ tr:hover {
 }
 
 .student-profile-picture {
-    margin-left: 100px;
+    margin-left:510px;
     flex-shrink: 0;
-    margin-top: 100px;
+    margin-top: 0px;
     display: inline-block; /* S'assure qu'il reste dans son conteneur */
-
 }
 
-.student-profile-test{
+/* .student-profile-test{
     display:flex;
-}
+} */
 
 .transportation-toggle{
     display: flex;
@@ -534,19 +533,20 @@ tr:hover {
     color: #4e7dad;
     font-size: 1.5rem;
     font-weight: bold;
+    margin-top: 70px!important;
 }
 
 .student-edit-icon {
     position: absolute;
-    top: 350px;
-    left: 570px;
+    top: 250px;
+    left: 970px;
     color: #4e7dad;
 }
 
 .student-modify-profile-picture {
     position: absolute;
-    top: 390px;
-    left: 410px;
+    top: 280px;
+    left: 818px;
     background-color: #5c7fa1;
     color: white;
     border: none;
@@ -661,14 +661,14 @@ input:checked+.slider:before {
 @media (max-width: 768px) {
     .student-edit-icon {
         position: absolute;
-        top: 390px;
-        left: 300px;
+        top: 240px;
+        left: 270px;
         color: #4e7dad;
     }
     .student-modify-profile-picture {
         position: absolute;
-        top: 430px;
-        left: 130px;
+        top: 280px;
+        left: 110px;
         background-color: #5c7fa1;
         color: white;
         border: none;
@@ -677,6 +677,22 @@ input:checked+.slider:before {
         border-radius: 0px;
         transition: background-color 0.5s ease;
     }
+
+    .student-profile-picture {
+        margin-left:70px;
+        flex-shrink: 0;
+        margin-top: 0px;
+        display: inline-block; /* S'assure qu'il reste dans son conteneur */
+    }
+
+    .student-details{
+        margin-left: 10px;
+    }
+
+    .reminder-button{
+        margin-top: 10px;
+    }
+    
 }
 
 .sms-popup-overlay {

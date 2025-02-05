@@ -263,6 +263,12 @@ const TeacherProfile = () => {
   
 
   const handleAbsenceAndSalaryUpdate = async (newAbsenceCount) => {
+    // Si la valeur est vide ou négative, on ignore la mise à jour
+    if (isNaN(newAbsenceCount) || newAbsenceCount < 0) {
+      console.warn("Valeur d'absence non valide.");
+      return;
+    }
+  
     // Vérifiez que les données nécessaires sont disponibles
     if (!teacher || !teacher.session_salary) {
       console.error("Salaire par séance manquant ou données enseignant indisponibles.");
@@ -271,31 +277,33 @@ const TeacherProfile = () => {
   
     // Calculez la différence d'absences
     const absenceDifference = newAbsenceCount - absenceCount;
-    if (absenceDifference <= 0) return; // Ne rien faire si le nombre d'absences ne change pas ou diminue
+  
+    // Si le nombre d'absences ne change pas, on arrête ici
+    if (absenceDifference === 0) return;
   
     // Calculez le nouveau salaire mensuel
     const newMonthlySalary = Math.max(
-      teacher.monthly_salary - teacher.session_salary * absenceDifference,
+      (teacher.monthly_salary || 0) - teacher.session_salary * absenceDifference,
       0 // Le salaire ne peut pas être négatif
     );
-
+  
     setLoadingForm(true);
   
     try {
-      // Mettez à jour l'absence et le salaire dans l'API
+      // Mettez à jour uniquement le nombre d'absences
       const updatedTeacher = {
         ...teacher,
         absences_number: newAbsenceCount,
         monthly_salary: newMonthlySalary,
       };
   
-      await updateTeacherSalary(id, updatedTeacher);
+      await updateTeacher(id, updatedTeacher);
   
       // Rafraîchir les données après la mise à jour
       const refreshedTeacher = await fetchTeacherById(id);
       setTeacher(refreshedTeacher);
-      setAbsenceCount(newAbsenceCount); // Mettez à jour le state local
-      setMonthlySalary(newMonthlySalary); // Mettez à jour le salaire localement
+      setAbsenceCount(newAbsenceCount);
+      setMonthlySalary(newMonthlySalary);
     } catch (err) {
       console.error("Erreur lors de la mise à jour des absences et du salaire :", err);
     } finally {
@@ -307,8 +315,8 @@ const TeacherProfile = () => {
   return (
     <div className="teacher-profile-container">
       {teacher && (
-        <div className="teacher-profile">
-                 <div className="profile-picture">
+         <div className="student-profile-test">
+            <div className="student-profile-picture">
                     {teacher.profile_picture ? (
                         <img
                         src={`${teacher.profile_picture}`}
@@ -319,7 +327,7 @@ const TeacherProfile = () => {
                         <span>Aucune photo de profil</span>
                     )}
                     <FaEdit
-                        className="edit-icon"
+                        className="student-edit-icon"
                         onClick={handleIconClick}
                         style={{ cursor: 'pointer', position: 'absolute', bottom: '10px', right: '10px', fontSize: '20px' }}
                     />
@@ -330,7 +338,7 @@ const TeacherProfile = () => {
                     style={{ display: 'none' }}
                     onChange={(e) => setProfilePicture(e.target.files[0])}
                     />
-                    <button className='modify-profile-picture' onClick={handleProfilePictureSubmit}>Mettre à jour la photo de profil</button>
+                    <button className='student-modify-profile-picture' onClick={handleProfilePictureSubmit}>Mettre à jour la photo de profil</button>
                     <div className="teacher-details">
                       <p className="teacher-name">{teacher.last_name} {teacher.first_name}</p>
                       <p className="teacher-description">
@@ -355,9 +363,18 @@ const TeacherProfile = () => {
               <input
                 type="number"
                 value={absenceCount}
-                onChange={(e) => handleAbsenceAndSalaryUpdate(parseInt(e.target.value, 10))}
+                min="0"  // Empêche les valeurs négatives
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '') {
+                    setAbsenceCount(0);  // Définit par défaut à 0 si l'utilisateur efface
+                  } else {
+                    handleAbsenceAndSalaryUpdate(parseInt(value, 10));
+                  }
+                }}
                 style={{ marginLeft: '10px', width: '60px' }}
               />
+
               <button className="update-button update-salary-button" onClick={handleAbsenceSubmit} style={{ marginLeft: '10px' }}>Mettre à jour</button>
             </p>
             <p>

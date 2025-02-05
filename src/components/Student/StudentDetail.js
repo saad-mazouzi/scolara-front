@@ -631,6 +631,7 @@ const StudentProfile = () => {
                       cursor: 'pointer',
                   }}
                   onClick={handlePaymentReminder}
+                  className="reminder-button"
               >
                   📩 Envoyer un rappel de paiement
               </button>

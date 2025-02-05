@@ -16,8 +16,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: -190px;
-    margin-left: 320px;
+    margin-top: 190px;
+    margin-left: 120px;
 
 }
 
@@ -69,9 +69,8 @@
 .teacher-name {
     color: #4e7dad;
     font-size: 1.5rem;
-    /* Vous pouvez ajuster cette valeur */
     font-weight: bold;
-    /* Pour donner plus d'importance au texte, facultatif */
+    margin-top:-70px;
 }
 
 .edit-icon {
@@ -434,14 +433,13 @@ position: relative;
     justify-content: center;
     align-items: center;
     margin-top: 0px;
-    /* margin-right: 810px; */
     width: 150px;
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f0f0f0;
-    margin-left: 15px !important;
+    margin-left: 850px !important;
 }
 
 @media (max-width: 768px) {
@@ -487,5 +485,8 @@ position: relative;
     
     .update-button:active {
         background-color: #305079;
+    }
+    .teacher-details{
+        margin-left: 0px;
     }
 }

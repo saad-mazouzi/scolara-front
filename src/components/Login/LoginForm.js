@@ -9,7 +9,7 @@ import './LoginForm.css';
 
 const LoginForm = () => {
     const navigate = useNavigate();
-    const [, setCookie] = useCookies([
+    const [, setCookie,removeCookie] = useCookies([
         'jwtToken', 'refreshToken', 'userFirstName', 
         'profilePicture', 'SchoolName', 'SchoolId', 
         'education_level', 'TeacherId', 'UserRole'
@@ -23,9 +23,19 @@ const LoginForm = () => {
         setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
 
+    const clearSession = () => {
+        // ✅ Nettoyer tous les cookies de session avant la nouvelle connexion
+        ['jwtToken', 'refreshToken', 'userFirstName', 'profilePicture', 
+         'SchoolName', 'SchoolId', 'TeacherId', 'UserRole', 'education_level'
+        ].forEach(cookie => removeCookie(cookie, { path: '/' }));
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoadingForm(true); // Activer le loader
+        clearSession(); // ✅ Nettoyage de la session précédente
+
         try {
             const response = await axiosInstance.post('users/login/', formData);
             const { access, refresh, first_name, school, school_id, user} = response.data;

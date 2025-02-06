@@ -177,20 +177,7 @@ const Navbar = ({ isSidebarOpen }) => {
                         <i className="fas fa-sign-out-alt logout-icon"></i> Déconnexion
                     </button>
                 ) : (
-                    <>
-                        <button
-                            className="navbar-link"
-                            onClick={() => navigate('/register')}
-                        >
-                            Inscription
-                        </button>
-                        <button
-                            className="navbar-link"
-                            onClick={() => navigate('/login')}
-                        >
-                            Connexion
-                        </button>
-                    </>
+                    navigate('/login')
                 )}
             </div>
         </nav>

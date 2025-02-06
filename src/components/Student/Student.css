@@ -692,6 +692,15 @@ input:checked+.slider:before {
     .reminder-button{
         margin-top: 10px;
     }
+    .sms-popup {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 1001; /* Plus haut que l'overlay */
+    }
     
 }
 

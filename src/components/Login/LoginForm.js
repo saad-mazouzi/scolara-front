@@ -68,7 +68,7 @@ const LoginForm = () => {
                 }
                 navigate('/student-timetable');
             } else {
-                navigate('/');
+                navigate('/login');
             }
         } catch (error) {
             console.error('Erreur lors de la connexion:', error);

@@ -68,32 +68,31 @@ const ParentList = () => {
     try {
         const schoolId = Cookies.get('SchoolId');
         if (!schoolId) {
-            throw new Error('ID de l\'école introuvable dans les cookies.');
+            throw new Error("ID de l'école introuvable dans les cookies.");
         }
 
-        // Création de l'objet FormData
         const parentData = new FormData();
-        parentData.append('first_name', newParentData.first_name);
-        parentData.append('last_name', newParentData.last_name);
-        parentData.append('email', newParentData.email);
-        parentData.append('phone_number', newParentData.phone_number);
+        parentData.append('first_name', newParentData.first_name.trim());
+        parentData.append('last_name', newParentData.last_name.trim());
+        parentData.append('email', newParentData.email.trim());
+        parentData.append('phone_number', newParentData.phone_number.trim());
         parentData.append('school', schoolId);
-        setLoadingForm(true);
+
         if (newParentData.password) {
             parentData.append('password', newParentData.password);
         }
 
-        // Débogage : afficher les données envoyées
-        console.log('Données envoyées :', Object.fromEntries(parentData.entries()));
+        console.log("🔍 Données envoyées :", Object.fromEntries(parentData.entries()));
 
-        // Création du parent
+        setLoadingForm(true);
+
         await createParent(parentData);
 
-        // Mise à jour de la liste des parents
+        // Recharger la liste des parents
         const updatedParents = await fetchParents(schoolId);
         setParents(updatedParents);
 
-        // Réinitialisation du formulaire et fermeture
+        // Réinitialisation du formulaire
         setShowForm(false);
         setNewParentData({
             first_name: '',
@@ -103,11 +102,12 @@ const ParentList = () => {
             password: '',
         });
     } catch (error) {
-        console.error('Erreur lors de la création du parent:', error);
+        console.error("❌ Erreur lors de la création du parent:", error);
     } finally {
         setLoadingForm(false);
     }
 };
+
 
   const generateEmail = () => {
     const email = `${newParentData.first_name.toLowerCase()}.${newParentData.last_name.toLowerCase()}@scolara.com`;

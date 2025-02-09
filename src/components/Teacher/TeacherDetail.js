@@ -443,22 +443,6 @@ const TeacherProfile = () => {
                 Mettre à jour
               </button>
             </p>
-            <p>
-              {/* <strong>Date du prochain paiement :</strong>
-              <input
-                type="date"
-                value={teacher.next_payment_date || ""}
-                onChange={(e) => setTeacher({ ...teacher, next_payment_date: e.target.value })}
-                style={{ marginLeft: "10px" }}
-              /> */}
-              <button
-                className="update-button"
-                onClick={() => handleUpdateTeacher()}
-                style={{ marginLeft: "10px" }}
-              >
-                Mettre à jour
-              </button>
-            </p>
           </div>
         </div>
       )}

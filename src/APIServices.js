@@ -463,32 +463,25 @@ export const createStudent = async (studentData) => {
 
 export const createParent = async (parentData) => {
     try {
-        // Ajouter SchoolId provenant des cookies
         const schoolId = Cookies.get('SchoolId');
         if (!schoolId) {
             throw new Error("SchoolId introuvable dans les cookies.");
         }
 
-        // Créer un objet FormData pour envoyer les données
-        const formData = new FormData();
-        Object.entries({ ...parentData, school: schoolId }).forEach(([key, value]) => {
-            formData.append(key, value);
-        });
+        // Ajouter SchoolId directement dans parentData
+        parentData.append('school', schoolId);
 
-        console.log("Données envoyées au backend :", formData);
+        // Vérifier ce qui est envoyé
+        console.log("✅ Données envoyées au backend :", Object.fromEntries(parentData.entries()));
 
-        // Envoyer la requête au backend
-        const response = await axiosInstance.post(`${API_URL}/users/create_parent/`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+        // Envoyer la requête sans `Content-Type`, Axios le gère
+        const response = await axiosInstance.post(`${API_URL}/users/create_parent/`, parentData);
 
-        console.log("Réponse du backend :", response.data);
-        return response.data; // Retourne les données de la réponse
+        console.log("✅ Réponse du backend :", response.data);
+        return response.data;
     } catch (error) {
-        console.error("Erreur lors de la création du parent :", error.response?.data || error.message);
-        throw error; // Relance l'erreur pour une gestion ultérieure
+        console.error("❌ Erreur lors de la création du parent :", error.response?.data || error.message);
+        throw error;
     }
 };
 

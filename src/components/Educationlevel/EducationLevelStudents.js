@@ -59,13 +59,14 @@ const EducationLevelStudents = () => {
     const printAttendanceList = () => {
         const printContents = document.getElementById('attendance-list').innerHTML;
         const newWindow = window.open('', '_blank', 'width=800,height=600');
-
+    
         if (newWindow) {
             newWindow.document.open();
             newWindow.document.write(`
                 <html>
                     <head>
                         <title>Liste d'Appel</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
                         <style>
                             body {
                                 font-family: Arial, sans-serif;
@@ -78,47 +79,39 @@ const EducationLevelStudents = () => {
                                 margin-top: 20px;
                                 font-size: 12px;
                             }
-
                             .students-table th,
                             .students-table td {
                                 border: 1px solid #ddd;
                                 padding: 8px;
                                 text-align: center;
                             }
-
                             .signature-liste-appel {
                                 margin-top: 50px;
                                 margin-right : 150px;
                                 text-align: right;
                                 margin-bottom: 100px;
                             }
-                            
-                            .middle-text{
-                                color:black;
+                            .middle-text {
+                                color: black;
                                 text-align: center;
-                                margin-top:30px;
+                                margin-top: 30px;
                                 margin-bottom: 40px;
                             }
-
                             .students-table th.small-column,
                             .students-table td.small-column {
-                                width: 100px; /* Colonnes des horaires plus petites */
+                                width: 100px;
                             }
-
                             .students-table th.large-column,
                             .students-table td.large-column {
-                                width: 200px; /* Colonne Remarques plus large */
+                                width: 200px;
                             }
-
                             .students-table th {
                                 background-color: #252628;
                                 font-weight: bold;
                             }
-
                             .students-table tr:nth-child(even) {
                                 background-color: #f9f9f9;
                             }
-
                             .student-list-title h3 {
                                 text-align: center;
                             }
@@ -131,13 +124,19 @@ const EducationLevelStudents = () => {
                     <body>
                         ${printContents}
                     </body>
+                    <script>
+                        // Attendre que tout soit bien chargé avant impression
+                        window.onload = () => {
+                            window.print();
+                            setTimeout(() => { window.close(); }, 500);
+                        };
+                    </script>
                 </html>
             `);
             newWindow.document.close();
-            newWindow.print();
-            newWindow.close();
         }
     };
+        
 
     if (loading) {
         return (

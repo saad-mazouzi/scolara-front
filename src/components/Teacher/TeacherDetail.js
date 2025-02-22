@@ -56,6 +56,20 @@ const TeacherProfile = () => {
     getTeacherData();
   }, [id]);
 
+  useEffect(() => {
+    if (teacher && teacher.absences_number !== undefined) {
+      setAbsenceCount(teacher.absences_number);
+    }
+  }, [teacher]);
+
+  useEffect(() => {
+    if (teacher && teacher.monthly_salary !== undefined) {
+      setMonthlySalary(teacher.monthly_salary);
+    }
+  }, [teacher]);
+  
+  
+
   const fetchDuplicateData = async (firstName, lastName) => {
     try {
       // Appel pour récupérer les niveaux d'éducation
@@ -310,7 +324,7 @@ const TeacherProfile = () => {
       setLoadingForm(false);
     }
   };
-  
+
 
   return (
     <div className="teacher-profile-container">

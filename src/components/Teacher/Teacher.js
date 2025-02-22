@@ -592,7 +592,7 @@ const downloadXLSX = () => {
         </button>
       ) : (
         <button className="create-student-button" onClick={() => setShowForm(true)}>
-          <i className="fas fa-plus"></i> Créer un Nouvel Enseignant
+          <i className="fas fa-plus"></i> Ajouter un Nouvel Enseignant
         </button>
       )}
 

@@ -285,7 +285,7 @@ const BulletinHeader = React.forwardRef((props, ref) => {
                                 font-size: 14px;
                                 margin-bottom: 70px;
                                 margin-left:200px;
-                                margin-top:-55px;
+                                margin-top:-40px;
                             }
     
                             .bulletin-student-info-1 {
@@ -294,8 +294,8 @@ const BulletinHeader = React.forwardRef((props, ref) => {
                             }
     
                             .bulletin-student-info-2 {
-                                margin-top: 0px;
-                                margin-left: 120px;
+                                margin-left: 100px;
+                                margin-top: 10px;
                             }
     
                             .bulletin-logo {

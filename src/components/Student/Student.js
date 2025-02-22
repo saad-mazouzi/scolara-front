@@ -391,7 +391,7 @@ const StudentList = () => {
       ) : (
         <button className="create-student-button" onClick={() => setShowForm(true)}>
           <i className="fas fa-plus"></i>
-          Créer un Nouvel Étudiant
+          Ajouter un Nouvel Étudiant
         </button>
       )}
 

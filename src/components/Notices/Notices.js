@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchNoticesForUser, deleteNotice, createNotice, fetchRoles } from '../../APIServices';
 import './Notices.css'; // Import the CSS file for styling
-import { PuffLoader , MoonLoader} from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
@@ -49,13 +49,13 @@ const Notices = () => {
   }, [schoolId]);
 
   const handleDelete = async (noticeId) => {
-    if (window.confirm('Are you sure you want to delete this notice?')) {
-      try {
-        await deleteNotice(noticeId);
-        setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== noticeId));
-      } catch (err) {
-        alert('Failed to delete notice');
-      }
+    setLoadingForm(true);
+    try {
+      await deleteNotice(noticeId);
+      setNotices((prevNotices) => prevNotices.filter((notice) => notice.id !== noticeId));
+    } catch (err) {
+    } finally {
+      setLoadingForm(false);
     }
   };
 
@@ -75,7 +75,7 @@ const Notices = () => {
 
   const handlePrintNotice = (notice) => {
     const printWindow = window.open('', '_blank', 'width=800,height=600');
-  
+
     if (printWindow) {
       printWindow.document.open();
       printWindow.document.write(`
@@ -137,18 +137,18 @@ const Notices = () => {
       printWindow.document.close();
       printWindow.print();
     }
-};
+  };
 
-  
+
 
   const handleCreateNotice = async (e) => {
     e.preventDefault();
     setLoadingForm(true);
     try {
-      const noticeData = { 
-        ...newNotice, 
+      const noticeData = {
+        ...newNotice,
         roles: newNotice.roles.filter((role) => !isNaN(role)), // Filter out invalid roles
-        school: schoolId 
+        school: schoolId
       };
       console.log('Data sent to backend:', noticeData); // Debugging
       const createdNotice = await createNotice(noticeData);
@@ -156,18 +156,17 @@ const Notices = () => {
       setNewNotice({ title: '', content: '', roles: [] }); // Reset form
     } catch (err) {
       console.error('Error creating notice:', err.response?.data || err);
-      alert('Failed to create notice');
     } finally {
       setLoadingForm(false);
     }
   };
 
   if (loading) {
-      return (
-          <div className="loading-container">
-              <PuffLoader size={60} color="#ffcc00" loading={loading} />
-          </div>
-      );
+    return (
+      <div className="loading-container">
+        <PuffLoader size={60} color="#ffcc00" loading={loading} />
+      </div>
+    );
   }
   if (error) return <div>{error}</div>;
 
@@ -198,28 +197,28 @@ const Notices = () => {
           />
         </div>
         <div className="form-group">
-        <label>Rôles :</label>
-        <div className="role-selection-group">
+          <label>Rôles :</label>
+          <div className="role-selection-group">
             {roles.map((role) => (
-                <button
-                    key={role.id}
-                    type="button"
-                    className={newNotice.roles.includes(role.id) ? "role-button selected" : "role-button"}
-                    onClick={() => handleRoleSelection(role.id)}
-                    style={{ backgroundColor: newNotice.roles.includes(role.id) ? 'green' : 'lightgray', color: 'white' }}
-                >
-                    {role.name}
-                </button>
+              <button
+                key={role.id}
+                type="button"
+                className={newNotice.roles.includes(role.id) ? "role-button selected" : "role-button"}
+                onClick={() => handleRoleSelection(role.id)}
+                style={{ backgroundColor: newNotice.roles.includes(role.id) ? 'green' : 'lightgray', color: 'white' }}
+              >
+                {role.name}
+              </button>
             ))}
+          </div>
         </div>
-      </div>
         <button type="submit" className="submit-button">Ajouter Avis</button>
       </form>
 
 
       {notices.length > 0 ? (
         <ul className="notices-list">
-          {notices.map((notice) => (          
+          {notices.map((notice) => (
             <li key={notice.id} className="notice-item">
               <button className="notice-print-button" onClick={() => handlePrintNotice(notice)}>
                 <FontAwesomeIcon icon={faPrint} /> Imprimer
@@ -246,7 +245,7 @@ const Notices = () => {
                   })}
                 </div>
               </p>
-                <button className="notice-delete-button" onClick={() => handleDelete(notice.id)}>Supprimer</button>
+              <button className="notice-delete-button" onClick={() => handleDelete(notice.id)}>Supprimer</button>
             </li>
           ))}
         </ul>
@@ -254,11 +253,11 @@ const Notices = () => {
         <p>pas d'avis disponible</p>
       )}
       {loadingForm && (
-          <div className="overlay-loader">
-              <div className="CRUD-loading-container">
-                  <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
-              </div>
+        <div className="overlay-loader">
+          <div className="CRUD-loading-container">
+            <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
           </div>
+        </div>
       )}
     </div>
   );

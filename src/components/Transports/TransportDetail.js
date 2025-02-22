@@ -138,14 +138,13 @@ const TransportDetails = () => {
                         <p>
                             <strong className='blue-text'>Adresse :</strong>{' '}
                             <a
-                                href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(station.location.address)}`}
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(station.location.address)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
                             >
                                 {station.location.address}
                             </a>
-
                         </p>
                     </div>
                 ))}

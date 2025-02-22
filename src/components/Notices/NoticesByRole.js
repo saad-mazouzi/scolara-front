@@ -48,7 +48,7 @@ const NoticesByRole = ({ schoolId }) => {
           ))}
         </ul>
       ) : (
-        <p>Aucun avis disponible pour votre rôle.</p>
+        <p>Aucun avis disponible.</p>
       )}
     </div>
   );

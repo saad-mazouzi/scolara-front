@@ -20,6 +20,7 @@ import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { LuNewspaper } from "react-icons/lu";
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FaRegNoteSticky } from "react-icons/fa6";
+import { GiPencilRuler } from "react-icons/gi";
 
 
 
@@ -43,6 +44,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
+
 
     const isStudentActive = () => {
         const paths = [
@@ -338,6 +340,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                             Avis
                         </Link>
                     </li>
+
                 </ul>
             </nav>
             <div className='whitetext'>Scolara</div>

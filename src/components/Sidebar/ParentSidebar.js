@@ -10,6 +10,8 @@ import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FaRegNoteSticky } from "react-icons/fa6";
+import { GiPencilRuler } from "react-icons/gi";
+
 
 
 
@@ -23,6 +25,13 @@ const ParentSidebar = ({ isOpen, toggleSidebar }) => {
     const isTimetableActive = () => {
         const paths = [
             '/parent-timetable', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isHomeworkBookActive = () => {
+        const paths = [
+            '/parent-homeworkbook',
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -79,6 +88,16 @@ const ParentSidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Notes
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/parent-homeworkbook"
+                            className={`sidebar-button ${isHomeworkBookActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/parent-homeworkbook')}
+                        >
+                            <GiPencilRuler style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Cahier de Texte
                         </Link>
                     </li>
                     <li>

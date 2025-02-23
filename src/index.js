@@ -65,6 +65,8 @@ import DriverProfileNavbar from './components/Drivers/DriverProfile';
 import DriverTransports from './components/Transports/TransportCards';
 import Notices from './components/Notices/Notices';
 import NoticesByRole from './components/Notices/NoticesByRole';
+import AddHomeworkBook from './components/HomeworkBook/HomeworkBook';
+import StudentHomeworkBook from './components/HomeworkBook/StudentHomeworkBook';
 
 function Router() {
     return (
@@ -111,6 +113,7 @@ function Router() {
                         <Route path="/users-teacher" element={<UsersPage />} />
                         <Route path="/chat-teacher/:chatRoomId" element={<ChatPage />} />
                         <Route path="/notices-user" element={<NoticesByRole />} />
+                        <Route path="/homeworkbook" element={<AddHomeworkBook />} />
                     </Route>
 
                     <Route path="/" element={<StudentLayout />}>
@@ -123,8 +126,8 @@ function Router() {
                         <Route path="/chat-student" element={< RolesCards/>} />
                         <Route path="/users-student" element={<UsersPage />} />
                         <Route path="/chat-student/:chatRoomId" element={<ChatPage />} />
-                        <Route path="/notices-student" element={<NoticesByRole />} />
-
+                        <Route path="/notices-student" element={<NoticesByRole  />} />
+                        <Route path="/student-homeworkbook" element={<StudentHomeworkBook />} />
                     </Route>
 
                     <Route path="/" element={<ParentLayout />}>
@@ -136,7 +139,7 @@ function Router() {
                         <Route path="/users-parent" element={<UsersPage />} />
                         <Route path="/chat-parent/:chatRoomId" element={<ChatPage />} />
                         <Route path="/notices-parent" element={<NoticesByRole />} />
-
+                        <Route path="/parent-homeworkbook" element={<StudentHomeworkBook />} />
                     </Route>
 
                     <Route path="/" element={<DriverLayout />}>

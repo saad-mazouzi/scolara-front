@@ -9,6 +9,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FaRegNoteSticky } from "react-icons/fa6";
+import { GiPencilRuler } from "react-icons/gi";
+
 
 
 const TeacherSidebar = ({ isOpen, toggleSidebar }) => {
@@ -33,6 +35,13 @@ const TeacherSidebar = ({ isOpen, toggleSidebar }) => {
     const isCoursesActive = () => {
         const paths = [
             '/courses-teacher', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isHomeworkBookActive = () => {
+        const paths = [
+            '/homeworkbook',
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -93,6 +102,16 @@ const TeacherSidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <BsFileEarmarkSpreadsheet style={{ color: "#4e7dad", marginRight: '13px', fontSize: '28px' }} />
                             Notes
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/homeworkbook"
+                            className={`sidebar-button ${isHomeworkBookActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/homeworkbook')}
+                        >
+                            <GiPencilRuler style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Cahier de Texte
                         </Link>
                     </li>
                     <li>

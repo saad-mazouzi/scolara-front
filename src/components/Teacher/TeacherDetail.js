@@ -88,36 +88,6 @@ const TeacherProfile = () => {
     }
   };
 
-
-  // useEffect(() => {
-  //   const checkAndResetPaymentStatus = async () => {
-  //     if (!teacher || !teacher.next_payment_date) {
-  //       console.log("Données de l'enseignant manquantes ou date de paiement non définie.");
-  //       return;
-  //     }
-  
-  //     const today = new Date().toISOString().split("T")[0];
-  //     if (today >= teacher.next_payment_date && teacher.paid) {
-  //       console.log("Réinitialisation automatique...");
-  //       try {
-  //         const updatedTeacher = {
-  //           ...teacher,
-  //           paid: false,
-  //           absences_number: 0,
-  //         };
-  
-  //         await updateTeacher(id, updatedTeacher);
-  //         const refreshedTeacher = await fetchTeacherById(id);
-  //         setTeacher(refreshedTeacher);
-  //       } catch (err) {
-  //         console.error("Erreur lors de la réinitialisation automatique :", err);
-  //       }
-  //     }
-  //   };
-  
-  //   if (teacher) checkAndResetPaymentStatus();
-  // }, [teacher, id]);
-  
   
   const handleSessionSalarySubmit = async () => {
     setLoadingForm(true);

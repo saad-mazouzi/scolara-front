@@ -1844,3 +1844,61 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
         }
     }
 };
+
+export const fetchHomeworkBooks = async (educationLevel = null) => {
+    try {
+        const params = educationLevel ? { education_level: educationLevel } : {};
+        const response = await axios.get('http://localhost:8000/api/homework-books/', {
+            params: params
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching HomeworkBooks:', error);
+        throw error;
+    }
+};
+
+export const createHomeworkBook = async (homeworkBookData) => {
+    try {
+        const response = await axios.post('http://localhost:8000/api/homework-books/', homeworkBookData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating HomeworkBook:', error);
+        throw error;
+    }
+};
+
+export const updateHomeworkBook = async (id, updatedData) => {
+    try {
+        const response = await axios.put(`http://localhost:8000/api/homework-books/${id}/`, updatedData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating HomeworkBook:', error);
+        throw error;
+    }
+};
+
+export const deleteHomeworkBook = async (id) => {
+    try {
+        const response = await axios.delete(`http://localhost:8000/api/homework-books/${id}/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting HomeworkBook:', error);
+        throw error;
+    }
+};
+
+
+export const fetchHomeworkBooksByEducationLevel = async (educationLevel) => {
+    try {
+        const response = await axios.get('http://localhost:8000/api/homework-books/', {
+            params: {
+                education_level: educationLevel
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des cahiers de textes:', error);
+        throw error;
+    }
+};

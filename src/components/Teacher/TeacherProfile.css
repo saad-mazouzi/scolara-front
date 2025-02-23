@@ -489,4 +489,12 @@ position: relative;
     .teacher-details{
         margin-left: 0px;
     }
+    .secret-key-text{
+        margin-left: -8px;
+        margin-top: 40px;
+    }
+    .left-text{
+        margin-top:20px;
+        margin-left: -280px;
+    }
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { createHomeworkBook, fetchHomeworkBooks, deleteHomeworkBook } from '../../APIServices';
 import './HomeworkBook.css'; // Assure-toi de créer ce fichier pour le styling
+import { PuffLoader,MoonLoader } from 'react-spinners';
 
 const AddHomeworkBook = () => {
     const [title, setTitle] = useState('');
@@ -11,6 +12,9 @@ const AddHomeworkBook = () => {
     const [teacherId, setTeacherId] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [homeworkBooks, setHomeworkBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [loadingForm, setLoadingForm] = useState(false);
+    
 
     // Charger le TeacherId et le TeacherEducationLevel depuis les cookies
     useEffect(() => {
@@ -29,12 +33,15 @@ const AddHomeworkBook = () => {
     // Charger les cahiers de textes en fonction du niveau d'éducation et de l'enseignant
     useEffect(() => {
         const getHomeworkBooks = async () => {
+            setLoading(true);
             if (educationLevel && teacherId) {
                 try {
                     const data = await fetchHomeworkBooks(educationLevel, teacherId);
                     setHomeworkBooks(data);
                 } catch (error) {
                     console.error('Erreur lors de la récupération des cahiers de textes:', error);
+                } finally {
+                    setLoading(false);
                 }
             }
         };
@@ -44,6 +51,7 @@ const AddHomeworkBook = () => {
 
     // Fonction pour gérer l'ajout du HomeworkBook
     const handleSubmit = async (e) => {
+        setLoadingForm(true);
         e.preventDefault();
         const homeworkBookData = {
             title,
@@ -61,8 +69,18 @@ const AddHomeworkBook = () => {
             setHomeworkDueDate('');
         } catch (error) {
             console.error('Échec de l\'ajout du cahier de texte:', error);
+        }finally {
+            setLoadingForm(false);
         }
     };
+
+    if (loading) {
+            return (
+                <div className="loading-container">
+                    <PuffLoader size={60} color="#ffcc00" loading={loading} />
+                </div>
+            );
+        }
 
     // Fonction pour gérer la suppression
     const handleDelete = async (id) => {
@@ -142,6 +160,13 @@ const AddHomeworkBook = () => {
                     <p>Aucun cahier de texte trouvé pour ce niveau d'éducation.</p>
                 )}
             </div>
+            {loadingForm && (
+                <div className="overlay-loader">
+                    <div className="CRUD-loading-container">
+                        <MoonLoader size={50} color="#ffcc00" loading={loadingForm} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

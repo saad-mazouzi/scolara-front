@@ -439,7 +439,7 @@ position: relative;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f0f0f0;
-    margin-left: 850px !important;
+    margin-left: 30px !important;
 }
 
 @media (max-width: 768px) {

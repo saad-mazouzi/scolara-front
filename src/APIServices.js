@@ -1848,7 +1848,7 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
 export const fetchHomeworkBooks = async (educationLevel = null) => {
     try {
         const params = educationLevel ? { education_level: educationLevel } : {};
-        const response = await axios.get('http://localhost:8000/api/homework-books/', {
+        const response = await axios.get(`${API_URL}/homework-books/`, {
             params: params
         });
         return response.data;
@@ -1860,7 +1860,7 @@ export const fetchHomeworkBooks = async (educationLevel = null) => {
 
 export const createHomeworkBook = async (homeworkBookData) => {
     try {
-        const response = await axios.post('http://localhost:8000/api/homework-books/', homeworkBookData);
+        const response = await axios.post(`${API_URL}/homework-books/`, homeworkBookData);
         return response.data;
     } catch (error) {
         console.error('Error creating HomeworkBook:', error);
@@ -1870,7 +1870,7 @@ export const createHomeworkBook = async (homeworkBookData) => {
 
 export const updateHomeworkBook = async (id, updatedData) => {
     try {
-        const response = await axios.put(`http://localhost:8000/api/homework-books/${id}/`, updatedData);
+        const response = await axios.put(`${API_URL}/homework-books/${id}/`, updatedData);
         return response.data;
     } catch (error) {
         console.error('Error updating HomeworkBook:', error);
@@ -1880,7 +1880,7 @@ export const updateHomeworkBook = async (id, updatedData) => {
 
 export const deleteHomeworkBook = async (id) => {
     try {
-        const response = await axios.delete(`http://localhost:8000/api/homework-books/${id}/`);
+        const response = await axios.delete(`${API_URL}/homework-books/${id}/`);
         return response.data;
     } catch (error) {
         console.error('Error deleting HomeworkBook:', error);
@@ -1891,7 +1891,7 @@ export const deleteHomeworkBook = async (id) => {
 
 export const fetchHomeworkBooksByEducationLevel = async (educationLevel) => {
     try {
-        const response = await axios.get('http://localhost:8000/api/homework-books/', {
+        const response = await axios.get(`${API_URL}/homework-books/`, {
             params: {
                 education_level: educationLevel
             }

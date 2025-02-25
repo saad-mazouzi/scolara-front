@@ -281,17 +281,27 @@ const StudentProfile = () => {
   };
 
   const handleSendSMS = async () => {
-      try {
-          const formattedNumber = normalizePhoneNumber(parentPhoneNumber);
-          console.log(`le numéro de téléphone formaté est :${formattedNumber}`)
-          await sendSMS(formattedNumber, smsMessage);
-          alert('✅ SMS envoyé avec succès au tuteur.');
-          setShowSMSPopup(false);
-      } catch (error) {
-          console.error('Erreur lors de l\'envoi du SMS:', error);
-          alert('❌ Erreur lors de l\'envoi du SMS.');
-      }
-  };
+    try {
+        // Récupérer le schoolId depuis les cookies
+        const schoolId = Cookies.get('SchoolId');
+        if (!schoolId) {
+            alert("L'identifiant de l'école n'a pas été trouvé. Veuillez réessayer.");
+            return;
+        }
+
+        // Formater le numéro de téléphone
+        const formattedNumber = normalizePhoneNumber(parentPhoneNumber);
+
+        // Appel à la fonction sendSMS avec schoolId, phoneNumber et message
+        await sendSMS(schoolId, formattedNumber, smsMessage);
+        alert('✅ SMS envoyé avec succès au tuteur.');
+        setShowSMSPopup(false);
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi du SMS:', error);
+        alert(`❌ ${error.message}`);
+    }
+};
+
 
 
   const handlePaymentStatusUpdate = async (isPaid) => {

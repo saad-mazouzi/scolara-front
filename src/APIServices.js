@@ -1818,9 +1818,9 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
   };
 
 
-  export const sendSMS = async (phoneNumber, message) => {
+  export const sendSMS = async (schoolId, phoneNumber, message) => {
     try {
-        const response = await axios.post(`${API_URL}/send-sms/`, {
+        const response = await axios.post(`${API_URL}/send-sms/${schoolId}/`, {
             phone_number: phoneNumber,
             message: message,
         }, {
@@ -1834,6 +1834,9 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
         console.error('Erreur lors de l\'envoi du SMS:', error);
         if (error.response) {
             // Erreur renvoyée par le serveur
+            if (error.response.status === 403) {
+                throw new Error('La limite de SMS a été atteinte. Veuillez contacter l\'administration.');
+            }
             throw new Error(error.response.data.error || 'Erreur inconnue du serveur.');
         } else if (error.request) {
             // Aucune réponse du serveur
@@ -1844,6 +1847,7 @@ export const fetchDuplicateTeacherEducationLevels = async (firstName, lastName) 
         }
     }
 };
+
 
 export const fetchHomeworkBooks = async (educationLevel = null) => {
     try {

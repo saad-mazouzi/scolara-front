@@ -111,6 +111,7 @@ const Signup = () => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             setMessage('Les mots de passe ne correspondent pas.');
+            setLoadingForm(false);
             return;
         }
     
@@ -136,17 +137,8 @@ const Signup = () => {
         }        
     
         if (formData.profilePicture) {
-            console.log("Photo de profil ajoutée à FormData :", formData.profilePicture.name);
             userData.append('profile_picture', formData.profilePicture);
-        } else {
-            console.log("Aucune photo de profil sélectionnée.");
         }
-        
-        // Log pour afficher tout le contenu de FormData
-        for (let [key, value] of userData.entries()) {
-            console.log(`${key}:`, value);
-        }
-        
         
         try {
             if (formData.role === '3') {
@@ -157,15 +149,24 @@ const Signup = () => {
                 await signup(userData);
             }
     
-            setMessage("Merci pour votre inscription ! Un e-mail de vérification a été envoyé.");
+            // Afficher le modal de succès
             setShowModal(true);
+    
+            // Attendre quelques secondes pour que l'utilisateur lise le message (facultatif)
+            setTimeout(() => {
+                setShowModal(false);
+                // Redirection vers la page de login
+                navigate('/login');
+            }, 2000); // Attente de 2 secondes avant de rediriger
+    
         } catch (error) {
             console.error('Erreur lors de l\'inscription :', error);
             setMessage("Échec de l'inscription. Veuillez réessayer.");
         } finally {
             setLoadingForm(false);
         }
-    };    
+    };
+       
     
     
     const handleCloseModal = () => {
@@ -403,12 +404,12 @@ const Signup = () => {
                 </div>
             )}
 
-            {showModal && (
+            {/* {showModal && (
                 <Modal 
                     message={message}
                     onClose={handleCloseModal}
                 />
-            )}
+            )} */}
         </div>
     );
 };

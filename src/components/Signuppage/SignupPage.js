@@ -1,7 +1,7 @@
 import React from 'react';
 import Signup from '../Signup/Signup';
 import NavbarSignup from '../Navbarsignup/NavbarSignup';
-import Footer from '../Footer/Footer';
+import SignupFooter from '../Footer/SignupFooter';
 import './SignupPage.css';
 
 const SignupPage = () => {
@@ -13,7 +13,7 @@ const SignupPage = () => {
 
             <Signup />
 
-            {/* <Footer /> */}
+            <SignupFooter />
         </div>
     );
 };

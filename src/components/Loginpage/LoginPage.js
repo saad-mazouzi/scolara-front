@@ -9,6 +9,7 @@ const LoginPage = () => {
         <div>
             <NavbarSignup />
             <LoginForm/>
+            <Footer />
         </div>
     );
 };

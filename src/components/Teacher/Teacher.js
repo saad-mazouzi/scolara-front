@@ -480,7 +480,7 @@ const downloadXLSX = () => {
             <th>Prénom</th>
             <th>Nom</th>
             <th>Niveaux d'éducation</th>
-            <th>Matière</th>
+            <th>Matière(s)</th>
             <th>Téléphone</th>
             <th>Statut de Paiement</th>
             <th>Action</th>

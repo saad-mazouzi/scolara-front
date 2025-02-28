@@ -227,15 +227,16 @@ const EducationLevel = () => {
             </div>
             {isModalOpen && (
                 <div className="modal">
-                    <div className="modal-content">
+                    <div className="modal-content-education-level">
                         <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <h3>Modifier le Niveau d'Éducation</h3>
-                        <div>
+                        <div className='middle-text'>
                             <input 
                                 type="text" 
                                 value={editLevelName} 
                                 onChange={(e) => setEditLevelName(e.target.value)} 
                                 placeholder="Nouveau nom" 
+                                className='modal-input'
                             />
                         </div>
                         <div>

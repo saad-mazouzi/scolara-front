@@ -485,6 +485,41 @@ export const createParent = async (parentData) => {
     }
 };
 
+export const createStudentParent = async (parentData) => {
+    try {
+        const schoolId = Cookies.get('SchoolId');
+        if (!schoolId) {
+            throw new Error("SchoolId introuvable dans les cookies.");
+        }
+
+        // Créez une instance de FormData
+        const formData = new FormData();
+        Object.keys(parentData).forEach(key => {
+            formData.append(key, parentData[key]);
+        });
+
+        // Ajouter SchoolId dans le FormData
+        formData.append('school', schoolId);
+
+        // Vérifiez ce qui est envoyé
+        console.log("✅ Données envoyées au backend :", Object.fromEntries(formData.entries()));
+
+        // Envoyez la requête avec FormData
+        const response = await axios.post(`${API_URL}/users/create_parent/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+
+        console.log("✅ Réponse du backend :", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("❌ Erreur lors de la création du parent :", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+
 
 
 export const fetchClassrooms = async (schoolId) => {

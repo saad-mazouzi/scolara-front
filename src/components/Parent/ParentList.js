@@ -294,7 +294,7 @@ const ParentList = () => {
 
         {!showForm && (
           <button className="create-student-button" onClick={() => setShowForm(true)}>
-            <i className="fas fa-plus"></i> Créer un Nouveau Parent
+            <i className="fas fa-plus"></i> Ajouter un Nouveau Parent
           </button>
         )}
 
@@ -360,7 +360,7 @@ const ParentList = () => {
                         </div>
                     </div>
               ) : (
-                  'Créer le parent'
+                  'Ajouter le parent'
               )}
           </button>
         </form>

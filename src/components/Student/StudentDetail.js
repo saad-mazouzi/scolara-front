@@ -10,7 +10,7 @@ import {
   markStudentAsPaid,
   updateStudentSalary,
   fetchParents,
-  createParent,
+  createStudentParent,
   sendSMS
 } from '../../APIServices';
 import Cookies from 'js-cookie';
@@ -148,7 +148,7 @@ const StudentProfile = () => {
       if (!useExistingParent) {
         // Ajouter SchoolId au nouveau parent
         const schoolId = Cookies.get('SchoolId');
-        const createdParent = await createParent({ ...newParent, school: schoolId });
+        const createdParent = await createStudentParent({ ...newParent, school: schoolId });
         parentId = createdParent.id;
         window.location.reload();
 

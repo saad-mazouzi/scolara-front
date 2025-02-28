@@ -84,6 +84,7 @@ label {
     border-radius: 4px; /* Coins arrondis */
     cursor: pointer; /* Curseur pointeur */
     font-size: 16px; /* Taille de la police */
+    margin-top: 20px;
 }
 
 .signup-button:hover {

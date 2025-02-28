@@ -182,7 +182,7 @@ const Signup = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-pair">
                                 <div>
-                                    <label>Nom :</label>
+                                    <label>Nom <span style={{ color: 'red' }}>*</span></label>
                                     <input
                                         type="text"
                                         name="lastName"
@@ -193,7 +193,7 @@ const Signup = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label>Téléphone :</label>
+                                    <label>Téléphone <span style={{ color: 'red' }}>*</span></label>
                                     <input
                                         type="text"
                                         name="phone"
@@ -207,7 +207,7 @@ const Signup = () => {
 
                             <div className="form-pair">
                                 <div>
-                                    <label>Prénom :</label>
+                                    <label>Prénom <span style={{ color: 'red' }}>*</span></label>
                                     <input
                                         type="text"
                                         name="firstName"
@@ -218,7 +218,7 @@ const Signup = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label>Adresse :</label>
+                                    <label>Adresse <span style={{ color: 'red' }}>*</span></label>
                                     <input
                                         type="text"
                                         name="address"
@@ -231,7 +231,7 @@ const Signup = () => {
                             </div>
 
                             <div>
-                                <label>École :</label>
+                                <label>École <span style={{ color: 'red' }}>*</span></label>
                                 <select 
                                     name="school" 
                                     value={formData.school} 
@@ -249,7 +249,7 @@ const Signup = () => {
                             </div>
 
                             <div>
-                                <label>Email :</label>
+                                <label>Email <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="email"
                                     name="email"
@@ -261,7 +261,7 @@ const Signup = () => {
                             </div>
 
                             <div>
-                                <label>Mot de passe :</label>
+                                <label>Mot de passe <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="password"
                                     name="password"
@@ -273,7 +273,7 @@ const Signup = () => {
                             </div>
 
                             <div>
-                                <label>Confirmer le mot de passe :</label>
+                                <label>Confirmer le mot de passe <span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -285,7 +285,7 @@ const Signup = () => {
                             </div>
 
                             <div>
-                                <label>Rôle :</label>
+                                <label>Rôle <span style={{ color: 'red' }}>*</span></label>
                                 <select 
                                     name="role" 
                                     value={formData.role} 
@@ -304,7 +304,7 @@ const Signup = () => {
 
                             {formData.role === '3'  && (
                                 <div>
-                                    <label>Niveau d'éducation :</label>
+                                    <label>Niveau d'éducation <span style={{ color: 'red' }}>*</span></label>
                                     <select 
                                         name="educationLevel" 
                                         value={formData.educationLevel} 
@@ -324,7 +324,7 @@ const Signup = () => {
 
 {formData.role === '3' && (
                                 <div>
-                                    <label>Matière :</label>
+                                    <label>Matière <span style={{ color: 'red' }}>*</span></label>
                                     <select
                                         name="subject"
                                         value={formData.subject}
@@ -344,7 +344,7 @@ const Signup = () => {
 
                             {formData.role === '2'  && (
                                 <div>
-                                    <label>Niveau d'éducation :</label>
+                                    <label>Niveau d'éducation <span style={{ color: 'red' }}>*</span></label>
                                     <select 
                                         name="educationLevel" 
                                         value={formData.educationLevel} 
@@ -363,7 +363,7 @@ const Signup = () => {
                             )}
 
                             <div>
-                                <label>Genre :</label>
+                                <label>Genre <span style={{ color: 'red' }}>*</span></label>
                                 <select 
                                     name="gender" 
                                     value={formData.gender} 

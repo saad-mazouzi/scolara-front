@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import TeacherSidebar from '../Sidebar/TeacherSidebar';
 import Navbar from '../Navbar/Navbar';
 import './MainLayout.css';
-import TeacherSidebar from '../Sidebar/TeacherSidebar';
 
 const MainLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Gère l'état de la Sidebar

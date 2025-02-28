@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* Hauteur de la fenêtre */
-    background-color: #f5f5f5; /* Optionnel : une couleur de fond */
+    background-color: #ffffff; /* Optionnel : une couleur de fond */
 }
 
 .secret-key-container h2 {
@@ -47,4 +47,23 @@
 .parent-left-text{
     margin-left:-465px;
     margin-top:40px;
+}
+
+@media (max-width: 768px) {
+    
+    .secret-key input {
+        width: 300px;
+    }
+
+    .secret-key-button {
+        padding: 10px 20px;
+        background-color: #4e7dad;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 120px;
+    }
+
+   
 }

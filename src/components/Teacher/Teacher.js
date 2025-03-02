@@ -325,18 +325,50 @@ const downloadXLSX = () => {
 };
 
   const handleGenerateEmail = () => {
-    // Trouver le nom du sujet sélectionné
-    const selectedSubject = subjects.find(subject => subject.id === newTeacherData.subject);
-    const subjectName = selectedSubject ? selectedSubject.name.replace(/\s+/g, '').toLowerCase() : 'general';
+    // Fonction pour générer l'acronyme du niveau d'éducation
+    const generateEducationAcronym = (educationLevel) => {
+      if (!educationLevel) return 'level';
 
-    // Générer l'email avec le sujet inclus
-    const email = `${newTeacherData.first_name.toLowerCase()}.${newTeacherData.last_name.toLowerCase()}.${subjectName}@scolara.com`;
-    
+      let words = educationLevel.split(/\s+/);
+      
+      // Garder le premier chiffre si présent (ex: "1ère", "2ème", etc.)
+      let acronym = words[0].match(/\d+/) ? words[0].match(/\d+/)[0] : '';
+
+      // Ajouter les initiales des mots suivants (ex: "année collège" → "AC")
+      words.slice(1).forEach(word => {
+        acronym += word.charAt(0).toUpperCase();
+      });
+
+      return acronym;
+    };
+
+    // Fonction pour générer l'acronyme de la matière (4 premières lettres de chaque mot)
+    const generateSubjectAcronym = (subject) => {
+      if (!subject) return 'gen';
+
+      let words = subject.split(/\s+/); // Séparer les mots
+      let acronym = words.map(word => word.substring(0, 4).toLowerCase()).join(''); // Prendre les 4 premières lettres de chaque mot
+
+      return acronym.length > 6 ? acronym.slice(0, 6) : acronym; // Limiter à 6 lettres max pour éviter des acronymes trop longs
+    };
+
+    // Trouver le nom du sujet sélectionné et générer son acronyme
+    const selectedSubject = subjects.find(subject => subject.id === newTeacherData.subject);
+    const subjectName = selectedSubject ? generateSubjectAcronym(selectedSubject.name) : 'gen';
+
+    // Trouver le nom du niveau d'éducation sélectionné et générer son acronyme
+    const selectedEducationLevel = educationLevels.find(level => level.id === newTeacherData.education_level);
+    const educationLevelName = selectedEducationLevel ? generateEducationAcronym(selectedEducationLevel.name) : 'level';
+
+    // Générer l'email avec nom, prénom, niveau d'éducation et matière
+    const email = `${newTeacherData.first_name.toLowerCase()}.${newTeacherData.last_name.toLowerCase()}.${educationLevelName}.${subjectName}@scolara.com`;
+
     setNewTeacherData((prevData) => ({
-        ...prevData,
-        email
+      ...prevData,
+      email
     }));
   };
+
 
 
   const generatePassword = (length = 8) => {
@@ -522,14 +554,15 @@ const downloadXLSX = () => {
                   <td>
                     {subjects.length > 0 ? (
                       <ul>
-                        {subjects.map((subject) => (
-                          <div key={subject.subject__id}>{subject.subject__name}</div>
+                        {[...new Set(subjects.map(subject => subject.subject__name))].map((uniqueSubject, index) => (
+                          <div key={index}>{uniqueSubject}</div>
                         ))}
                       </ul>
                     ) : (
-                      <div><PulseLoader   color="#4e7dad" size={8}/></div>
+                      <div><PulseLoader color="#4e7dad" size={8}/></div>
                     )}
                   </td>
+
                   <td>{teacher.phone_number}</td>
                   <td>{getPaymentStatus(teacher.paid)}</td>
                   <td>

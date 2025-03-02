@@ -335,7 +335,7 @@ const TeacherProfile = () => {
                         Avec un nombre d'absences de <strong>{absenceCount}</strong>, 
                         {teacher.first_name} enseigne la (les) matière(s) <strong>
                           {duplicateSubjects.length > 0
-                            ? duplicateSubjects.map((subject) => subject.subject__name).join(', ')
+                            ? [...new Set(duplicateSubjects.map(subject => subject.subject__name))].join(', ')
                             : 'Aucune matière trouvée'}
                         </strong>, 
                         et le statut de paiement est <strong style={paymentStatusStyle}>{teacher.paid ? 'Payé' : 'Non payé'}</strong>.
@@ -372,8 +372,8 @@ const TeacherProfile = () => {
             <button className="update-button update-salary-button" onClick={handleSalarySubmit} style={{ marginLeft: '10px' }}>Mettre à jour</button>
             </p>
             <p><strong>Matière(s) enseignée(s) :</strong> <strong><p>
-                  {duplicateSubjects.length > 0
-                    ? duplicateSubjects.map((subject) => subject.subject__name).join(', ')
+              {duplicateSubjects.length > 0
+                    ? [...new Set(duplicateSubjects.map(subject => subject.subject__name))].join(', ')
                     : 'Aucune matière trouvée'}
                 </p>
                 </strong> </p>

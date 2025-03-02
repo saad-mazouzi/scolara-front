@@ -152,7 +152,7 @@ export const fetchNoticesForUser = async (schoolId) => {
         return [];
       }
   
-      const url = schoolId ? `notices/?school_id=${schoolId}` : `notices/`;
+      const url = schoolId !== undefined && schoolId !== null ? `notices/?school_id=${schoolId}` : `notices/`;
       const response = await axiosInstance.get(url);
   
       return response.data.filter(notice => notice.roles.includes(userRole));

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { fetchNoticesForUser } from '../../APIServices';
 import './Notices.css'; // Assurez-vous que le CSS est bien appliqué
 import { PuffLoader } from 'react-spinners';
+import Cookies from 'js-cookie';
+
 
 const NoticesByRole = ({ schoolId }) => {
   const [notices, setNotices] = useState([]);
@@ -9,6 +11,8 @@ const NoticesByRole = ({ schoolId }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const schoolId = Cookies.get('SchoolId');
+    console.log("School ID reçu dans NoticesByRole:", schoolId);
     const loadNotices = async () => {
       try {
         setLoading(true);
@@ -20,9 +24,10 @@ const NoticesByRole = ({ schoolId }) => {
         setLoading(false);
       }
     };
-
+  
     loadNotices();
   }, [schoolId]);
+  
 
   if (loading) {
       return (

@@ -17,12 +17,65 @@
 .dashboard-card {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 250px; /* Ajuste selon ton besoin */
+}
+
+.icon-container {
+    background-color: #d4f8c6;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.card-content {
+    flex-grow: 1;
+    text-align: left;
+    margin-left:40px;
+}
+
+.payment-info {
+    position: absolute;
+    /* right: 10px; */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    right:0px;
+}
+
+.payment-info span {
+    font-size: 10px; /* Très petit comme demandé */
+    font-weight: bold;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+.paid-indicator {
+    background-color: #4e7dad; /* Vert pour payés */
+}
+
+.unpaid-indicator {
+    background-color: #ffcc00; /* Rose pour non payés */
+}
+
+
+.dashboard-card {
+    display: flex;
+    align-items: center;
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    width: 200px;
+    width: 210px;
     text-align: center;
     cursor: pointer;
 }
@@ -61,6 +114,7 @@
     font-size: 1em;
     color: #666;
     margin: 0;
+    margin-left:-60px;
 }
 
 .card-content p {

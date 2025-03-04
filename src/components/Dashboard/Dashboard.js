@@ -13,12 +13,15 @@ import MonthlyEarningsChart from './MonthlyEarningsChart';
 import { deleteEvent } from '../../APIServices';
 import Cookies from 'js-cookie';
 import { PuffLoader, MoonLoader} from 'react-spinners';
-import { deleteEventsByDate } from '../../APIServices';
+import { deleteEventsByDate,fetchStudentsPaymentStatus,fetchTeachersPaymentStatus,fetchDriversPaymentStatus } from '../../APIServices';
 
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [data, setData] = useState(null);
+    const [paymentData, setPaymentData] = useState(null); // Stocke les paiements
+    const [teacherpaymentData, setteacherPaymentData] = useState(null); // Stocke les paiements
+    const [driverpaymentData, setdriverPaymentData] = useState(null); // Stocke les paiements
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [date, setDate] = useState(new Date());
@@ -63,6 +66,14 @@ const Dashboard = () => {
             try {
                 const response = await axiosInstance.get(`/dashboard/?school_id=${schoolId}`);
                 setData(response.data);
+                const paymentStatus = await fetchStudentsPaymentStatus(schoolId);
+                setPaymentData(paymentStatus);
+
+                const teacherpaymentStatus = await fetchTeachersPaymentStatus(schoolId);
+                setteacherPaymentData(teacherpaymentStatus);
+
+                const driverpaymentStatus = await fetchDriversPaymentStatus(schoolId);
+                setdriverPaymentData(driverpaymentStatus);
 
                 // Récupérer les enseignants pour supprimer les doublons
                 const teachersResponse = await axiosInstance.get(`users/get_teacher/?school_id=${schoolId}`);
@@ -209,7 +220,14 @@ const Dashboard = () => {
                         <h3>Étudiants</h3>
                         <p>{data.students_count}</p>
                     </div>
+                    {paymentData && (
+                        <div className="payment-info">
+                            <span className="paid-indicator">P :  {paymentData.paid_students_count}</span>
+                            <span className="unpaid-indicator">N.P :  {paymentData.unpaid_students_count}</span>
+                        </div>
+                    )}
                 </div>
+
                 <div className="dashboard-card" onClick={() => navigate('/teachers')}>
                     <div className="icon-container teacher-icon">
                         <FaChalkboardTeacher size={30} />
@@ -218,6 +236,12 @@ const Dashboard = () => {
                         <h3>Enseignants</h3>
                         <p>{teachers.length}</p> {/* Nombre d'enseignants uniques */}
                     </div>
+                    {teacherpaymentData && (
+                        <div className="payment-info">
+                            <span className="paid-indicator">P :  {teacherpaymentData.paid_teachers_count}</span>
+                            <span className="unpaid-indicator">N.P :  {teacherpaymentData.unpaid_teachers_count}</span>
+                        </div>
+                    )}
 
                 </div>
                 <div className="dashboard-card" onClick={() => navigate('/drivers')}>
@@ -228,6 +252,12 @@ const Dashboard = () => {
                         <h3>Chauffeurs</h3>
                         <p>{data.drivers_count}</p>
                     </div>
+                    {driverpaymentData && (
+                        <div className="payment-info">
+                            <span className="paid-indicator">P :  {driverpaymentData.paid_drivers_count}</span>
+                            <span className="unpaid-indicator">N.P :  {driverpaymentData.unpaid_drivers_count}</span>
+                        </div>
+                    )}
                 </div>
                 <div className="dashboard-card" onClick={() => navigate('/parents')}>
                     <div className="icon-container parent-icon">

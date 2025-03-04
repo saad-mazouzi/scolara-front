@@ -1941,3 +1941,73 @@ export const fetchHomeworkBooksByEducationLevel = async (educationLevel) => {
         throw error;
     }
 };
+
+export const fetchStudentsPaymentStatus = async (schoolId) => {
+    try {
+        const response = await fetch(`${API_URL}/students_payment_status/?school_id=${schoolId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoute le token si nécessaire
+                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération des paiements : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des paiements des étudiants :", error);
+        return null;
+    }
+};
+
+export const fetchDriversPaymentStatus = async (schoolId) => {
+    try {
+        const response = await fetch(`${API_URL}/drivers_payment_status/?school_id=${schoolId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoute le token si nécessaire
+                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération des paiements : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des paiements des étudiants :", error);
+        return null;
+    }
+};
+
+
+export const fetchTeachersPaymentStatus = async (schoolId) => {
+    try {
+        const response = await fetch(`${API_URL}/teachers_payment_status/?school_id=${schoolId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoute le token si nécessaire
+                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération des paiements : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des paiements des enseignants :", error);
+        return null;
+    }
+};

@@ -220,12 +220,6 @@ const Dashboard = () => {
                         <h3>Étudiants</h3>
                         <p>{data.students_count}</p>
                     </div>
-                    {paymentData && (
-                        <div className="payment-info">
-                            <span className="paid-indicator">P :  {paymentData.paid_students_count}</span>
-                            <span className="unpaid-indicator">N.P :  {paymentData.unpaid_students_count}</span>
-                        </div>
-                    )}
                 </div>
 
                 <div className="dashboard-card" onClick={() => navigate('/teachers')}>
@@ -234,16 +228,10 @@ const Dashboard = () => {
                     </div>
                     <div className="card-content">
                         <h3>Enseignants</h3>
-                        <p>{teachers.length}</p> {/* Nombre d'enseignants uniques */}
+                        <p>{teachers.length}</p>
                     </div>
-                    {teacherpaymentData && (
-                        <div className="payment-info">
-                            <span className="paid-indicator">P :  {teacherpaymentData.paid_teachers_count}</span>
-                            <span className="unpaid-indicator">N.P :  {teacherpaymentData.unpaid_teachers_count}</span>
-                        </div>
-                    )}
-
                 </div>
+
                 <div className="dashboard-card" onClick={() => navigate('/drivers')}>
                     <div className="icon-container driver-icon">
                         <FaUserTie size={30} />
@@ -252,13 +240,8 @@ const Dashboard = () => {
                         <h3>Chauffeurs</h3>
                         <p>{data.drivers_count}</p>
                     </div>
-                    {driverpaymentData && (
-                        <div className="payment-info">
-                            <span className="paid-indicator">P :  {driverpaymentData.paid_drivers_count}</span>
-                            <span className="unpaid-indicator">N.P :  {driverpaymentData.unpaid_drivers_count}</span>
-                        </div>
-                    )}
                 </div>
+
                 <div className="dashboard-card" onClick={() => navigate('/parents')}>
                     <div className="icon-container parent-icon">
                         <FaUserFriends size={30} />
@@ -268,6 +251,30 @@ const Dashboard = () => {
                         <p>{data.parents_count}</p>
                     </div>
                 </div>
+                <div className="payment-summary">
+                    {paymentData && (
+                        <div className="payment-section">
+                            <span className="paid-indicator">Payés : {paymentData.paid_students_count}</span>
+                            <span className="unpaid-indicator">Non Payés : {paymentData.unpaid_students_count}</span>
+                        </div>
+                    )}
+
+                    {teacherpaymentData && (
+                        <div className="payment-section">
+                            <span className="paid-indicator">Payés : {teacherpaymentData.paid_teachers_count}</span>
+                            <span className="unpaid-indicator">Non Payés : {teacherpaymentData.unpaid_teachers_count}</span>
+                        </div>
+                    )}
+
+                    {driverpaymentData && (
+                        <div className="payment-section">
+                            <span className="paid-indicator">Payés : {driverpaymentData.paid_drivers_count}</span>
+                            <span className="unpaid-indicator">Non Payés : {driverpaymentData.unpaid_drivers_count}</span>
+                        </div>
+                    )}
+                </div>
+
+
             </div>
 
             <div className="chart-calendar-container">

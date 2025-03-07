@@ -9,7 +9,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 import { PuffLoader, MoonLoader } from 'react-spinners';
-
+import TransportMap from './Transportmap';
 
 const Transport = () => {
     const [transports, setTransports] = useState([]);
@@ -437,6 +437,11 @@ const Transport = () => {
           </button>
 
         </form>
+        <div className='whitetext'>Scolara</div>
+        <h3 className="student-list-title">Suivi GPS des transports en temps réel</h3>
+        <div className='whitetext'>Scolara</div>
+
+        <TransportMap />
         {loadingForm && (
           <div className="overlay-loader">
               <div className="CRUD-loading-container">

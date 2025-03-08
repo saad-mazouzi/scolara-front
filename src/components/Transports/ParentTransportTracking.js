@@ -73,7 +73,7 @@ const ParentTransportTracking = () => {
 
             {!transport && (
                 <p style={{ textAlign: "center", marginTop: "10px", fontWeight: "bold" }}>
-                    🚍 Aucun transport en ligne pour le moment...
+                    🚍 ...
                 </p>
             )}
         </div>

@@ -12,7 +12,7 @@ const ParentTransportTracking = () => {
     useEffect(() => {
         const fetchTransportLocation = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/transport/${parentKey}/`);
+                const response = await fetch(`https://scolara-backend.onrender.com/api/transport/${parentKey}/`);
                 if (!response.ok) throw new Error("Erreur lors de la récupération des données");
                 
                 const data = await response.json();

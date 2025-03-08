@@ -67,6 +67,7 @@ import Notices from './components/Notices/Notices';
 import NoticesByRole from './components/Notices/NoticesByRole';
 import AddHomeworkBook from './components/HomeworkBook/HomeworkBook';
 import StudentHomeworkBook from './components/HomeworkBook/StudentHomeworkBook';
+import ParentTransportTracking from './components/Transports/ParentTransportTracking';
 
 function Router() {
     return (
@@ -140,6 +141,7 @@ function Router() {
                         <Route path="/chat-parent/:chatRoomId" element={<ChatPage />} />
                         <Route path="/notices-parent" element={<NoticesByRole />} />
                         <Route path="/parent-homeworkbook" element={<StudentHomeworkBook />} />
+                        <Route path="/tracking/:parentKey" element={<ParentTransportTracking />} />
                     </Route>
 
                     <Route path="/" element={<DriverLayout />}>

@@ -9,7 +9,7 @@ const TransportMap = () => {
     useEffect(() => {
         const fetchLocations = async () => {
             try {
-                const response = await fetch("http://127.0.0.1:8000/api/driver-locations/");
+                const response = await fetch("https://scolara-backend.onrender.com/api/driver-locations/");
                 if (!response.ok) throw new Error("Erreur lors de la récupération des données");
                 
                 const data = await response.json();

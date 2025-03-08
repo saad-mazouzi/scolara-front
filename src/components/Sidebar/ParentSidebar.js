@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FaRegNoteSticky } from "react-icons/fa6";
 import { GiPencilRuler } from "react-icons/gi";
-
+import { BsTruckFront } from "react-icons/bs";
 
 
 
@@ -47,6 +47,13 @@ const ParentSidebar = ({ isOpen, toggleSidebar }) => {
     const isNoticeActive = () => {
         const paths = [
             '/notices-parent', // Chemin principal
+        ];
+        return paths.some(path => location.pathname.startsWith(path));
+    };
+
+    const isTransportActive = () => {
+        const paths = [
+            '/tracking', // Préfixe des sous-chemins
         ];
         return paths.some(path => location.pathname.startsWith(path));
     };
@@ -98,6 +105,16 @@ const ParentSidebar = ({ isOpen, toggleSidebar }) => {
                         >
                             <GiPencilRuler style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
                             Cahier de Texte
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to={`/tracking/${encodeURIComponent(parentKey)}`}
+                            className={`sidebar-button ${isTransportActive() ? 'active' : ''}`}
+                            onClick={() => setActiveLink('/transports')}
+                        >
+                            <BsTruckFront style={{ color: "#4e7dad", marginRight: '13px',fontSize: '28px' }}/>
+                            Transports
                         </Link>
                     </li>
                     <li>

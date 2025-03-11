@@ -8,7 +8,7 @@ const NavbarSignup = () => {
 
     return (
         <nav className="navbar-container">
-            <div className="navbar-logo">
+            <div className="navbar-logo" onClick={() => window.location.href = 'https://scolara.ma'} style={{ cursor: 'pointer' }}>
                 <img src={logo} alt="Logo de l'application" />
             </div>
             <div className="navbar-text">

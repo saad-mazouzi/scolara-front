@@ -68,6 +68,7 @@
 
     .navbar-logo img {
         height: 55px; /* Taille réduite sur mobile */
+        margin-top: 10px;
     }
 
     .navbar-text {

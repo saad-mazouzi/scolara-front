@@ -2,41 +2,44 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { createHomeworkBook, fetchHomeworkBooks, deleteHomeworkBook } from '../../APIServices';
 import './HomeworkBook.css'; // Assure-toi de créer ce fichier pour le styling
-import { PuffLoader,MoonLoader } from 'react-spinners';
+import { PuffLoader, MoonLoader } from 'react-spinners';
 
 const AddHomeworkBook = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [homeworkDueDate, setHomeworkDueDate] = useState('');
     const [educationLevel, setEducationLevel] = useState('');
+    const [subjectId, setSubjectId] = useState('');
     const [teacherId, setTeacherId] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [homeworkBooks, setHomeworkBooks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingForm, setLoadingForm] = useState(false);
-    
 
-    // Charger le TeacherId et le TeacherEducationLevel depuis les cookies
+    // Charger les valeurs depuis les cookies
     useEffect(() => {
         const levelFromCookie = Cookies.get('TeacherEducationLevel');
         const teacherIdFromCookie = Cookies.get('TeacherId');
+        const subjectFromCookie = Cookies.get('selectedSubject');
         
         if (levelFromCookie) {
             setEducationLevel(levelFromCookie);
         }
-
         if (teacherIdFromCookie) {
             setTeacherId(teacherIdFromCookie);
         }
+        if (subjectFromCookie) {
+            setSubjectId(subjectFromCookie);
+        }
     }, []);
 
-    // Charger les cahiers de textes en fonction du niveau d'éducation et de l'enseignant
+    // Charger les cahiers de textes filtrés par education_level et subjectId
     useEffect(() => {
         const getHomeworkBooks = async () => {
             setLoading(true);
-            if (educationLevel && teacherId) {
+            if (educationLevel && subjectId) {
                 try {
-                    const data = await fetchHomeworkBooks(educationLevel, teacherId);
+                    const data = await fetchHomeworkBooks(educationLevel, subjectId);
                     setHomeworkBooks(data);
                 } catch (error) {
                     console.error('Erreur lors de la récupération des cahiers de textes:', error);
@@ -47,7 +50,7 @@ const AddHomeworkBook = () => {
         };
 
         getHomeworkBooks();
-    }, [educationLevel, teacherId, successMessage]);
+    }, [educationLevel, subjectId, successMessage]);
 
     // Fonction pour gérer l'ajout du HomeworkBook
     const handleSubmit = async (e) => {
@@ -58,6 +61,7 @@ const AddHomeworkBook = () => {
             content,
             homework_due_date: homeworkDueDate,
             education_level: educationLevel,
+            subject: subjectId,
             teacher: teacherId
         };
 
@@ -69,25 +73,24 @@ const AddHomeworkBook = () => {
             setHomeworkDueDate('');
         } catch (error) {
             console.error('Échec de l\'ajout du cahier de texte:', error);
-        }finally {
+        } finally {
             setLoadingForm(false);
         }
     };
 
     if (loading) {
-            return (
-                <div className="loading-container">
-                    <PuffLoader size={60} color="#ffcc00" loading={loading} />
-                </div>
-            );
-        }
+        return (
+            <div className="loading-container">
+                <PuffLoader size={60} color="#ffcc00" loading={loading} />
+            </div>
+        );
+    }
 
     // Fonction pour gérer la suppression
     const handleDelete = async (id) => {
         if (window.confirm('Voulez-vous vraiment supprimer ce cahier de texte ?')) {
             try {
                 await deleteHomeworkBook(id);
-                // Mettre à jour l'affichage après suppression
                 setHomeworkBooks(homeworkBooks.filter((book) => book.id !== id));
             } catch (error) {
                 console.error('Échec de la suppression du cahier de texte:', error);
@@ -142,22 +145,27 @@ const AddHomeworkBook = () => {
             <div className="homework-list">
                 {homeworkBooks.length > 0 ? (
                     <ul>
-                        {homeworkBooks.map((book) => (
-                            <li key={book.id} className="homework-item">
-                                <h4>{book.title}</h4>
-                                <p>{book.content}</p>
-                                <p><strong>Date limite :</strong> {book.homework_due_date}</p>
-                                <span 
-                                    className="homework-delete-icon" 
-                                    onClick={() => handleDelete(book.id)}
-                                >
-                                    &#128465;
-                                </span>
-                            </li>
+                        {homeworkBooks
+                            .filter(book => 
+                                book.education_level.toString() === educationLevel &&
+                                book.subject.toString() === subjectId
+                            )
+                            .map((book) => (
+                                <li key={book.id} className="homework-item">
+                                    <h4>{book.title}</h4>
+                                    <p>{book.content}</p>
+                                    <p><strong>Date limite :</strong> {book.homework_due_date}</p>
+                                    <span 
+                                        className="homework-delete-icon" 
+                                        onClick={() => handleDelete(book.id)}
+                                    >
+                                        &#128465;
+                                    </span>
+                                </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>Aucun cahier de texte trouvé pour ce niveau d'éducation.</p>
+                    <p>Aucun cahier de texte trouvé pour ce niveau d'éducation et cette matière.</p>
                 )}
             </div>
             {loadingForm && (

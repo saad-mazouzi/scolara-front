@@ -7,9 +7,56 @@
     position: relative;
     bottom: 0;
     width: 100%; /* Assure que le footer prend toute la largeur */
-    margin-top: -220px;
+    margin-top: 465px;
 }
 
+/* Section des icônes sociales */
+.footer-socials {
+    margin-bottom: 20px; /* Espacement sous les icônes sociales */
+}
+
+.social-icon {
+    color: white; /* Icônes blanches */
+    font-size: 24px; /* Taille des icônes */
+    margin: 0 15px; /* Espacement entre les icônes */
+    transition: color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.social-icon:hover {
+    color: #ffcc00; /* Couleur des icônes au survol */
+}
+
+/* Footer bottom (text) */
+.footer-bottom {
+    margin-top: 20px; /* Espacement au-dessus du texte copyright */
+    margin-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        background-color: #4e7dad;
+        color: white;
+        padding: 5px;
+        text-align: center;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        margin-top: -50px;
+    }
+
+    .signup-footer-container {
+        background-color: #4e7dad;
+        color: white;
+        padding: 5px;
+        text-align: center;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        margin-top: 100px;
+    }
+}
+
+/* Footer.css */
 .signup-footer-container {
     background-color: #4e7dad; /* Couleur de fond du footer */
     color: white; /* Couleur du texte */
@@ -18,55 +65,40 @@
     position: relative;
     bottom: 0;
     width: 100%; /* Assure que le footer prend toute la largeur */
-    margin-top: 450px;
+    margin-top: 870px; /* Espacement pour le footer */
 }
 
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+/* Section des icônes sociales */
+.footer-socials {
+    margin-bottom: 20px; /* Espacement sous les icônes sociales */
 }
 
-.footer-links a,
-.footer-socials a {
-    color: white; /* Couleur des liens */
-    text-decoration: none; /* Supprime le soulignement */
-    margin: 0 15px; /* Espacement entre les liens */
+.social-icon {
+    color: white; /* Icônes blanches */
+    font-size: 24px; /* Taille des icônes */
+    margin: 0 15px; /* Espacement entre les icônes */
     transition: color 0.3s; /* Transition pour le changement de couleur */
 }
 
-.footer-links a:hover,
-.footer-socials a:hover {
-    color: #ffcc00; /* Change la couleur des liens au survol */
+.social-icon:hover {
+    color: #ffcc00; /* Couleur des icônes au survol */
 }
 
+/* Footer bottom (text) */
 .footer-bottom {
-    margin-top: 0px; /* Espacement au-dessus du texte copyright */
+    margin-top: 20px; /* Espacement au-dessus du texte copyright */
     margin-bottom: 0px;
 }
 
 @media (max-width: 768px) {
-    .footer-container {
-        background-color: #4e7dad; /* Couleur de fond du footer */
-        color: white; /* Couleur du texte */
-        padding: 5px;
-        text-align: center; /* Centre le texte */
-        position: relative;
-        bottom: 0;
-        width: 100%; /* Assure que le footer prend toute la largeur */
-        margin-top: 190px;
-    }
-
     .signup-footer-container {
-        background-color: #4e7dad; /* Couleur de fond du footer */
-        color: white; /* Couleur du texte */
+        background-color: #4e7dad;
+        color: white;
         padding: 5px;
-        text-align: center; /* Centre le texte */
+        text-align: center;
         position: relative;
         bottom: 0;
-        width: 100%; /* Assure que le footer prend toute la largeur */
+        width: 100%;
         margin-top: 100px;
     }
 }

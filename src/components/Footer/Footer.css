@@ -7,7 +7,7 @@
     position: relative;
     bottom: 0;
     width: 100%; /* Assure que le footer prend toute la largeur */
-    margin-top: 465px;
+    margin-top: -260px;
 }
 
 /* Section des icônes sociales */
@@ -41,7 +41,7 @@
         position: relative;
         bottom: 0;
         width: 100%;
-        margin-top: -50px;
+        margin-top: 110px;
     }
 
     .signup-footer-container {
@@ -65,7 +65,7 @@
     position: relative;
     bottom: 0;
     width: 100%; /* Assure que le footer prend toute la largeur */
-    margin-top: 870px; /* Espacement pour le footer */
+    margin-top: 370px; /* Espacement pour le footer */
 }
 
 /* Section des icônes sociales */
